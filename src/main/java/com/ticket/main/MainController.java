@@ -1,17 +1,17 @@
-package com.ticket.user;
+package com.ticket.main;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("/user")
+@RequestMapping("/main")
 @Controller
-public class UserController {
+public class MainController {
 	
-	@GetMapping("/sign_up_view")
-	public String signUpView(Model model) {
-		model.addAttribute("view", "user/signUp");
+	@GetMapping("/main_view")
+	public String mainView(Model model) {
+		model.addAttribute("view", "main/main");
 		return "template/layout";
 	}
 }

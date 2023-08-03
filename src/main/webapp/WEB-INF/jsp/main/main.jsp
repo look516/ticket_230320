@@ -2,13 +2,12 @@
     pageEncoding="UTF-8"%>
 
 <!-- 메인 배너 -->
-<div class="container">
-	<section class="px-1 my-2">
-		<a href="https://www.naver.com">
-			<img src="/static/images/banner1.png" alt="banner" id="banner" width="100%">
-		</a>
-	</section>
-</div>
+<section class="px-1 my-2">
+	<a href="https://www.naver.com">
+		<img src="/static/images/banner1.png" alt="banner" id="banner" width="100%">
+	</a>
+</section>
+
 
 <!-- 아래 컨텐츠 (추후 구성) -->
 

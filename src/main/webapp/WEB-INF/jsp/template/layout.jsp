@@ -20,7 +20,9 @@
 			<jsp:include page="../include/header.jsp" />
 		</header>
 		<section class="contents">
-			<jsp:include page="../${view}.jsp" />
+			<div class="container">
+				<jsp:include page="../${view}.jsp" />
+			</div>
 		</section>
 		<footer class="d-flex align-items-center">
 			<jsp:include page="/WEB-INF/jsp/include/footer.jsp" />
