@@ -1,0 +1,22 @@
+@charset "UTF-8";
+
+
+
+.top-menu {color: #000; padding-right: 0%; font-size: 12px;}
+.middle-menu {color: #000; padding-inline: 0%; font-size: 14px; font-weight: bold;}
+.top-menu:hover, .middle-menu:hover {color: #999;}
+
+
+header {min-height: 100px;}
+
+
+.contents {min-height: 5000px;}
+footer {height: 100px; color: #999;}
+
+
+
+.close-wing {position: absolute; right:100%; top: 50%; height: 80px; width: 30px; background-color: rgb(235, 235, 235);}
+.wing {height: 0px;}
+.wing-menu {position: fixed; width: 150px; height: 100%; background-color: rgb(215, 215, 215);}
+
+.wing-main-font, .wing-main-font:hover {font-size: 40px; text-decoration: none; color: #666;}
