@@ -1,22 +1,72 @@
 @charset "UTF-8";
 
+header {min-height: 100px;}
+.contents {min-height: 500px;}
+footer {height: 100px; color: #999;}
 
-
+/* header - nav */
 .top-menu {color: #000; padding-right: 0%; font-size: 12px;}
 .middle-menu {color: #000; padding-inline: 0%; font-size: 14px; font-weight: bold;}
 .top-menu:hover, .middle-menu:hover {color: #999;}
 
-
-header {min-height: 100px;}
-
-
-.contents {min-height: 500px;}
-footer {height: 100px; color: #999;}
-
-
-
+/* header - wing */
 .close-wing {position: absolute; right:100%; top: 50%; height: 80px; width: 30px; background-color: rgb(235, 235, 235);}
 .wing {height: 0px;}
 .wing-menu {position: fixed; width: 150px; height: 100%; background-color: rgb(215, 215, 215);}
-
 .wing-main-font, .wing-main-font:hover {font-size: 40px; text-decoration: none; color: #666;}
+
+/* signIn - checkbox */
+/* input 숨겨준다 */
+input[type="checkbox"]{
+  display:none;
+  }
+
+input[type="checkbox"] + label{
+  cursor:pointer;
+ }
+
+input[type="checkbox"] + label > span{
+  vertical-align: middle;
+  padding-left: 5px;
+ }
+
+/* label:before에 체크하기 전 상태 CSS */
+input[type="checkbox"] + label:before{
+  content:"";
+  display:inline-block;
+  width:25px;
+  height:25px;
+  border:2px solid rgb(165, 208, 117);
+  border-radius: 4px;
+  vertical-align:middle;
+  }
+  
+/* label:before에 체크 된 상태 CSS */  
+input[type="checkbox"]:checked + label:before{
+  content:"";
+  background-color: #fff;
+  border-color:rgb(165, 208, 117);
+  background-image: url('/static/images/check_btn.webp');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 50%;
+  }
+
+  
+/* signIn - a 태그들 */
+.user-link, .user-link:hover {color: #000; font-size: 12px; text-decoration: none;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.sign-up-box {padding: 0px;}
+.sign-up-subject {margin:20px; font-weight:bold;}

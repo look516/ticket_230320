@@ -13,7 +13,7 @@
 				<div class="text-center wing-main-font">LOGIN</div>
 				<div class="text-center">환영합니다.<br>로그인해주세요.</div>
 				<div class="d-flex justify-content-center mt-3">
-					<a type="button" class="btn btn-info">로그인</a>
+					<a type="button" class="btn btn-info" href="/user/sign_in_view">로그인</a>
 				</div>
 			</div>
 			
@@ -21,7 +21,7 @@
 			<div class="d-none">
 				<div class="text-center mt-4">김바다님<br>환영합니다.</div>
 				<div class="d-flex justify-content-center mt-3">
-					<a type="button" class="btn btn-warning">나의예약</a>
+					<a type="button" class="btn btn-warning" href="/book/book_list_view">나의예약</a>
 				</div>
 			</div>
 			
@@ -42,9 +42,9 @@
 <div class="d-flex justify-content-end pr-4 pt-2">
 	<nav>
 		<ul class="nav nav-fill">
-			<li class="nav-item"><a class="nav-link top-menu" href="#">로그인</a></li>
-            <li class="nav-item"><a class="nav-link top-menu" href="#">회원가입</a></li>
-            <li class="nav-item"><a class="nav-link top-menu" href="#">마이페이지</a></li>
+			<li class="nav-item"><a class="nav-link top-menu" href="/user/sign_in_view">로그인</a></li>
+            <li class="nav-item"><a class="nav-link top-menu" href="/user/sign_up_view">회원가입</a></li>
+            <li class="nav-item"><a class="nav-link top-menu" href="/book/book_list_view">마이페이지</a></li>
             <li class="nav-item"><a class="nav-link top-menu" href="#">고객센터</a></li>                    
 		</ul>
 	</nav>
@@ -52,7 +52,7 @@
 
 <div class="d-flex justify-content-center w-75">
 	<!-- 로고 -->
-	<div class="col-4 d-flex align-items-center justify-content-center"><img src="/static/images/logo.png" alt="로고" width=200px></div>
+	<a class="col-4 d-flex align-items-center justify-content-center" href="/main/main_view"><img src="/static/images/logo.png" alt="로고" width=200px></a>
 	
 	<!-- 창이 줄어들 때 로고와 검색 영역 안 겹치게 하자 -->
 	
