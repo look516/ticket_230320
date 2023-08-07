@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ticket.show.dao.ShowMapper">
+	<select id="selectShowByShowId" parameterType="int" resultType="com.ticket.show.domain.Show">
+		SELECT
+			`id`
+			,`theaterId`
+			,`name`
+			,`genre`
+			,`startDate`
+			,`endDate`
+			,`validStartDate`
+			,`validEndDate`
+			,`time`
+			,`age`
+			,`imagePath`
+			,`bannerImagePath`
+			,`infoImagePath`
+			,`discountImagePath`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`show`
+		WHERE
+			`id` = #{showId}
+	</select>
+</mapper>
+

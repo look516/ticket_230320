@@ -10,6 +10,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +22,15 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.ticket.show.bo.ShowBO;
+import com.ticket.show.domain.Show;
+
 @RequestMapping("/show")
 @Controller
 public class ShowController {
 	
+	@Autowired
+	private ShowBO showBO;
 	
 	@GetMapping("/show_detail_view")
 	public String showDetailView(
@@ -32,8 +38,8 @@ public class ShowController {
 			Model model) {
 		
 		// show select by showId
-		
-		
+		Show show = showBO.getShowByShowId(showId);
+		model.addAttribute("show", show);
 		model.addAttribute("view", "show/showDetail");
 		return "template/layout";
 	}

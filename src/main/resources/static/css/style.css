@@ -70,3 +70,16 @@ input[type="checkbox"]:checked + label:before{
 
 .sign-up-box {padding: 0px;}
 .sign-up-subject {margin:20px; font-weight:bold;}
+
+
+
+
+
+
+
+
+/* showDetail.jsp */
+.show-info {list-style: none;}
+.show-info strong {width: 90px;}
+.show-info p, .infoBtn {word-wrap: break-word; width: 100px;}
+.infoBtn, .infoBtn:hover {text-decoration: none; color: #000;}
