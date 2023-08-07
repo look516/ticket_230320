@@ -8,4 +8,8 @@ import com.ticket.user.Entity.UserEntity;
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 	public UserEntity findByLoginId(String loginId);
+	
+	
+	
+	public UserEntity findByLoginIdAndPassword(String loginId, String password);
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	
 <div class="d-flex justify-content-end wing">
 	<div class="wing-menu d-flex justify-content-center">
@@ -9,21 +10,25 @@
 
 		<div>
 			<!-- 윙 배너 - 로그인 영역 (비로그인) -->
-			<div>
-				<div class="text-center wing-main-font">LOGIN</div>
-				<div class="text-center">환영합니다.<br>로그인해주세요.</div>
-				<div class="d-flex justify-content-center mt-3">
-					<a type="button" class="btn btn-info" href="/user/sign_in_view">로그인</a>
+			<c:if test="${empty userId}">
+				<div>
+					<div class="text-center wing-main-font">LOGIN</div>
+					<div class="text-center">환영합니다.<br>로그인해주세요.</div>
+					<div class="d-flex justify-content-center mt-3">
+						<a type="button" class="btn btn-info" href="/user/sign_in_view">로그인</a>
+					</div>
 				</div>
-			</div>
+			</c:if>
 			
 			<!-- 윙 배너 - 로그인 영역 (로그인) -->
-			<div class="d-none">
-				<div class="text-center mt-4">김바다님<br>환영합니다.</div>
-				<div class="d-flex justify-content-center mt-3">
-					<a type="button" class="btn btn-warning" href="/book/book_list_view">나의예약</a>
+			<c:if test="${not empty userId}">
+				<div>
+					<div class="text-center mt-4">${userName}님<br>환영합니다.</div>
+					<div class="d-flex justify-content-center mt-3">
+						<a type="button" class="btn btn-warning" href="/book/book_list_view">나의예약</a>
+					</div>
 				</div>
-			</div>
+			</c:if>
 			
 			<div><hr></div>
 		
@@ -42,7 +47,12 @@
 <div class="d-flex justify-content-end pr-4 pt-2">
 	<nav>
 		<ul class="nav nav-fill">
-			<li class="nav-item"><a class="nav-link top-menu" href="/user/sign_in_view">로그인</a></li>
+			<c:if test="${empty userId}">
+				<li class="nav-item"><a class="nav-link top-menu" href="/user/sign_in_view">로그인</a></li>
+            </c:if>
+            <c:if test="${not empty userId}">
+            	<li class="nav-item"><a class="nav-link top-menu" href="/user/sign_out">로그아웃</a></li>
+            </c:if>
             <li class="nav-item"><a class="nav-link top-menu" href="/user/sign_up_view">회원가입</a></li>
             <li class="nav-item"><a class="nav-link top-menu" href="/book/book_list_view">마이페이지</a></li>
             <li class="nav-item"><a class="nav-link top-menu" href="#">고객센터</a></li>                    

@@ -17,7 +17,7 @@
 <body>
 	<div id="wrap">
 		<header>
-			<div class="mt-3 col-4 d-flex align-items-center justify-content-center"><img src="/static/images/logo.png" alt="로고" width=200px></div>
+			<a class="mt-3 col-4 d-flex align-items-center justify-content-center" href="/main/main_view"><img src="/static/images/logo.png" alt="로고" width=200px></a>
 			<hr>
 		</header>
 		<section class="contents">
