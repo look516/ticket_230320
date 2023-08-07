@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -24,6 +25,40 @@ import org.xml.sax.SAXException;
 @Controller
 public class ShowController {
 	
+	
+	@GetMapping("/show_detail_view")
+	public String showDetailView(
+			@RequestParam("showId") int showId,
+			Model model) {
+		
+		// show select by showId
+		
+		
+		model.addAttribute("view", "show/showDetail");
+		return "template/layout";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 보류
 	// tag값 가져오는 메소드
 	private static String getTagValue(String tag, Element eElement) {
 		NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
