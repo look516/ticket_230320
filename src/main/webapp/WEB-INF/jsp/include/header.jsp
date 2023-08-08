@@ -3,12 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 	
 <div class="d-flex justify-content-end wing">
-	<div class="wing-menu d-flex justify-content-center">
+	<div id="wingBox" class="wing-menu d-flex justify-content-center">
 		<!-- 윙 배너 여닫기 -->
 		<!-- 추후 구현 -->
-		<a href="#" class="close-wing wing-main-font pt-1">&gt;</a>
+		<a href="#" id="closeWing" class="close-wing wing-main-font pt-1">&gt;</a>
 
-		<div>
+		<div id="wingBanner">
 			<!-- 윙 배너 - 로그인 영역 (비로그인) -->
 			<c:if test="${empty userId}">
 				<div>
@@ -39,6 +39,7 @@
 				<a href="#"><div class="mt-3 d-flex justify-content-center"><img src="/static/images/show2.gif" width="90px" alt="윙 배너 공연 썸네일"></div></a>
 			</div>
 		</div>
+		
 	</div>
 </div>
 
@@ -90,3 +91,23 @@
 		</div>
 	</nav>
 </div>
+
+<script>
+	$(document).ready(function() {
+		// 윙 여닫기
+		$('#closeWing').on('click', function(e) {
+			e.preventDefault(); // 위치 고정
+			if ($('#wingBanner').hasClass('d-none')) {
+				$('#wingBanner').removeClass('d-none');
+				$('#wingBox').css("position", "fixed");
+				$('#closeWing').css("position", "absolute");
+				$('#wingBox').removeClass('d-none');
+			} else {
+				$('#wingBanner').addClass('d-none')
+				$('#wingBox').css("position", "static");
+				$('#closeWing').css("position", "static");
+				$('#wingBox').addClass('d-none');
+			}
+		});
+	});
+</script>
