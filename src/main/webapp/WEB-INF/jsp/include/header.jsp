@@ -81,11 +81,11 @@
 	<nav class="ml-2">
 		<div class="col-4">
 		<ul class="nav nav-fill">
-			<li class="nav-item"><a class="nav-link middle-menu" href="#">메뉴</a></li>
-            <li class="nav-item"><a class="nav-link middle-menu" href="#">뮤지컬</a></li>
-            <li class="nav-item"><a class="nav-link middle-menu" href="#">콘서트</a></li>
-            <li class="nav-item"><a class="nav-link middle-menu" href="#">연극</a></li>
-            <li class="nav-item"><a class="nav-link middle-menu" href="#">기타</a></li>
+			<li class="nav-item"><a class="nav-link middle-menu" href="/show/show_list_view?genre=전체">전체</a></li>
+            <li class="nav-item"><a class="nav-link middle-menu" href="/show/show_list_view?genre=뮤지컬">뮤지컬</a></li>
+            <li class="nav-item"><a class="nav-link middle-menu" href="/show/show_list_view?genre=콘서트">콘서트</a></li>
+            <li class="nav-item"><a class="nav-link middle-menu" href="/show/show_list_view?genre=연극">연극</a></li>
+            <li class="nav-item"><a class="nav-link middle-menu" href="#">기타</a></li><%-- 메뉴nav와 기타nav완성 필요 --%>
             <li class="nav-item"><a class="nav-link middle-menu" href="#">리뷰</a></li>                    
 		</ul>
 		</div>

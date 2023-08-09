@@ -1,15 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ page import="java.util.Date" %>
+
 <div class="d-flex justify-content-between">
 	<%-- 공연 정보 --%>
 	<div class="col-8">
 		<%-- 제목 --%>
-		<h1 class="pl-4 mt-3">${show.genre} &lt; ${show.name} &gt;</h1>
+		<h1 class="pl-4 mt-3">${show.show.genre} &lt; ${show.show.name} &gt;</h1>
 
 		<div class="d-flex">
 			<%-- 이미지 --%>
 			<div class="ml-3">
-				<img src="${show.imagePath}" alt="공연 이미지" width="200px">
+				<img src="${show.show.imagePath}" alt="공연 이미지" width="200px">
 			</div>
 			
 			<%-- 간략정보 --%>
@@ -20,7 +24,7 @@
 						<div>
 							<!-- <a class="infoBtn" data-popup="info-place" role="button" href="#"> -->
 							<p><a class="infoBtn" href="#">
-								${show.theaterId}
+								${show.theater.name}
 								<i>(자세히)</i>
 							</a></p>
 						</div>
@@ -28,19 +32,19 @@
 					<li class="show-info d-flex">
 						<strong>공연기간</strong>
 						<div>
-							<p>${show.startDate} ~ ${show.endDate}</p>
+							<p>${show.show.startDate} ~ ${show.show.endDate}</p>
 						</div>
 					</li>
 					<li class="show-info d-flex">
 						<strong>공연시간</strong>
 						<div>
-							<p>${show.time}분</p>
+							<p>${show.show.time}분</p>
 						</div>
 					</li>
 					<li class="show-info d-flex">
 						<strong>관람연령</strong>
 						<div>
-							<p>${show.age}세 이상</p>
+							<p>${show.show.age}세 이상</p>
 						</div>
 					</li>
 					
@@ -72,7 +76,7 @@
 				<div class="tab-content w-100">
 					<div>
 						<div class="text-center bg-secondary py-3">
-							<h2>${show.genre} &lt; ${show.name} &gt; 리뷰</h2>
+							<h2>${show.show.genre} &lt; ${show.show.name} &gt; 리뷰</h2>
 						</div>
 						<div class="my-3 d-flex justify-content-between">
 							<h2>★★★★★</h2>
@@ -87,21 +91,29 @@
 								<a href="#" class="review-filter ml-3">평점순</a>
 							</div>
 							<%-- 반복문 시작 --%>
-							<div class="border p-3 bg-warning">
-								<div class="d-flex justify-content-between">
-									<h5>★★★★★</h5>
-									<div>
-										<span class="mr-3">아이디</span>
-										<span>작성일자</span>
+							<c:forEach var="review" items="${show.reviewList}">
+								<div class="border p-3 bg-warning">
+									<div class="d-flex justify-content-between">
+										<h5>
+											<c:forEach begin="1" end="${review.review.point}">
+												★
+											</c:forEach>
+										</h5>
+										<div>
+											<span class="mr-3">${review.user.name}</span>
+											<span><fmt:formatDate value="${Date.from((review.review.createdAt).toInstant())}" pattern="yyyy년 MM월 dd일" /></span>
+										</div>
 									</div>
-								</div>
+									
+									<div class="mt-2">
+										<h5>${review.review.subject}</h5>
+										<span>${review.review.content}</span>
+										<%-- 추후 더보기 기능 추가 예정 --%>
+										<!-- <a href="">더보기</a> -->
+									</div>
 								
-								<div class="mt-2">
-									<span>내용</span>
-									<a href="">더보기</a>
 								</div>
-							
-							</div>
+							</c:forEach>
 							
 						</div>
 					</div>

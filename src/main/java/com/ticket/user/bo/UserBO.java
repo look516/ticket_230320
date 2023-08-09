@@ -17,6 +17,11 @@ public class UserBO {
 		return userRepository.findByLoginId(loginId);
 	}
 	
+	public UserEntity getUserEntityById(int id) {
+		return userRepository.findById(id).orElse(null);
+	}
+	
+	
 	
 	
 	

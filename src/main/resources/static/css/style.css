@@ -10,6 +10,7 @@ footer {height: 100px; color: #999;}
 .top-menu:hover, .middle-menu:hover {color: #999;}
 
 /* header - wing */
+.wing-box {z-index: 999;}
 .close-wing {position: absolute; right: 100%; top: 50%; height: 80px; width: 30px; background-color: rgb(235, 235, 235);}
 .wing {height: 0px;}
 .wing-menu {position: fixed; width: 150px; height: 100%; background-color: rgb(215, 215, 215);}
@@ -90,7 +91,7 @@ input[type="checkbox"]:checked + label:before{
 
 
 
-.book-area {width: 90px; height: 400px; background-color: rgb(192, 192, 192); position: static; margin-top: 1rem; padding: 10px; border-radius: 10px;}
+.book-area {width: 90px; height: 400px; background-color: rgb(192, 192, 192); position: relative; margin-top: 1rem; padding: 10px; border-radius: 10px;}
 
 
 

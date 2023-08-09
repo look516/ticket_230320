@@ -7,8 +7,9 @@
 <h2>파싱할 총 리스트 개수: ${num}</h2>
  --%>
 
-<div class="my-4 display-4 text-center">전체 공연</div>
+<div class="my-4 display-4 text-center">${genre} 공연</div>
 
+<%-- api 가져오기 1차시도
 <table class="table text-center">
 	<thead>
 		<tr>
@@ -27,6 +28,30 @@
 				<td>${show.prfnm}</td>
 				<td>${show.fcltynm}</td>
 				<td>${show.prfpdfrom}~${show.prfpdto}</td>
+			</tr>
+		</c:forEach>
+	</tbody>
+</table>
+--%>
+
+
+
+<table class="table text-center">
+	<thead>
+		<tr>
+			<th>사진</th>
+			<th>공연명</th>
+			<th>장소</th>
+			<th>기간</th>
+		</tr>
+	</thead>
+	<tbody>
+		<c:forEach var="product" items="${showList}">
+			<tr>
+				<td><a href="/show/show_detail_view?showId=${product.show.id}"><img src="${product.show.imagePath}" alt="공연 포스터" width=100px;></a></td>
+				<td><a href="/show/show_detail_view?showId=${product.show.id}">${product.show.name}</a></td>
+				<td>${product.theater.name}</td>
+				<td>${product.show.startDate} ~ ${product.show.endDate}</td>
 			</tr>
 		</c:forEach>
 	</tbody>

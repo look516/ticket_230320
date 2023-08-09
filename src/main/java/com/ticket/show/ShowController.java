@@ -1,14 +1,6 @@
 package com.ticket.show;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,14 +8,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import com.ticket.show.bo.ShowBO;
-import com.ticket.show.domain.Show;
+import com.ticket.show.domain.ShowView;
+import com.ticket.show.service.TagService;
 
 @RequestMapping("/show")
 @Controller
@@ -37,10 +25,27 @@ public class ShowController {
 			@RequestParam("showId") int showId,
 			Model model) {
 		
-		// show select by showId
-		Show show = showBO.getShowByShowId(showId);
+		// showView select by showId
+		ShowView show = showBO.generateShowViewByShowId(showId);
 		model.addAttribute("show", show);
+		
 		model.addAttribute("view", "show/showDetail");
+		return "template/layout";
+	}
+	
+	
+	
+	@GetMapping("/show_list_view")
+	public String showListView(
+			@RequestParam("genre") String genre,
+			Model model) {
+		model.addAttribute("genre", genre);
+		
+		// select show list by genre
+		List<ShowView> showList = showBO.generateShowViewList(genre);
+		
+		model.addAttribute("showList", showList);
+		model.addAttribute("view", "show/showList");
 		return "template/layout";
 	}
 	
@@ -60,21 +65,11 @@ public class ShowController {
 	
 	
 	
-	
-	
-	
-	
 	// 보류
-	// tag값 가져오는 메소드
-	private static String getTagValue(String tag, Element eElement) {
-		NodeList nlList = eElement.getElementsByTagName(tag).item(0).getChildNodes();
-		Node nValue = (Node)nlList.item(0);
-		if (nValue == null) {
-			return null;
-		}
-		return nValue.getNodeValue();
-	}
-			
+	@Autowired
+	private TagService tagService;
+	
+	/*
 	@GetMapping("/show_list_view")
 	public String showListView(Model model) throws ParserConfigurationException, SAXException, IOException {
 		
@@ -110,11 +105,11 @@ public class ShowController {
 								
 				Element eElement = (Element) nNode;
 				Map<String, Object> show = new HashMap<>();
-				show.put("prfnm", getTagValue("prfnm", eElement));
-				show.put("poster", getTagValue("poster", eElement));
-				show.put("fcltynm", getTagValue("fcltynm", eElement));
-				show.put("prfpdfrom", getTagValue("prfpdfrom", eElement));
-				show.put("prfpdto", getTagValue("prfpdto", eElement));
+				show.put("prfnm", tagService.getTagValue("prfnm", eElement));
+				show.put("poster", tagService.getTagValue("poster", eElement));
+				show.put("fcltynm", tagService.getTagValue("fcltynm", eElement));
+				show.put("prfpdfrom", tagService.getTagValue("prfpdfrom", eElement));
+				show.put("prfpdto", tagService.getTagValue("prfpdto", eElement));
 				
 				shows.add(show);
 					
@@ -128,4 +123,5 @@ public class ShowController {
 		
 		return "template/layout";
 	}
+	*/
 }
