@@ -27,7 +27,7 @@ public class BookController {
 			// 비로그인이면 로그인 페이지로 이동
 			return "redirect:/user/sign_in_view";
 		}
-		// DB 예약 목록 조회
+		// DB 예약 목록 조회 (userId로 분류)
 		//List<book> bookList = bookBO.
 		
 		// 페이징
@@ -42,7 +42,9 @@ public class BookController {
 	
 	@GetMapping("/book_detail_view")
 	public String bookDetailView(
-			HttpSession session) {
+			@RequestParam("bookingId") int bookingId,
+			Model model, HttpSession session) {
+		model.addAttribute("view", "book/bookDetail");
 		return "template/layout";
 	}
 }
