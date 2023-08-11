@@ -76,6 +76,7 @@
 					</li>
 				</div>
 			</ul>
+			</form>
 		</div>
 		
 		<div class="d-flex justify-content-between mb-3">
