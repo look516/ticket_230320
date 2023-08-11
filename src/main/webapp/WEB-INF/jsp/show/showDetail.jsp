@@ -83,7 +83,7 @@
 							<h2>9.9</h2>
 						</div>
 						<div class="d-flex justify-content-end">
-							<a href="/review/review_post_view" class="btn btn-info">후기작성</a>
+							<a href="/review/review_create_view?showId=${show.show.id}" class="btn btn-info" id="reviewBtn">후기작성</a>
 						</div>
 						<div class="border mt-2 p-2">
 							<div class="d-flex justify-content-end mb-2">

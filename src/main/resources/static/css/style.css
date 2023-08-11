@@ -99,5 +99,7 @@ a {color: #000;}
 a:hover {text-decoration: none; color: rgb(192, 192, 192);}
 
 .table-box {width: 500px;}
-.book-box {list-style: none; width: 550px; height: 40px; display: flex;}
+.book-box {list-style: none; width: 550px; min-height: 40px; display: flex;}
 .book-content {display: flex; align-items: center; padding-right: 0px; padding-left: 10px;}
+
+.point-radio {margin-bottom: 0px; margin-right: 10px;}

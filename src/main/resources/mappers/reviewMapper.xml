@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ticket.review.dao.ReviewMapper">
+	<insert id="insertReview" parameterType="map">
+		INSERT INTO `review`
+		(
+			`showId`
+			,`userId`
+			,`subject`
+			,`content`
+			,`point`
+			,`showDate`
+			,`showTime`
+			,`createdAt`
+			,`updatedAt`
+		)
+		VALUES
+		(
+			#{showId}
+			, #{userId}
+			, #{subject}
+			, #{content}
+			, #{point}
+			, #{showDate}
+			<if test='showTime eq ""'>
+				, NULL
+			</if>
+			<if test='showTime neq ""'>
+				, #{showTime}
+			</if>
+			, NOW()
+			, NOW()
+		)
+	</insert>
+
+</mapper>

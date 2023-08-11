@@ -36,7 +36,7 @@ public class ShowBO {
 		ShowView showView = new ShowView();
 		
 		// 공연 한 개
-		ShowEntity show = showRepository.findById(showId).orElse(null);
+		ShowEntity show = showRepository.findById(showId);
 		showView.setShow(show);
 		
 		// 장소
@@ -80,5 +80,13 @@ public class ShowBO {
 			showViewList.add(showView);
 		}
 		return showViewList;
+	}
+	
+	
+	
+	
+	public ShowEntity getShowNameById(int showId) {
+		ShowEntity show = showRepository.findById(showId);
+		return show;
 	}
 }

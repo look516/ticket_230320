@@ -2,6 +2,9 @@ package com.ticket.show;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,18 +26,26 @@ public class ShowController {
 	@GetMapping("/show_detail_view")
 	public String showDetailView(
 			@RequestParam("showId") int showId,
+			//HttpServletRequest request,
 			Model model) {
 		
 		// showView select by showId
 		ShowView show = showBO.generateShowViewByShowId(showId);
 		model.addAttribute("show", show);
 		
+		// 리뷰 작성이 클릭되는 타이밍에 이걸 수행하자
+		// showId, showName 리뷰에서 들고가기 - 항상 유지되는 것인지? 어느 시점에 버려야 하는지?
+		// + 최근 본 => cookie로 해결?
+		//HttpSession session = request.getSession();
+		//session.setAttribute("showId", show.getShow().getId());
+		//session.setAttribute("showName", show.getShow().getName());
+		
 		model.addAttribute("view", "show/showDetail");
 		return "template/layout";
 	}
 	
 	
-	
+	// genre를 param으로 안 넘기고 select 해오는 방법?
 	@GetMapping("/show_list_view")
 	public String showListView(
 			@RequestParam("genre") String genre,
