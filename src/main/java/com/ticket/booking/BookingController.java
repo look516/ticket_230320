@@ -57,4 +57,31 @@ public class BookingController {
 		model.addAttribute("view", "booking/bookingDetail");
 		return "template/layout";
 	}
+	
+	@GetMapping("/book_page_view")
+	public String bookPageView(
+			//@RequestParam("showId") int showId,
+			Model model, HttpSession session) {
+		model.addAttribute("view", "booking/bookingPage");
+		return "template/layoutBooking";
+	}
+	
+	@GetMapping("/pay_view")
+	public String payView(
+			//@RequestParam("bookingId") int bookingId,
+			Model model, HttpSession session) {
+		model.addAttribute("view", "booking/bookingPay");
+		return "template/layoutBooking";
+	}
+	
+	
+	// get이 맞나?
+	@GetMapping("/booking_done_view")
+	public String bookingDoneView(
+			//@RequestParam("bookingId") int bookingId,
+			//@RequestParam("payId") int payId,
+			Model model, HttpSession session) {
+		model.addAttribute("view", "booking/bookingDone");
+		return "template/layoutBooking";
+	}
 }

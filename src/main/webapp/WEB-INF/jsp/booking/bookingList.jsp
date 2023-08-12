@@ -26,19 +26,20 @@
 		</tr>
 	</thead>
 	<tbody>
-		<c:forEach var="booking" items="bookingList">
+		<c:forEach var="booking" items="${bookingList}">
 			<tr>
 				<td class="text-align:center">
-					<fmt:formatDate value="${booking.bookingDate}" pattern="yyyy년 MM월 dd일" />
+					${booking.bookingDate}
 				</td>
 				<td>${booking.bookingNumber}</td>
 				<td></td>
 				<td>
-					<fmt:formatDate value="${booking.showDate}" pattern="yyyy년 MM월 dd일" />
+					${booking.showDate}
 				</td>
 				<td>1</td>
 				<td>
-					<fmt:formatDate value="${booking.showDate - 1}" pattern="yyyy년 MM월 dd일" />
+					<%-- 예약 날짜 이전일 --%>
+					${booking.showDate}
 				</td>
 				<%-- 쿼리스트링으로 예약id가 붙는다. --%>
 				<td>예약완료<a href="/book/book_detail_view?bookingId=${booking.id}" class="btn btn-info">상세</a></td>

@@ -133,8 +133,8 @@
 			<h3>관람일</h3>
 			<div id="datepicker"></div>
 			<div class="mt-3" id="selectedDate"></div>
-			<%-- 로그인 처리할 것 --%>
-			<a href="/book/booking_view" onclick="window.open(this.href, '_blank', 'width=800, height=500'); return false;"
+			<%-- 로그인 처리 / 공연별 분기 --%>
+			<a href="/book/book_page_view" onclick="window.open(this.href, '_blank', 'width=800, height=500'); return false;"
 			class="btn btn-info my-2 col-12" ref="noreferrer noopener">예매하기</a>
 		</div>
 	</div>

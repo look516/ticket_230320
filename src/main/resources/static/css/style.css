@@ -103,3 +103,13 @@ a:hover {text-decoration: none; color: rgb(192, 192, 192);}
 .book-content {display: flex; align-items: center; padding-right: 0px; padding-left: 10px;}
 
 .point-radio {margin-bottom: 0px; margin-right: 10px;}
+
+
+
+
+
+
+
+
+.seat-box {width: 50px; height: 50px; background-color: aquamarine;}
+.checked-box {width: 50px; height: 50px; background-color: yellow;}
