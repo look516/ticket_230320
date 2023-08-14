@@ -32,10 +32,22 @@
 					<div class="d-flex justify-content-center">
 				</c:if>
 				<%-- 왜 submit 되는 거지? --%>
-				<button type="button" name="seat" class="seat-box mb-2 mx-2" value="${seat}">${seat}</button>
+				<button type="button" name="seat" class="seat-box mb-2 mx-2"
+				data-seat-floor="1층" data-seat-col="${seat/8}" data-seat-row="${seat%8}"
+				>${seat%8}</button>
 				<c:if test="${status.current % 8 == 0}">
 					</div>
 				</c:if>
+				
+				
+				<%-- seat select 레퍼런스 --%>
+				<%--document.querySelector("#TmgsTable > tbody > tr > td > img:nth-child(35)")
+				<img src="/static/" class="stySeat" style="left: 113px; top: 232px; user-select: auto;" alt="[S석] 1층-A구역 13열-7" title="[S석] 1층-A구역 13열-7" onclick="javascript: SelectSeat('SID16', '2', '1층', 'A구역 13열', '7', '001')">
+				<button type="button" title="A4 (스탠다드/일반)" class="jq-tooltip seat-condition standard common" style="position:absolute; left:311px; top:50px; width:20px;" seatclasscd="GERN_CLS" seatzonecd="GERN_ZONE" seatuniqno="00100401" rownm="A" seatno="4" seatchoidircval="1" seatchoigrpno="2" seatchoigrpnm="A2" seatchoirowcnt="6" seatchoigrpseq="4" seattocnt="1"><span class="num">4</span><span class="kind">스탠다드</span><span class="condition">판매가능</span><span class="rank">일반</span></button>
+				<a href="#none" alt="O11 일반석 SWEET SPOT 선택불가능" class="sel  sweet_spot p0 grNum48 no_select" block-code="p0" data-seat="O11" seat-statuscode="0" seat-group="grNum48" seat-code="1O11" style="left: 288.273px; top: 391.875px;"><span class="sweet_spot f1 blind" style="top: 0px;">11</span></a>
+				--%>
+				
+				
 				
 			</c:forEach>
 		</div>
