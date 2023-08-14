@@ -76,7 +76,7 @@
 					</li>
 				</div>
 			</ul>
-			</form>
+			
 		</div>
 		
 		<div class="d-flex justify-content-between mb-3">
@@ -88,7 +88,7 @@
 				<a href="/show/show_detail_view?showId=${show.id}" class="btn btn-secondary">취소</a>
 			</div>
 		</div>
-			
+		</form>	
 	</div>
 </div>
 
@@ -105,6 +105,8 @@
 		// subject, content, point - form 필수
 		// showDate, showTime - form 비필수
 		$('#reviewCreateForm').on('submit', function(e) {
+			
+			alert("sss");
 			
 			e.preventDefault(); // submit 중단
 			

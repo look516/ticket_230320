@@ -52,78 +52,21 @@
 			</div>
 		</div>
 		
-		<%-- 공연정보 탭영역 --%>
-		<%-- d-none으로 1차적으로 실행 후 나중에 template으로 쪼개자 --%>
 		<div class="mt-3 ml-3">
+			<%-- 공연정보 탭메뉴 --%>
 			<ul class="tab-nav nav nav-fill">
-				<li class="nav-item"><a href="#tab1" class="btn btn-secondary nav-link tab-menu">공연정보</a></li>
-				<li class="nav-item"><a href="#tab2" class="btn nav-link tab-menu">캐스팅정보</a></li>
-				<li class="nav-item"><a href="#tab3" class="btn nav-link tab-menu">판매정보</a></li>
-				<li class="nav-item"><a href="#tab4" class="btn nav-link tab-menu">관람후기</a></li>
-				<li class="nav-item"><a href="#tab5" class="btn nav-link tab-menu">기대평</a></li>
-				<li class="nav-item"><a href="#tab6" class="btn nav-link tab-menu">Q&A</a></li>
+				<li class="nav-item"><a href="tab1" class="btn btn-secondary nav-link tab-menu">공연정보</a></li>
+				<li class="nav-item"><a href="tab2" class="btn nav-link tab-menu">캐스팅정보</a></li>
+				<li class="nav-item"><a href="tab3" class="btn nav-link tab-menu">판매정보</a></li>
+				<li class="nav-item"><a href="tab4" class="btn nav-link tab-menu">관람후기</a></li>
+				<li class="nav-item"><a href="tab5" class="btn nav-link tab-menu">기대평</a></li>
+				<li class="nav-item"><a href="tab6" class="btn nav-link tab-menu">Q&A</a></li>
 			</ul>
 			
-			<a href="#" id="tab1" class="tab-content-link"><div class="tab-content w-100"><img src="/static/images/show1.gif" class="w-100" alt="공연 정보"></div></a>
-			<a href="#" id="tab2" class="tab-content-link d-none"><div class="tab-content w-100"><img src="/static/images/show2.gif" class="w-100" alt="캐스팅 정보"></div></a>
-			<a href="#" id="tab3" class="tab-content-link d-none"><div class="tab-content w-100"><img src="/static/images/show3.gif" class="w-100" alt="판매 정보"></div></a>
-			
-			
-			
-			
-			
-			<div id="tab4" class="tab-content-link d-none">
-				<div class="tab-content w-100">
-					<div>
-						<div class="text-center bg-secondary py-3">
-							<h2>${show.show.genre} &lt; ${show.show.name} &gt; 리뷰</h2>
-						</div>
-						<div class="my-3 d-flex justify-content-between">
-							<h2>★★★★★</h2>
-							<h2>9.9</h2>
-						</div>
-						<div class="d-flex justify-content-end">
-							<a href="/review/review_create_view?showId=${show.show.id}" class="btn btn-info" id="reviewBtn">후기작성</a>
-						</div>
-						<div class="border mt-2 p-2">
-							<div class="d-flex justify-content-end mb-2">
-								<a href="#" class="review-filter">최신글순</a>
-								<a href="#" class="review-filter ml-3">평점순</a>
-							</div>
-							<%-- 반복문 시작 --%>
-							<c:forEach var="review" items="${show.reviewList}">
-								<div class="border p-3 bg-warning">
-									<div class="d-flex justify-content-between">
-										<h5>
-											<c:forEach begin="1" end="${review.review.point}">
-												★
-											</c:forEach>
-										</h5>
-										<div>
-											<span class="mr-3">${review.user.name}</span>
-											<span><fmt:formatDate value="${Date.from((review.review.createdAt).toInstant())}" pattern="yyyy년 MM월 dd일" /></span>
-										</div>
-									</div>
-									
-									<div class="mt-2">
-										<h5>${review.review.subject}</h5>
-										<span>${review.review.content}</span>
-										<%-- 추후 더보기 기능 추가 예정 --%>
-										<!-- <a href="">더보기</a> -->
-									</div>
-								
-								</div>
-							</c:forEach>
-							
-						</div>
-					</div>
-				</div>
+			<%-- 공연정보 탭내용 --%>
+			<div id="tab" class="tab-content-link">
 			</div>
 			
-			
-			
-			<a href="#" id="tab5" class="tab-content-link d-none"><div class="tab-content w-100"><img src="/static/images/show2.gif" class="w-100" alt="기대평"></div></a>
-			<a href="#" id="tab6" class="tab-content-link d-none"><div class="tab-content w-100"><img src="/static/images/show3.gif" class="w-100" alt="Q&A"></div></a>
 		</div>
 	</div>
 	
@@ -152,9 +95,27 @@
 			$(this).addClass('btn-secondary');
 			
 			// 내용 조정
-			$('.tab-content-link').addClass('d-none');
-			let tabId = $(this).attr('href');
-			$(tabId).removeClass('d-none');
+			//$('.tab-content-link').addClass('d-none');
+			//let tabId = $(this).attr('href');
+			//$(tabId).removeClass('d-none');
+			
+			
+			
+			// 탭 ajax (내용 조정)
+			// 보내야 할 것은 queryString에 붙은 값, 리턴해주는 페이지 값
+			let query = window.location.search;
+			let param = new URLSearchParams(query);
+			let showId = param.get('showId');
+			
+			
+			
+			$.ajax({
+				url: "/show/show_tab_view?index=" + $(this).attr('href')
+				//data: {"showId":showId}
+				, success: function(data) {
+					$('#tab').html(data);
+				}
+			});
 		});
 		
 		

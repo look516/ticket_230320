@@ -1,9 +1,7 @@
 package com.ticket.show;
 
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,6 +59,19 @@ public class ShowController {
 	}
 	
 	
+	@GetMapping("/show_tab_view")
+	public String showTabView(
+			@RequestParam Map<String, Object> param,
+			@RequestParam("index") String index,
+			Model model) {
+		String url = "show/tab/" + index;
+		int showId = (int)param.get("showId");
+		
+		ShowView show = showBO.generateShowViewByShowId(showId);
+		model.addAttribute("show", show);
+		
+		return url;
+	}
 	
 	
 	
