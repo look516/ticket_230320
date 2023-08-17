@@ -58,14 +58,14 @@ public class ShowController {
 		return "template/layout";
 	}
 	
-	
+	// 리턴값이 jsp
 	@GetMapping("/show_tab_view")
 	public String showTabView(
-			@RequestParam Map<String, Object> param,
+			@RequestParam("showId") int showId,
 			@RequestParam("index") String index,
 			Model model) {
 		String url = "show/tab/" + index;
-		int showId = (int)param.get("showId");
+		
 		
 		ShowView show = showBO.generateShowViewByShowId(showId);
 		model.addAttribute("show", show);
@@ -73,8 +73,24 @@ public class ShowController {
 		return url;
 	}
 	
-	
-	
+	/*
+	@GetMapping("/show_tab_view")
+	public Map<String, Object> showTabView(
+			@RequestParam Map<String, Object> param,
+			@RequestParam("index") String index,
+			Model model) {
+		Map<String, Object> map = new HashMap<>();
+		
+		String url = "show/tab/" + index;
+		map.put("url", url);
+		
+		int showId = (int)param.get("showId");
+		
+		ShowView show = showBO.generateShowViewByShowId(showId);
+		map.put("show", show);
+		
+		return map;
+	}*/
 	
 	
 	

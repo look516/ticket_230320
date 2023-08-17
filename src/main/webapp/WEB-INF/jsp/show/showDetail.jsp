@@ -108,11 +108,12 @@
 			let showId = param.get('showId');
 			
 			
-			
 			$.ajax({
 				url: "/show/show_tab_view?index=" + $(this).attr('href')
-				//data: {"showId":showId}
+				, data: {"showId":showId}
 				, success: function(data) {
+					// 1) data에 ${show}를 넣든, showId를 넣든 탭 페이지에 정보 넣어주기
+					// 2) showView에서 List<ReviewView> 제외
 					$('#tab').html(data);
 				}
 			});

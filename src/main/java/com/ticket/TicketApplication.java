@@ -10,7 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
+@EnableScheduling
 @MapperScan(basePackages="com.ticket.*")
 @SpringBootApplication
 public class TicketApplication {
