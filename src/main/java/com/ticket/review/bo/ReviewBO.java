@@ -67,4 +67,10 @@ public class ReviewBO {
 		
 		return reviewMapper.insertReview(showId, userId, subject, content, point, realShowDate, showTime);
 	}
+	
+	
+	
+	public double getReviewAveragePoint(int showId) {
+		return reviewMapper.selectReviewAveragePoint(showId);
+	}
 }

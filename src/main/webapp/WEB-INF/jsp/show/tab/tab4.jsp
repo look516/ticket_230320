@@ -9,8 +9,12 @@
 			<h2>${show.show.genre} &lt; ${show.show.name} &gt; 리뷰</h2>
 		</div>
 		<div class="my-3 d-flex justify-content-between">
-			<h2>★★★★★</h2>
-			<h2>9.9</h2>
+			<h2>
+				<c:forEach begin="1" end="${average}">
+					★
+				</c:forEach>
+			</h2>
+			<h2>${average}</h2>
 		</div>
 		<div class="d-flex justify-content-end">
 			<a href="/review/review_create_view?showId=${show.show.id}" class="btn btn-info" id="reviewBtn">후기작성</a>
@@ -31,7 +35,10 @@
 						</h5>
 						<div>
 							<span class="mr-3">${review.user.name}</span>
-							<span><fmt:formatDate value="${Date.from((review.review.createdAt).toInstant())}" pattern="yyyy년 MM월 dd일" /></span>
+							<span>
+								<fmt:parseDate value="${review.review.createdAt}" pattern="yyyy-MM-dd" var="createdAt" />
+								<fmt:formatDate value="${createdAt}" pattern="yyyy년 MM월 dd일" />
+							</span>
 						</div>
 					</div>
 					

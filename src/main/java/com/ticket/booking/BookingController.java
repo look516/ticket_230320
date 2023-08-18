@@ -1,5 +1,6 @@
 package com.ticket.booking;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -60,8 +61,13 @@ public class BookingController {
 	
 	@GetMapping("/book_page_view")
 	public String bookPageView(
-			//@RequestParam("showId") int showId,
+			@RequestParam("showId") int showId,
 			Model model, HttpSession session) {
+		// 공연명 조회 및 넣기
+		
+		// 부모창에서 가져온 데이터 넣기
+		
+		
 		model.addAttribute("view", "booking/bookingPage");
 		return "template/layoutBooking";
 	}

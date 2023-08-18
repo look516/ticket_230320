@@ -34,5 +34,15 @@
 			, NOW()
 		)
 	</insert>
+	
+	
+	<select id="selectReviewAveragePoint" parameterType="int" resultType="double">
+		SELECT
+			avg(`point`)
+		from
+			`review`
+		where
+			`showId` = #{showId}
+	</select>
 
 </mapper>

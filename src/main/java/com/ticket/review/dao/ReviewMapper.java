@@ -17,4 +17,6 @@ public interface ReviewMapper {
 			@Param("showDate") Date showDate,
 			@Param("showTime") String showTime);
 	
+	public double selectReviewAveragePoint(int showId);
+	
 }

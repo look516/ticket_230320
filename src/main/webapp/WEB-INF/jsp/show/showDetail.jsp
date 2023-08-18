@@ -77,8 +77,7 @@
 			<div id="datepicker"></div>
 			<div class="mt-3" id="selectedDate"></div>
 			<%-- 로그인 처리 / 공연별 분기 --%>
-			<a href="/book/book_page_view" onclick="window.open(this.href, '_blank', 'width=800, height=500'); return false;"
-			class="btn btn-info my-2 col-12" ref="noreferrer noopener">예매하기</a>
+			<button class="btn btn-info my-2 col-12" id="reserveShowBtn">예매하기</button>
 		</div>
 	</div>
 </div>
@@ -103,9 +102,9 @@
 			
 			// 탭 ajax (내용 조정)
 			// 보내야 할 것은 queryString에 붙은 값, 리턴해주는 페이지 값
-			let query = window.location.search;
-			let param = new URLSearchParams(query);
-			let showId = param.get('showId');
+			var query = window.location.search;
+			var param = new URLSearchParams(query);
+			var showId = param.get('showId');
 			
 			
 			$.ajax({
@@ -122,6 +121,7 @@
 		
 		
 		// 날짜
+		
 		$.datepicker.setDefaults({
             dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'] // 요일을 한글로 변경
 			,dateFormat: "yy년 mm월 dd일"
@@ -131,10 +131,12 @@
 	        ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'] //달력의 월 부분 Tooltip
 	        ,dayNamesMin: ['일','월','화','수','목','금','토'] //달력의 요일 텍스트
 	        ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일'] //달력의 요일 Tooltip
-	        , minDate: 0
+	        , minDate: new Date("${show.show.validStartDate}") > new Date() ? new Date("${show.show.validStartDate}") : new Date()
+			, maxDate: new Date("${show.show.validEndDate}")
         });
 		
-		let selectedDate = null;
+		// 추후 fmt 변경할 것
+		var selectedDate = new Date();
 		
 		$('#datepicker').datepicker();
 		
@@ -142,6 +144,41 @@
 			selectedDate = $(this).val();
 			$('#selectedDate').text(selectedDate);
 		});
+		
+		
+		
+		// 전송할 데이터 객체
+		
+		var query = window.location.search;
+		var param = new URLSearchParams(query);
+		var showId = param.get('showId');
+			
+		var bookingData = {
+			showId: showId
+			, selectedDate: selectedDate
+			, validStartDate: new Date("${show.show.validStartDate}") > new Date() ? new Date("${show.show.validStartDate}") : new Date()
+			, validEndDate: new Date("${show.show.validEndDate}")
+		};
+ 		
+		// 예매하기 버튼
+		
+		$('#reserveShowBtn').on('click', function(e) {
+			e.preventDefault();
+			
+			let bookingUrl = "/book/book_page_view?showId=" + showId;
+			var popup = window.open(bookingUrl, "_blank", 'width=800px, height=700px popup');
+			popup.onload = function() {
+				popup.postMessage(bookingData, "*") // 임의로 모든 주소에서 허용
+			}
+		});
+		
+		
+		
+		
+		
+		
+		
+		
 	});
 
 </script>

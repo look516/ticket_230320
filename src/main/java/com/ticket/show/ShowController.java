@@ -1,7 +1,6 @@
 package com.ticket.show;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ticket.review.bo.ReviewBO;
 import com.ticket.show.bo.ShowBO;
 import com.ticket.show.domain.ShowView;
 import com.ticket.show.service.TagService;
@@ -20,6 +20,9 @@ public class ShowController {
 	
 	@Autowired
 	private ShowBO showBO;
+	
+	@Autowired
+	private ReviewBO reviewBO;
 	
 	@GetMapping("/show_detail_view")
 	public String showDetailView(
@@ -69,6 +72,9 @@ public class ShowController {
 		
 		ShowView show = showBO.generateShowViewByShowId(showId);
 		model.addAttribute("show", show);
+		
+		double average = reviewBO.getReviewAveragePoint(showId);
+		model.addAttribute("average", average);
 		
 		return url;
 	}

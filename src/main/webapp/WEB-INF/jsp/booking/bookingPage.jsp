@@ -1,22 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <div>
 	<div class="text-center"><h3>뮤지컬 &lt;가나다&gt;</h3></div>
+	
 	
 	<form id="bookingForm" method="post" action="/book/booking">
 
 		<div class="d-flex">
 		<select id="showDate" name="showDate" class="form-control col-6 m-2">  
 		    <option value="">날짜</option>
-		    <option value="2023-09-01">2023-09-01 금</option>
-		    <option value="2023-09-02">2023-09-02 토</option>
-		    <option value="2023-09-03">2023-09-03 일</option>
-		    <option value="2023-09-04">2023-09-04 월</option>
-		    <option value="2023-09-05">2023-09-05 화</option>
-		    <option value="2023-09-06">2023-09-06 수</option>
-		    <option value="2023-09-07">2023-09-07 목</option>
 		</select>
 		
 		<select id="showTime" name="showTime" class="form-control col-6 m-2">  
@@ -32,8 +27,10 @@
 					<div class="d-flex justify-content-center">
 				</c:if>
 				<%-- 왜 submit 되는 거지? --%>
+				<fmt:parseNumber var="seatCol" type="number" value="${seat/8}" integerOnly="true" />
+				
 				<button type="button" name="seat" class="seat-box mb-2 mx-2"
-				data-seat-floor="1층" data-seat-col="${seat/8}" data-seat-row="${seat%8}"
+				data-seat-floor="1층" data-seat-col="${seatCol}" data-seat-row="${seat%8}"
 				>${seat%8}</button>
 				<c:if test="${status.current % 8 == 0}">
 					</div>
@@ -54,9 +51,9 @@
 		
 		<div class="d-flex justify-content-around mt-3 mb-5">
 			<div>
-				<div>총 좌석 수: 1석</div>
+				<div name="total">총 좌석 수: 1석</div>
 				<div name="seatGrade">좌석등급: R석</div>
-				<div name="seat">좌석번호: 1층 B열 15</div>
+				<div name="seat" id="seat">좌석번호: </div>
 			</div>
 		
 			<%-- link 가기 <a href="/book/pay_view" class="btn btn-info">결제</a> --%>
@@ -76,9 +73,23 @@
 		});
 		
 		
-		// 좌석 클릭 시
+		
+		// 날짜와 시간이 선택됐을 때 => 잔여석 표시
+		// 좌석 클릭 시 => 토글 및 정보 띄우기
 		$('button[name=seat]').on('click', function() {
-			alert($(this).val());
+			// 새로고침 시 날짜가 안 뜨는 현상 => 이벤트 순간을 버튼이 눌릴 때로 잡자
+			if($("#showDate").val() == "" || $("#showTime").val() == "") {
+				alert("날짜와 시간을 선택해주세요");
+				return;
+			}
+			
+			
+			
+			$("#seat").append($(this).attr('data-seat-floor') + " ");
+			// +1 해줘야 한다.
+			$("#seat").append($(this).attr('data-seat-col') + "열 ");
+			$("#seat").append($(this).attr('data-seat-row') + " ");
+			
 			
 			/*if ($(this).hasClass("checked-box") {
 				$(this).removeClass("checked-box");
@@ -88,6 +99,36 @@
 				$(this).removeClass("seat-box");
 			}*/
 		});
+			
+			
+		// 날짜 데이터
+		window.addEventListener ('message', function(e) {
+			//alert(e.data.selectedDate);
+			e.data.validEndDate.setDate(e.data.validEndDate.getDate() + 1);
+			
+			for (let i = e.data.validStartDate; i <= e.data.validEndDate; i.setDate(i.getDate() + 1)) {
+				let finalDate = formatDate(e.data.validStartDate);
+				let validStartDate = '<option value=' + finalDate + '>' + finalDate + '</option>';
+				$("#showDate").append(validStartDate);
+			}
+			
+			// selected 넣기
+			// 한 값만 계속 나온다 그 이유는?
+			let selectedDate = new Date(e.data.selectedDate);
+			selectedDate = formatDate(selectedDate);
+			$('#showDate option[value="' + selectedDate + '"]').prop("selected", true);
+		});
+		
+		// 날짜 포맷
+		function formatDate(date) {
+		    let year = date.getFullYear();
+		    let month = String(date.getMonth() + 1).padStart(2, '0');
+		    let day = String(date.getDate()).padStart(2, '0');
+		    return year + '-' + month + '-' + day;
+		}
+			
+			
+		
 	});
 
 </script>
