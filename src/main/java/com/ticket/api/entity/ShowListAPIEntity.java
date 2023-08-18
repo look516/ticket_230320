@@ -1,7 +1,5 @@
 package com.ticket.api.entity;
 
-import java.sql.Date;
-import java.sql.Time;
 import java.time.ZonedDateTime;
 
 import javax.persistence.Column;
@@ -9,22 +7,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 import org.hibernate.annotations.UpdateTimestamp;
-
-import com.ticket.review.entity.ReviewEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Getter
+@Setter
 @Builder
 @Entity
 public class ShowListAPIEntity {

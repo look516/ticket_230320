@@ -1,0 +1,27 @@
+{"properties": [
+  {
+    "name": "Api.show.base-url",
+    "type": "java.lang.String",
+    "description": "A description for 'Api.show.base-url'"
+  },
+  {
+    "name": "Api.show.eddate",
+    "type": "java.lang.String",
+    "description": "A description for 'Api.show.eddate'"
+  },
+  {
+    "name": "Api.show.stdate",
+    "type": "java.lang.String",
+    "description": "A description for 'Api.show.stdate'"
+  },
+  {
+    "name": "Api.show.service",
+    "type": "java.lang.String",
+    "description": "A description for 'Api.show.service'"
+  },
+  {
+    "name": "Api.show.basic-url",
+    "type": "java.lang.String",
+    "description": "A description for 'Api.show.basic-url'"
+  }
+]}
