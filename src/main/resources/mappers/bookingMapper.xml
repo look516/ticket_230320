@@ -23,4 +23,27 @@
 		WHERE
 			`userId` = #{userId}
 	</select>
+	
+	
+	
+	<select id="selectBookingBybookingId" parameterType="int" resultType="com.ticket.booking.domain.Booking">
+		SELECT
+			`id`
+			,`showId`
+			,`userId`
+			,`bookingNumber`
+			,`bookingDate`
+			,`showDate`
+			,`showTime`
+			,`seat`
+			,`seatPrice`
+			,`seatGrade`
+			,`isReserved`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`booking`
+		WHERE
+			`id` = #{bookingId}
+	</select>
 </mapper>

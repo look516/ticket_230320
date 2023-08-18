@@ -136,12 +136,16 @@
         });
 		
 		// 추후 fmt 변경할 것
-		var selectedDate = new Date();
+		//var selectedDate = new Date();
 		
 		$('#datepicker').datepicker();
 		
+		$("#datepicker").on('select', function() {
+			
+		});
+		
 		$('#datepicker').on('change', function() {
-			selectedDate = $(this).val();
+			let selectedDate = $(this).val();
 			$('#selectedDate').text(selectedDate);
 		});
 		
@@ -152,10 +156,12 @@
 		var query = window.location.search;
 		var param = new URLSearchParams(query);
 		var showId = param.get('showId');
+		
+		//selectedDate = $("#datepicker").
 			
 		var bookingData = {
 			showId: showId
-			, selectedDate: selectedDate
+			, selectedDate: $("#datepicker").val(selectedDate)
 			, validStartDate: new Date("${show.show.validStartDate}") > new Date() ? new Date("${show.show.validStartDate}") : new Date()
 			, validEndDate: new Date("${show.show.validEndDate}")
 		};
@@ -170,6 +176,8 @@
 			popup.onload = function() {
 				popup.postMessage(bookingData, "*") // 임의로 모든 주소에서 허용
 			}
+			
+			console.log(bookingData.selectedDate);
 		});
 		
 		

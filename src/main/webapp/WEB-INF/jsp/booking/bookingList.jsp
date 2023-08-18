@@ -32,7 +32,7 @@
 					${booking.bookingDate}
 				</td>
 				<td>${booking.bookingNumber}</td>
-				<td></td>
+				<td>${booking.showId}</td>
 				<td>
 					${booking.showDate}
 				</td>
@@ -42,7 +42,15 @@
 					${booking.showDate}
 				</td>
 				<%-- 쿼리스트링으로 예약id가 붙는다. --%>
-				<td>예약완료<a href="/book/book_detail_view?bookingId=${booking.id}" class="btn btn-info">상세</a></td>
+				<td>
+					<c:if test="${booking.isReserved > 0}">
+						예약완료
+					</c:if>
+					<c:if test="${booking.isReserved <= 0}">
+						예약취소
+					</c:if>
+					<a href="/book/book_detail_view?bookingId=${booking.id}" class="btn btn-info">상세</a>
+				</td>
 			</tr>
 		</c:forEach>
 	</tbody>

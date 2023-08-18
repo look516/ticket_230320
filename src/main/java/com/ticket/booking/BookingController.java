@@ -1,6 +1,5 @@
 package com.ticket.booking;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ticket.booking.bo.BookingBO;
 import com.ticket.booking.domain.Booking;
+import com.ticket.booking.domain.BookingView;
 import com.ticket.show.bo.ShowBO;
 
 @RequestMapping("/book")
@@ -23,7 +23,10 @@ public class BookingController {
 	@Autowired
 	private BookingBO bookingBO;
 	
+	@Autowired
 	private ShowBO showBO;
+	
+	
 	
 	@GetMapping("/book_list_view")
 	public String bookListView(
@@ -40,6 +43,7 @@ public class BookingController {
 		
 		// 공연명 조회
 		
+		// 매수
 		
 		// 페이징
 		
@@ -55,6 +59,12 @@ public class BookingController {
 	public String bookDetailView(
 			@RequestParam("bookingId") int bookingId,
 			Model model, HttpSession session) {
+		// 공연정보 조회
+		BookingView bookingView = bookingBO.generateBookingViewBybookingId(bookingId);
+		// 공연장 조회
+		
+		
+		model.addAttribute("booking", bookingView);
 		model.addAttribute("view", "booking/bookingDetail");
 		return "template/layout";
 	}

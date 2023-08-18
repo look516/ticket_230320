@@ -3,6 +3,8 @@
 <div>
 	<div class="text-center"><h3>뮤지컬 &lt;가나다&gt;</h3></div>
 	
+	<%-- 제목 / 날짜 / 시간 / 좌석정보 (+좌석수 좌석등급) --%>
+	
 	<form id="payForm" method="post" action="/book/pay">
 	
 		<table class="table text-center">

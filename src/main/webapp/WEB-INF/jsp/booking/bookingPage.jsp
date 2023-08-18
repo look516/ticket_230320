@@ -77,14 +77,15 @@
 		// 날짜와 시간이 선택됐을 때 => 잔여석 표시
 		// 좌석 클릭 시 => 토글 및 정보 띄우기
 		$('button[name=seat]').on('click', function() {
-			// 새로고침 시 날짜가 안 뜨는 현상 => 이벤트 순간을 버튼이 눌릴 때로 잡자
+			// 새로고침 시 날짜가 안 뜨는 현상 => 수동 select?
 			if($("#showDate").val() == "" || $("#showTime").val() == "") {
 				alert("날짜와 시간을 선택해주세요");
 				return;
 			}
 			
+			// 예매된 좌석 & 선택된 좌석 & 선택되지 않은 좌석
 			
-			
+			// 글자 추가
 			$("#seat").append($(this).attr('data-seat-floor') + " ");
 			// +1 해줘야 한다.
 			$("#seat").append($(this).attr('data-seat-col') + "열 ");
@@ -111,7 +112,7 @@
 				let validStartDate = '<option value=' + finalDate + '>' + finalDate + '</option>';
 				$("#showDate").append(validStartDate);
 			}
-			
+			console.log(e.data.selectedDate);
 			// selected 넣기
 			// 한 값만 계속 나온다 그 이유는?
 			let selectedDate = new Date(e.data.selectedDate);
