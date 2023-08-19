@@ -4,11 +4,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <div>
-	<div class="text-center"><h3>뮤지컬 &lt;가나다&gt;</h3></div>
+	<div class="text-center"><h3>&lt;${show.name}&gt;</h3></div>
 	
 	
 	<form id="bookingForm" method="post" action="/book/booking">
-
+		<input type="hidden" name="showId" id="showId" value="${show.id}">
+		
 		<div class="d-flex">
 		<select id="showDate" name="showDate" class="form-control col-6 m-2">  
 		    <option value="">날짜</option>
@@ -31,6 +32,7 @@
 				
 				<button type="button" name="seat" class="seat-box mb-2 mx-2"
 				data-seat-floor="1층" data-seat-col="${seatCol}" data-seat-row="${seat%8}"
+				data-seat-num="${status.count}"
 				>${seat%8}</button>
 				<c:if test="${status.current % 8 == 0}">
 					</div>
@@ -51,9 +53,15 @@
 		
 		<div class="d-flex justify-content-around mt-3 mb-5">
 			<div>
-				<div name="total">총 좌석 수: 1석</div>
-				<div name="seatGrade">좌석등급: R석</div>
-				<div name="seat" id="seat">좌석번호: </div>
+				<div name="total" id="total">
+					<input type="hidden" name="totalInput" id="totalInput" value="1" data-total="1">				
+				</div>
+				<div name="seatGrade" id="seatGrade">
+					<input type="hidden" name="seatGradeInput" id="seatGradeInput" value="R" data-seat-grade="R">				
+				</div>
+				<div name="seat" id="seat">
+					<input type="hidden" name="seatInput" id="seatInput">
+				</div>
 			</div>
 		
 			<%-- link 가기 <a href="/book/pay_view" class="btn btn-info">결제</a> --%>
@@ -65,18 +73,104 @@
 
 <script>
 	$(document).ready(function() {
+		// 맨 처음에 아무것도 선택하지 않은 채 예매창에 들어왔을 때 해당 날짜 좌석을 띄움.
+		// 날짜 시간 중 하나라도 선택되지 않으면 좌석 모두 비활성화
+		// 날짜 시간 공연명에 맞는 좌석정보를 불러오고 그에 따라 처리
+		
+		$('#showDate').on('change', checkDateTimeSelection);
+	    $('#showTime').on('change', checkDateTimeSelection);
+
+	    
+	    
+	    
+	    // 날짜와 시간이 모두 선택되었을 때 실행되는 함수
+	    function checkDateTimeSelection() {
+	    	// 왜 val값이 undefined가 될까 시점의 문제?
+	        const selectedDate = $('#showDate').val();
+	        const selectedTime = $('#showTime').val();
+
+	        console.log(selectedDate);
+	        console.log(selectedTime);
+	        if (selectedDate != null && selectedTime !== null && selectedDate != "" && selectedTime != "") {
+	            // 날짜와 시간이 모두 선택되었을 때 실행할 작업
+	            $.ajax({
+	            	url:"/book/booking_seat"
+	            	, data: {"showId":${show.id}, "selectedDate":selectedDate , "selectedTime":selectedTime}
+	            	, success: function(data) {
+	            		//console.log(data);
+	            		
+	            		//data[0]이 seat-num인 버튼 data[1]이 seat-num인 버튼
+	            			
+	            		if (Array.isArray(data)) {
+	            			data.forEach(function(seatNum) {
+	            				var selectedSeat = $('button[data-seat-num="' + seatNum + '"]');
+            					selectedSeat.prop("disabled", true);
+	            				selectedSeat.removeClass("seat-box");
+	            				selectedSeat.addClass("reserved-box");
+
+	            			});
+	            			
+	            		}
+	            	}
+	            });
+	        }
+	    }
+		
+		
+		
+		
 		// 폼 제출
 		$('#bookingForm').on('submit', function(e) {
 			e.preventDefault();
 			
-			location.href="/book/pay_view";
+			if($('#seat').is(':empty')) {
+				alert("좌석을 선택해주세요");
+				return;
+			}
+			
+			let url = $(this).attr('action');
+			let params = $(this).serialize(); // 폼태그에 있는 name 속성-값들로 파라미터 구성
+			console.log(url);
+			console.log(params);
+
+			//function sendRequest(retry) {
+			$.post(url, params) // request
+			.done(function(data) {
+				if (data.code == 1) {
+					location.href="/book/pay_view";
+				} else {
+					alert(data.errorMessage);
+				}
+			})
+				/* 원래 bookingNumber 중복발생으로 실패하면
+				재시도하려 했으나 에러 발생 시 무한반복되는 현상으로 보류
+				// 이 문구 삭제에도 불구하고 무한루프 현상 발생. 원인???
+				.fail(function(jqXHR, textStatus) {
+					if (retry > 0 && jqXHR.responseJSON && jqXHR.responseJSON.errorMessage && jqXHR.responseJSON.errorMessage.includes("Duplicated")) {	                        // bookingNumber 중복 에러 처리 (임시)
+                        sendRequest(retry - 1); // 다시 요청 시도
+                    } else {
+                        alert(jqXHR.responseJSON.errorMessage);
+                    }
+				});
+			}
+			sendRequest(5); // 초기 실행
+			*/
 		});
 		
 		
 		
+		
+		
+		// 엔터를 누르면 초기화되는 현상 고치기
 		// 날짜와 시간이 선택됐을 때 => 잔여석 표시
 		// 좌석 클릭 시 => 토글 및 정보 띄우기
 		$('button[name=seat]').on('click', function() {
+			var checkedCount = $('button[name=seat].checked-box').length;
+			if (!$(this).hasClass("checked-box") && checkedCount > 0) {
+				alert('한 좌석만 선택 가능합니다.');
+				return;
+			}
+			
 			// 새로고침 시 날짜가 안 뜨는 현상 => 수동 select?
 			if($("#showDate").val() == "" || $("#showTime").val() == "") {
 				alert("날짜와 시간을 선택해주세요");
@@ -84,41 +178,76 @@
 			}
 			
 			// 예매된 좌석 & 선택된 좌석 & 선택되지 않은 좌석
-			
-			// 글자 추가
-			$("#seat").append($(this).attr('data-seat-floor') + " ");
-			// +1 해줘야 한다.
-			$("#seat").append($(this).attr('data-seat-col') + "열 ");
-			$("#seat").append($(this).attr('data-seat-row') + " ");
-			
-			
-			/*if ($(this).hasClass("checked-box") {
+						
+			// toggle
+			if ($(this).hasClass("checked-box")) {
 				$(this).removeClass("checked-box");
 				$(this).addClass("seat-box");
+				$("#seat").empty();
+				$("#total").empty();
+				$("#seatGrade").empty();
+				
+				
 			} else {
 				$(this).addClass("checked-box");
 				$(this).removeClass("seat-box");
-			}*/
-		});
-			
-			
-		// 날짜 데이터
-		window.addEventListener ('message', function(e) {
-			//alert(e.data.selectedDate);
-			e.data.validEndDate.setDate(e.data.validEndDate.getDate() + 1);
-			
-			for (let i = e.data.validStartDate; i <= e.data.validEndDate; i.setDate(i.getDate() + 1)) {
-				let finalDate = formatDate(e.data.validStartDate);
-				let validStartDate = '<option value=' + finalDate + '>' + finalDate + '</option>';
-				$("#showDate").append(validStartDate);
+				
+				// 좌석 정보 뿌리기
+				$("#seat").append("좌석번호: " + $(this).attr('data-seat-floor') + " ");
+				// +1 해줘야 한다.
+				$("#seat").append($(this).attr('data-seat-col') + "열 ");
+				$("#seat").append($(this).attr('data-seat-row') + " ");
+				
+				// 아무것도 클릭 안 하고 맨 처음에 선택했을 때 -> -> 뜨는 현상
+				let seatInfo = $(this).data('seat-floor') + " " + $(this).data('seat-col') + "열 " + $(this).data('seat-row') + " " + $(this).data('seat-num');
+				
+				//alert(seatInfo);
+				$("#seatInput").val(seatInfo);
+				//alert($("#seatInput").val());
+				
+				// 좌석매수와 좌석등급
+				// val()로 하면 2번 이상 toggle 시 undefined 현상 발생
+				let totalInput = $("#totalInput").data('total');
+				let seatGradeInput = $("#seatGradeInput").data('seat-grade');
+				
+				// 좌석 수
+				$("#total").append("총 좌석 수: " + totalInput + "석");
+				// 좌석 등급
+				$("#seatGrade").append("좌석등급: " + seatGradeInput + "석");
+				
 			}
-			console.log(e.data.selectedDate);
-			// selected 넣기
-			// 한 값만 계속 나온다 그 이유는?
-			let selectedDate = new Date(e.data.selectedDate);
-			selectedDate = formatDate(selectedDate);
-			$('#showDate option[value="' + selectedDate + '"]').prop("selected", true);
 		});
+			
+			
+		// 날짜 데이터 - 새로고침 시에도 동작하게
+		//window.addEventListener('beforeunload', function() {
+			window.addEventListener ('message', function(e) {
+				e.data.validEndDate.setDate(e.data.validEndDate.getDate() + 1);
+				console.log(e.data.selectedTime);
+				// 뿌리기
+				for (let i = e.data.validStartDate; i <= e.data.validEndDate; i.setDate(i.getDate() + 1)) {
+					let finalDate = formatDate(e.data.validStartDate);
+					let validStartDate = '<option value=' + finalDate + '>' + finalDate + '</option>';
+					$("#showDate").append(validStartDate);
+				}
+				// selected 넣기
+				// 한 값만 계속 나온다 그 이유는?
+				// selectedTime 지금 날짜와 시간 이전 거는 선택 제한하기
+				// 시간 설정 및 validation은 추후에
+				let selectedDate = e.data.selectedDate;
+				let selectedTime = e.data.selectedTime;
+				if (selectedDate != null) {
+					selectedDate = formatDatepicker(selectedDate);
+					$('#showDate option[value="' + selectedDate + '"]').prop("selected", true);
+					$('#showTime option[value="' + selectedTime + '"]').prop("selected", true);
+				} else {
+					$('#showDate option[value="' + formatDate(new Date()) + '"]').prop("selected", true);
+					$('#showTime option[value="15:00:00"]').prop("selected", true);
+				}
+			});
+		//});
+		
+		
 		
 		// 날짜 포맷
 		function formatDate(date) {
@@ -126,6 +255,13 @@
 		    let month = String(date.getMonth() + 1).padStart(2, '0');
 		    let day = String(date.getDate()).padStart(2, '0');
 		    return year + '-' + month + '-' + day;
+		}
+		
+		function formatDatepicker(date) {
+			let year = date.substring(0, 4);
+			let month = date.substring(6, 8);
+			let day = date.substring(10, 12);
+			return year + '-' + month + '-' + day;
 		}
 			
 			

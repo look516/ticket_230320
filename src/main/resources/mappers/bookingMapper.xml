@@ -46,4 +46,67 @@
 		WHERE
 			`id` = #{bookingId}
 	</select>
+	
+	
+	<select id="selectBookingList" parameterType="map" resultType="com.ticket.booking.domain.Booking">
+		SELECT
+			`id`
+			,`showId`
+			,`userId`
+			,`bookingNumber`
+			,`bookingDate`
+			,`showDate`
+			,`showTime`
+			,`seat`
+			,`seatPrice`
+			,`seatGrade`
+			,`isReserved`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`booking`
+		WHERE
+			`showId` = #{showId}
+		AND
+			`showDate` = #{selectedDate}
+		AND
+			`showTime` = #{selectedTime}
+		AND
+			`isReserved` = 1
+	</select>
+	
+	<insert id="insertBooking" parameterType="map">
+		INSERT INTO `booking`
+		(
+			`userId`
+			,`showId`
+			,`showDate`
+			,`showTime`
+			,`seatGrade`
+			,`seat`
+			,`bookingNumber`
+			,`bookingDate`
+			,`seatPrice`
+			,`isReserved`
+			,`createdAt`
+			,`updatedAt`
+		)
+		VALUES
+		(
+			#{userId}
+			, #{showId}
+			, #{showDate}
+			, #{showTime}
+			, #{seatGrade}
+			, #{seat}
+			, #{bookingNumber}
+			, NOW()
+			, #{seatPrice}
+			, 1
+			, NOW()
+			, NOW()
+		)
+	</insert>
+	
+	
 </mapper>

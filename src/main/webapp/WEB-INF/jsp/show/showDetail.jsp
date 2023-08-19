@@ -75,7 +75,10 @@
 		<div class="text-center">
 			<h3>관람일</h3>
 			<div id="datepicker"></div>
-			<div class="mt-3" id="selectedDate"></div>
+			<div class="my-3" id="selectedDate"></div>
+			<div class="d-flex justify-content-around" id="timeBtn">
+				
+			</div>
 			<%-- 로그인 처리 / 공연별 분기 --%>
 			<button class="btn btn-info my-2 col-12" id="reserveShowBtn">예매하기</button>
 		</div>
@@ -136,17 +139,27 @@
         });
 		
 		// 추후 fmt 변경할 것
-		//var selectedDate = new Date();
+		// 추후 기본값 설정할 것
+		
+		// 3시 이전, 다음날부터: 둘 다 3시 이후: 7시만 7시 이후: 내일 것부터
+	
 		
 		$('#datepicker').datepicker();
 		
-		$("#datepicker").on('select', function() {
-			
-		});
-		
+		var selectedDate = null;
 		$('#datepicker').on('change', function() {
-			let selectedDate = $(this).val();
+			selectedDate = $(this).val();
 			$('#selectedDate').text(selectedDate);
+			
+			
+				$('#timeBtn').html(
+						'<input type="radio" name="selectShowTime" id="15:00:00">'
+						+ '<label for="15:00:00">15시</label>'
+						+ '<input type="radio" name="selectShowTime" id="19:00:00">'
+						+ '<label for="19:00:00">19시</label>');
+			
+			
+			
 		});
 		
 		
@@ -157,11 +170,12 @@
 		var param = new URLSearchParams(query);
 		var showId = param.get('showId');
 		
-		//selectedDate = $("#datepicker").
+		var selectedTime = $('input[name="selectShowTime"]:checked').attr('id');
 			
 		var bookingData = {
 			showId: showId
-			, selectedDate: $("#datepicker").val(selectedDate)
+			, selectedDate: selectedDate
+			, selectedTime: selectedTime
 			, validStartDate: new Date("${show.show.validStartDate}") > new Date() ? new Date("${show.show.validStartDate}") : new Date()
 			, validEndDate: new Date("${show.show.validEndDate}")
 		};
@@ -170,16 +184,15 @@
 		
 		$('#reserveShowBtn').on('click', function(e) {
 			e.preventDefault();
-			
+			bookingData.selectedDate = selectedDate;
+			bookingData.selectedTime = selectedTime;
+
 			let bookingUrl = "/book/book_page_view?showId=" + showId;
 			var popup = window.open(bookingUrl, "_blank", 'width=800px, height=700px popup');
 			popup.onload = function() {
 				popup.postMessage(bookingData, "*") // 임의로 모든 주소에서 허용
 			}
-			
-			console.log(bookingData.selectedDate);
 		});
-		
 		
 		
 		

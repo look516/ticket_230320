@@ -15,6 +15,7 @@ import com.ticket.booking.bo.BookingBO;
 import com.ticket.booking.domain.Booking;
 import com.ticket.booking.domain.BookingView;
 import com.ticket.show.bo.ShowBO;
+import com.ticket.show.entity.ShowEntity;
 
 @RequestMapping("/book")
 @Controller
@@ -74,10 +75,13 @@ public class BookingController {
 			@RequestParam("showId") int showId,
 			Model model, HttpSession session) {
 		// 공연명 조회 및 넣기
+		ShowEntity show = showBO.getShowNameById(showId);
 		
-		// 부모창에서 가져온 데이터 넣기
+		// 좌석 정보 불러오기
+		//List<BookingView> = bookingBO. 
 		
 		
+		model.addAttribute("show", show);
 		model.addAttribute("view", "booking/bookingPage");
 		return "template/layoutBooking";
 	}

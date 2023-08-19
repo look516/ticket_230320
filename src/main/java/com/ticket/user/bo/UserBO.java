@@ -21,15 +21,7 @@ public class UserBO {
 		return userRepository.findById(id).orElse(null);
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	
