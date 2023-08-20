@@ -12,6 +12,7 @@
 		
 		<div class="d-flex">
 		<select id="showDate" name="showDate" class="form-control col-6 m-2">  
+			<%-- 날짜 왜 안 뜨지 --%>
 		    <option value="">날짜</option>
 		</select>
 		
@@ -53,14 +54,16 @@
 		
 		<div class="d-flex justify-content-around mt-3 mb-5">
 			<div>
+				<input type="hidden" name="totalInput" id="totalInput" value="1" data-total="1">				
 				<div name="total" id="total">
-					<input type="hidden" name="totalInput" id="totalInput" value="1" data-total="1">				
 				</div>
+				
+				<input type="hidden" name="seatGradeInput" id="seatGradeInput" value="R" data-seat-grade="R">				
 				<div name="seatGrade" id="seatGrade">
-					<input type="hidden" name="seatGradeInput" id="seatGradeInput" value="R" data-seat-grade="R">				
 				</div>
+				
+				<input type="hidden" name="seatInput" id="seatInput">
 				<div name="seat" id="seat">
-					<input type="hidden" name="seatInput" id="seatInput">
 				</div>
 			</div>
 		
@@ -77,27 +80,29 @@
 		// 날짜 시간 중 하나라도 선택되지 않으면 좌석 모두 비활성화
 		// 날짜 시간 공연명에 맞는 좌석정보를 불러오고 그에 따라 처리
 		
-		$('#showDate').on('change', checkDateTimeSelection);
-	    $('#showTime').on('change', checkDateTimeSelection);
-
-	    
-	    
+		checkDateTimeSelection();
 	    
 	    // 날짜와 시간이 모두 선택되었을 때 실행되는 함수
 	    function checkDateTimeSelection() {
 	    	// 왜 val값이 undefined가 될까 시점의 문제?
-	        const selectedDate = $('#showDate').val();
-	        const selectedTime = $('#showTime').val();
+	        let selectedDate = $('#showDate').val();
+	        let selectedTime = $('#showTime').val();
 
 	        console.log(selectedDate);
 	        console.log(selectedTime);
-	        if (selectedDate != null && selectedTime !== null && selectedDate != "" && selectedTime != "") {
+	        if ((selectedDate != null && selectedTime !== null && selectedDate != "" && selectedTime != "")) {
 	            // 날짜와 시간이 모두 선택되었을 때 실행할 작업
 	            $.ajax({
 	            	url:"/book/booking_seat"
 	            	, data: {"showId":${show.id}, "selectedDate":selectedDate , "selectedTime":selectedTime}
 	            	, success: function(data) {
 	            		//console.log(data);
+	            		
+	            		
+	            		$('button[name=seat]').prop("disabled", false);
+	            		$('button[name=seat]').removeClass("reserved-box");
+	            		$('button[name=seat]').removeClass("selected-box");
+	            		$('button[name=seat]').addClass("seat-box");
 	            		
 	            		//data[0]이 seat-num인 버튼 data[1]이 seat-num인 버튼
 	            			
@@ -116,8 +121,24 @@
 	        }
 	    }
 		
+		$('#showDate').on('change', checkDateTimeSelection);
+	    $('#showTime').on('change', checkDateTimeSelection);
 		
-		
+	    
+	    
+	    // 처음 화면에 들어왔을 때
+	    // 함수 실행
+	    
+	    // 날짜가 바뀌었을 때
+	    // 시간 비우고 좌석초기화하고 함수 실행
+	    
+	    // 시간이 바뀌었을 때
+	    // 좌석 초기화하고 함수 실행
+	    
+	    
+	    
+	    
+	    
 		
 		// 폼 제출
 		$('#bookingForm').on('submit', function(e) {
@@ -133,15 +154,51 @@
 			console.log(url);
 			console.log(params);
 
+			
+			$.ajax({
+				url: '/book/booking'
+				, type: 'POST'
+				//, contentType: 'application/json' // ?
+				, data: params
+				, success: function(data) {
+					if (data === 'Success') {
+						//location.href = '/book/pay_view';
+						
+						var form = document.createElement('form');
+						form.method = 'POST'; // post로 변경
+						form.action = '/book/pay_view';
+						form.style.display = 'none'; // ?
+								
+						var input = document.createElement('input');
+						input.type = 'hidden';
+						input.name = 'params';
+						input.value = params;
+						form.appendChild(input);
+						
+						document.body.appendChild(form);
+						form.submit();
+					} else {
+						alert("좌석 선택에 실패했습니다. 다시 시도해주세요.");
+					}
+				}
+				, error: function() {
+					alert("에러입니다.");
+				}
+			});
 			//function sendRequest(retry) {
-			$.post(url, params) // request
+			/*$.post(url, params) // request
 			.done(function(data) {
 				if (data.code == 1) {
+					// showId를 쿼리스트링으로 넘기려하니 (${showId})
+					// Err_incomplete_chunked_encoding 발생하며 날짜도 안 뿌려짐
+					localStorage.setItem('bookingData', data);
+					
+					//location.href="/book/pay_view?showId=" + data.showId + "&bookingId=" + data.bookingId;
 					location.href="/book/pay_view";
 				} else {
 					alert(data.errorMessage);
 				}
-			})
+			});*/
 				/* 원래 bookingNumber 중복발생으로 실패하면
 				재시도하려 했으나 에러 발생 시 무한반복되는 현상으로 보류
 				// 이 문구 삭제에도 불구하고 무한루프 현상 발생. 원인???
@@ -177,7 +234,6 @@
 				return;
 			}
 			
-			// 예매된 좌석 & 선택된 좌석 & 선택되지 않은 좌석
 						
 			// toggle
 			if ($(this).hasClass("checked-box")) {
@@ -186,6 +242,7 @@
 				$("#seat").empty();
 				$("#total").empty();
 				$("#seatGrade").empty();
+				
 				
 				
 			} else {
@@ -207,6 +264,7 @@
 				
 				// 좌석매수와 좌석등급
 				// val()로 하면 2번 이상 toggle 시 undefined 현상 발생
+				// total을 empty하니까 input도 같이 사라짐!!!
 				let totalInput = $("#totalInput").data('total');
 				let seatGradeInput = $("#seatGradeInput").data('seat-grade');
 				
@@ -225,10 +283,18 @@
 				e.data.validEndDate.setDate(e.data.validEndDate.getDate() + 1);
 				console.log(e.data.selectedTime);
 				// 뿌리기
+				/*
 				for (let i = e.data.validStartDate; i <= e.data.validEndDate; i.setDate(i.getDate() + 1)) {
 					let finalDate = formatDate(e.data.validStartDate);
 					let validStartDate = '<option value=' + finalDate + '>' + finalDate + '</option>';
 					$("#showDate").append(validStartDate);
+				}
+				*/
+				
+				for (let i = new Date(e.data.validStartDate); i <= e.data.validEndDate; i = new Date(i.getTime() + 24 * 60 * 60 * 1000)) {
+				    let finalDate = formatDate(i);
+				    let validStartDate = '<option value="' + finalDate + '">' + finalDate + '</option>';
+				    $("#showDate").append(validStartDate);
 				}
 				// selected 넣기
 				// 한 값만 계속 나온다 그 이유는?
@@ -236,11 +302,14 @@
 				// 시간 설정 및 validation은 추후에
 				let selectedDate = e.data.selectedDate;
 				let selectedTime = e.data.selectedTime;
+				
+				// 1) 예매하기 버튼이 눌릴 때 가장 첫 날짜(today or validStartDate)가 자동 선택되도록 한다. -> setDate가 작동하나?
+				// 2) 여기서 분기를 넣는다.
 				if (selectedDate != null) {
 					selectedDate = formatDatepicker(selectedDate);
 					$('#showDate option[value="' + selectedDate + '"]').prop("selected", true);
 					$('#showTime option[value="' + selectedTime + '"]').prop("selected", true);
-				} else {
+				} else if (){
 					$('#showDate option[value="' + formatDate(new Date()) + '"]').prop("selected", true);
 					$('#showTime option[value="15:00:00"]').prop("selected", true);
 				}

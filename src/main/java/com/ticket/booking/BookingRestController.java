@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,9 +34,9 @@ public class BookingRestController {
 		return selectedSeatNums;
 	}
 	
-	
+	// REQUEST MAP으로 묶어서 보내는 방법도 추후 적용해보자.
 	@PostMapping("/booking")
-	public Map<String, Object> booking(
+	public ResponseEntity<String> booking(
 			@RequestParam("showId") int showId,
 			@RequestParam("showDate") String showDate,
 			@RequestParam("showTime") String showTime,
@@ -48,16 +50,13 @@ public class BookingRestController {
 		// db insert
 		Integer bookingId = bookingBO.addBooking(userId, showId, showDate, showTime, seatGrade, seat);
 		
+		boolean isSuccess = (bookingId != null ? true : false);
 		// 응답
-		Map<String, Object> result = new HashMap<>();
-		if (bookingId != null) {
-			result.put("code", 1);
-			result.put("result", "성공");
+		if (isSuccess) {
+			return ResponseEntity.ok("Success");
 		} else {
-			result.put("code", 500);
-			result.put("errorMessage", "좌석선택에 실패했습니다. 다시 선택해주세요.");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed");
 		}
-		return result;
 	}
 		
 

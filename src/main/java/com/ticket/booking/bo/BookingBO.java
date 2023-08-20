@@ -100,7 +100,7 @@ public class BookingBO {
 			seatPrice = 60000;
 		}
 		
-		seat = seat.substring(6);
+		//seat = seat.substring(6);
 		
 		return bookingMapper.insertBooking(userId, showId, showDate, showTime, seatGrade, seat, bookingNumber, seatPrice);
 	}

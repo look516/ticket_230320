@@ -181,6 +181,7 @@
 		};
  		
 		// 예매하기 버튼
+		// 시간 선택 후 예매하기 버튼 누를 수 있게
 		
 		$('#reserveShowBtn').on('click', function(e) {
 			e.preventDefault();

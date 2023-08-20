@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -70,6 +71,11 @@ public class BookingController {
 		return "template/layout";
 	}
 	
+	
+	
+	
+	
+	
 	@GetMapping("/book_page_view")
 	public String bookPageView(
 			@RequestParam("showId") int showId,
@@ -86,10 +92,17 @@ public class BookingController {
 		return "template/layoutBooking";
 	}
 	
-	@GetMapping("/pay_view")
+	
+	// 예약 정보가 있을 때만 접근 가능하다 -> post?
+	// 1) booking, pay insert 각 페이지가 넘어갈 때마다 한다.
+	// 2) booking에서 넘어온 데이터를 가지고 pay를 꾸린다.
+	// 예약 - 결제 - 예약취소 로직을 어떻게 짤까
+	@PostMapping("/pay_view")
 	public String payView(
+			@RequestParam("params") String params,
 			//@RequestParam("bookingId") int bookingId,
 			Model model, HttpSession session) {
+		model.addAttribute("booking", params);
 		model.addAttribute("view", "booking/bookingPay");
 		return "template/layoutBooking";
 	}
