@@ -20,7 +20,7 @@ public class ApiExplorer {
 	@RequestMapping("/api2")
     public StringBuilder main(String[] args) throws IOException {
         StringBuilder urlBuilder = new StringBuilder("http://www.culture.go.kr/openapi/rest/publicperformancedisplays/period"); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=dw5w2NH%2BUdWJlg3amAMzrAjsjqLlzAo%2Bl35vQARsOt4MNspsGFj0R0T1%2BgJYXQi1pqK7FSh%2Fn4lJM5iPltP8pw%3D%3D"); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=0OhBU7ZCGIobDVKDeBJDpmDRqK3IRNF6jlf%2FJB2diFAf%2FfR2czYO9A4UTGcsOwppV6W2HVUeho%2FFPwXoL6DwqA%3D%3D"); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("keyword","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /**/
         urlBuilder.append("&" + URLEncoder.encode("sortStdr","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*1:등록일, 2:공연명, 3:지역*/
         urlBuilder.append("&" + URLEncoder.encode("ComMsgHeader","UTF-8") + "=" + URLEncoder.encode("", "UTF-8")); /**/
@@ -51,6 +51,7 @@ public class ApiExplorer {
         String line;
         while ((line = rd.readLine()) != null) {
             sb.append(line);
+            sb.append("<br>");
         }
         rd.close();
         conn.disconnect();

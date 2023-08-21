@@ -24,7 +24,7 @@ import lombok.ToString;
 @Setter
 @Builder
 @Entity
-public class ShowListAPIEntity {
+public class ShowAPIEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;

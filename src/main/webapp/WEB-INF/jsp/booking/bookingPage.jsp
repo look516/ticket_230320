@@ -80,7 +80,7 @@
 		// 날짜 시간 중 하나라도 선택되지 않으면 좌석 모두 비활성화
 		// 날짜 시간 공연명에 맞는 좌석정보를 불러오고 그에 따라 처리
 		
-		checkDateTimeSelection();
+		
 	    
 	    // 날짜와 시간이 모두 선택되었을 때 실행되는 함수
 	    function checkDateTimeSelection() {
@@ -158,7 +158,7 @@
 			$.ajax({
 				url: '/book/booking'
 				, type: 'POST'
-				//, contentType: 'application/json' // ?
+				//, contentType: 'application/json'
 				, data: params
 				, success: function(data) {
 					if (data === 'Success') {
@@ -309,10 +309,12 @@
 					selectedDate = formatDatepicker(selectedDate);
 					$('#showDate option[value="' + selectedDate + '"]').prop("selected", true);
 					$('#showTime option[value="' + selectedTime + '"]').prop("selected", true);
-				} else if (){
+				} else {
 					$('#showDate option[value="' + formatDate(new Date()) + '"]').prop("selected", true);
 					$('#showTime option[value="15:00:00"]').prop("selected", true);
 				}
+		
+				checkDateTimeSelection();
 			});
 		//});
 		
