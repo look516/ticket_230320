@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ticket.booking.bo.BookingBO;
+import com.ticket.booking.domain.BookingInfo;
 
 @RequestMapping("/book")
 @RestController
@@ -34,8 +36,38 @@ public class BookingRestController {
 		return selectedSeatNums;
 	}
 	
-	// REQUEST MAP으로 묶어서 보내는 방법도 추후 적용해보자.
+	// 2 버튼 클릭 시 pay view로 데이터 갖고 이동
 	@PostMapping("/booking")
+	public Map<String, Object> booking(HttpSession session, BookingInfo bookingInfo,
+			Model model) {
+		
+		session.setAttribute("bookingInfo", bookingInfo);
+		
+		Map<String, Object> map = new HashMap<>();
+		if (session.getAttribute("bookingInfo") != null) {
+			map.put("code", 1);
+			map.put("forwardUrl", "/book/pay_view");
+			map.put("result", "성공");
+		} else {
+			map.put("code", 500);
+			map.put("errorMessage", "예약 정보가 없습니다.");
+		}
+		return map;
+	}
+	
+	// 4 버튼 클릭 시 submit 하고 성공 시 성공값 리턴 및 페이지 이동 (Rest에서)
+	@PostMapping("/pay")
+	public String pay(HttpSession session) {
+		BookingInfo bookingInfo = (BookingInfo) session.getAttribute("bookingInfo");
+		
+		// bookingInfo submit 처리
+		
+		// payInfo submit 처리
+		return "1";
+	}
+	
+	// REQUEST MAP으로 묶어서 보내는 방법도 추후 적용해보자.
+	/*@PostMapping("/booking_insert")
 	public ResponseEntity<String> booking(
 			@RequestParam("showId") int showId,
 			@RequestParam("showDate") String showDate,
@@ -58,6 +90,6 @@ public class BookingRestController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed");
 		}
 	}
-		
+	*/	
 
 }

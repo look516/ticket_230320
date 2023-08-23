@@ -76,9 +76,10 @@
 			<h3>관람일</h3>
 			<%--<input type="text" id="datepicker"> --%>
 			<div><div id="calendar"></div>
-			<div><div class="my-3" id="selectedDate"></div></div>
+			<div><div class="my-3" id="showDate"></div></div>
 			<div><div class="d-flex justify-content-around" id="timeBtn"></div>
 				
+			<div><input type='hidden' id='showDay'></div>
 			</div>
 			<%-- 로그인 처리 / 공연별 분기 --%>
 			<button class="btn btn-info my-2 col-12" id="reserveShowBtn">예매하기</button>
@@ -182,11 +183,12 @@
         var format = "YYYY-MM-DDTHH:mm:ss"; // 포맷 타입
         var koreaNow = korea_date.format(format);  
 	  
-	  	let selectedDate = null;
+	  	let selectedDate;
 		  
 		var calendarEl = document.getElementById('calendar');
-		var selectedDateEl = document.getElementById('selectedDate');
+		var selectedDateEl = document.getElementById('showDate');
 		var timeBtnEl = document.getElementById('timeBtn');
+	    var showDayEl = document.getElementById('showDay');
 	    
 		let calendar = new FullCalendar.Calendar(calendarEl, {
 	    	validRange: {
@@ -225,6 +227,7 @@
 	        
 	        
 	        selectAllow: function(info) {
+	        	// 1일 범위가 아니라 당일~당일로 지정하고 싶다.
 	        	var diffInDays = moment(info.end).diff(info.start, 'days');
 	            return diffInDays <= 1;
 	        },
@@ -245,7 +248,8 @@
 	            // 시간 선택 옵션 업데이트
 	            timeBtnEl.innerHTML = timeOptions;
 	            
-
+	            // hidden input에 val넣어서 뽑기
+				showDayEl.value = selectedDate;
 	            
 	            
 	        	console.log('Selected:', info.startStr, info.endStr);
@@ -259,11 +263,14 @@
 	    calendar.getOption('customButtons').myCustomButton.disabled = true;
 	    calendar.setOption('customButtons', calendar.getOption('customButtons'));
 		
+	    
+	    
 	    // 스크롤 숨기기
 	    
-		var selectedTime = null;
+		var selectedTime;
 		$(document).on('change', 'input[name="selectShowTime"]', function() {
 		    selectedTime = $('input[name="selectShowTime"]:checked').attr('id');
+		    selectedDate = $("#showDay").val();
 		    console.log(selectedDate);
 		    console.log(selectedTime);
 		});
@@ -305,13 +312,15 @@
 		
 		//var selectedTime = $('input[name="selectShowTime"]:checked').attr('id');
 		
+		let startDate = new Date("${show.show.validStartDate}") > new Date() ? new Date("${show.show.validStartDate}") : new Date();
 		let endDate = new Date("${show.show.validEndDate}");
-		endDate.setDate(endDate.getDate() - 1);
+		//endDate.setDate(endDate.getDate() - 1);
+			
 		var bookingData = {
 			showId: showId
 			, selectedDate: selectedDate
 			, selectedTime: selectedTime
-			, validStartDate: new Date("${show.show.validStartDate}") > new Date() ? new Date("${show.show.validStartDate}") : new Date()
+			, validStartDate: startDate
 			, validEndDate: endDate
 		};
  		
@@ -320,16 +329,24 @@
 		
 		$('#reserveShowBtn').on('click', function(e) {
 			e.preventDefault();
-			bookingData.selectedDate = selectedDate;
+			bookingData.selectedDate = $("#showDay").val();
+			
 			bookingData.selectedTime = selectedTime;
 
+			
+			
+			
 			let bookingUrl = "/book/book_page_view?showId=" + showId;
 			var popup = window.open(bookingUrl, "_blank", 'width=800px, height=700px popup');
+			//var selectDate;
 			popup.onload = function() {
+				bookingData.selectedDate = $("#showDay").val();
 				popup.postMessage(bookingData, "*") // 임의로 모든 주소에서 허용
+				//alert();
+				//alert(bookingData.selectedTime);
 			}
-			console.log(selectedDate);
-			console.log(selectedTime);
+			//console.log(selectedDate);
+			//console.log(selectedTime);
 			console.log(bookingData.selectedDate);
 			console.log(bookingData.selectedTime);
 		});

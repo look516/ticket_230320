@@ -1,13 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <div>
 
-	${booking};	
-	<div class="text-center"><h3>뮤지컬 &lt;가나다&gt;</h3></div>
+	<div class="text-center"><h3>&lt;${booking.showId}&gt;</h3></div>
 	
 	<%-- 제목 / 날짜 / 시간 / 좌석정보 (+좌석수 좌석등급) --%>
 	
 	<form id="payForm" method="post" action="/book/pay">
+	<c:if test = "${booking.seatGradeInput eq 'R'}">
+		<c:set var="seatPrice" value="60000" />
+	</c:if>
 	
 		<table class="table text-center">
 			<thead>
@@ -20,17 +25,17 @@
 			<tbody>
 				<tr>
 					<td>정가</td>
-					<td>60000원</td>
+					<td>${seatPrice}원</td>
 					<td><input type="radio" name="discount" checked /></td>
 				</tr>
 				<tr>
 					<td>청소년 30%</td>
-					<td>42000원</td>
+					<td>${seatPrice * 0.7}원</td>
 					<td><input type="radio" name="discount" /></td>
 				</tr>
 				<tr>
 					<td>복지 50%</td>
-					<td>30000원</td>
+					<td>${seatPrice * 0.5}원</td>
 					<td><input type="radio" name="discount" /></td>
 				</tr>
 			</tbody>
@@ -55,6 +60,8 @@
 		$('#payForm').on('submit', function(e) {
 			e.preventDefault();
 			alert("####");
+			
+			//$.ajax
 			location.href="/book/booking_done_view";
 		});
 	});

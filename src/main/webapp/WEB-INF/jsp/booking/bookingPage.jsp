@@ -85,8 +85,8 @@
 	    // 날짜와 시간이 모두 선택되었을 때 실행되는 함수
 	    function checkDateTimeSelection() {
 	    	// 왜 val값이 undefined가 될까 시점의 문제?
-	        let selectedDate = $('#showDate').val();
-	        let selectedTime = $('#showTime').val();
+	        var selectedDate = $('#showDate').val();
+	        var selectedTime = $('#showTime').val();
 
 	        console.log(selectedDate);
 	        console.log(selectedTime);
@@ -144,6 +144,7 @@
 		$('#bookingForm').on('submit', function(e) {
 			e.preventDefault();
 			
+			// validation 충분한지?
 			if($('#seat').is(':empty')) {
 				alert("좌석을 선택해주세요");
 				return;
@@ -154,8 +155,25 @@
 			console.log(url);
 			console.log(params);
 
-			
+						
 			$.ajax({
+		        type: 'POST'
+		        ,url: url
+		        ,data: params
+		        ,success: function(data) {
+		            if (data.code == 1) {
+		            	window.location.href = data.forwardUrl;
+		            } else {
+		            	alert(data.errorMessage);
+		            }
+		        }
+		        ,error: function(request, status, error) {
+		        	alert("오류입니다.");
+		        }
+		    });
+
+			
+			/*$.ajax({
 				url: '/book/booking'
 				, type: 'POST'
 				//, contentType: 'application/json'
@@ -184,7 +202,14 @@
 				, error: function() {
 					alert("에러입니다.");
 				}
-			});
+			});*/
+			
+			
+			
+			
+			
+			
+			
 			//function sendRequest(retry) {
 			/*$.post(url, params) // request
 			.done(function(data) {
@@ -281,7 +306,7 @@
 		//window.addEventListener('beforeunload', function() {
 			window.addEventListener ('message', function(e) {
 				e.data.validEndDate.setDate(e.data.validEndDate.getDate() + 1);
-				console.log(e.data.selectedTime);
+				//console.log(e.data.selectedTime);
 				// 뿌리기
 				/*
 				for (let i = e.data.validStartDate; i <= e.data.validEndDate; i.setDate(i.getDate() + 1)) {

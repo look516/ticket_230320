@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ticket.booking.bo.BookingBO;
 import com.ticket.booking.domain.Booking;
+import com.ticket.booking.domain.BookingInfo;
 import com.ticket.booking.domain.BookingView;
 import com.ticket.show.bo.ShowBO;
 import com.ticket.show.entity.ShowEntity;
@@ -75,7 +76,7 @@ public class BookingController {
 	
 	
 	
-	
+	// 1 예매 페이지 호출
 	@GetMapping("/book_page_view")
 	public String bookPageView(
 			@RequestParam("showId") int showId,
@@ -93,19 +94,29 @@ public class BookingController {
 	}
 	
 	
+	
+	
 	// 예약 정보가 있을 때만 접근 가능하다 -> post?
 	// 1) booking, pay insert 각 페이지가 넘어갈 때마다 한다.
 	// 2) booking에서 넘어온 데이터를 가지고 pay를 꾸린다.
 	// 예약 - 결제 - 예약취소 로직을 어떻게 짤까
-	@PostMapping("/pay_view")
+	
+	// 3 pay view에서 데이터 뿌림
+	@GetMapping("/pay_view")
 	public String payView(
-			@RequestParam("params") String params,
+			//@RequestParam("params") String params,
 			//@RequestParam("bookingId") int bookingId,
 			Model model, HttpSession session) {
-		model.addAttribute("booking", params);
+		//model.addAttribute("booking", params);
+		BookingInfo bookingInfo = (BookingInfo) session.getAttribute("bookingInfo");
+		
+		model.addAttribute("booking", bookingInfo);
+		
 		model.addAttribute("view", "booking/bookingPay");
 		return "template/layoutBooking";
 	}
+	
+	
 	
 	
 	// get이 맞나?
