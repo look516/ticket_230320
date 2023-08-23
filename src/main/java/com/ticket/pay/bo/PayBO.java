@@ -6,12 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ticket.pay.dao.PayMapper;
+import com.ticket.pay.domain.Pay;
 
 @Service
 public class PayBO {
 	
 	@Autowired
 	private PayMapper payMapper;
+	
+	
 	
 	public Integer addPay(int bookingId, String discount, String payment, String discountName) {
 		// payNumber는 중복되지 않는 난수
@@ -34,5 +37,16 @@ public class PayBO {
         int discountInt = (int)discountDouble;
 		
 		return payMapper.insertPay(bookingId, payNumber, payment, discountName, discountInt);
+	}
+	
+	
+	
+	
+	public Pay getPay(int bookingId) {
+		return payMapper.selectPay(bookingId);
+	}
+	
+	public void updatePay(int payId) {
+		payMapper.updatePayById(payId);
 	}
 }

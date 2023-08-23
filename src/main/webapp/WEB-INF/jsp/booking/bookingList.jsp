@@ -5,7 +5,7 @@
 
 <div class="border text-center">
 	<%-- 세션값 --%>
-	<div class="my-3">000님은 현재 FAMILY 회원입니다.</div>
+	<div class="my-3">${userName}님은 현재 FAMILY 회원입니다.</div>
 	<div class="mb-2"><a href="">※회원정보수정※</a></div>
 </div>
 
@@ -29,17 +29,17 @@
 		<c:forEach var="booking" items="${bookingList}">
 			<tr>
 				<td class="text-align:center">
-					${booking.bookingDate}
+					<fmt:formatDate value="${booking.bookingDate}" pattern="yyyy년 MM월 dd일" />
 				</td>
 				<td>${booking.bookingNumber}</td>
 				<td>${booking.showId}</td>
 				<td>
-					${booking.showDate}
+					<fmt:formatDate value="${booking.showDate}" pattern="yyyy년 MM월 dd일" />
 				</td>
 				<td>1</td>
 				<td>
 					<%-- 예약 날짜 이전일 --%>
-					${booking.showDate}
+					<fmt:formatDate value="${booking.bookingDate}" pattern="yyyy년 MM월 dd일" />
 				</td>
 				<%-- 쿼리스트링으로 예약id가 붙는다. --%>
 				<td>

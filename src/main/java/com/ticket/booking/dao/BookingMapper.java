@@ -23,4 +23,6 @@ public interface BookingMapper {
 	public Integer insertBooking(
 			Map<String, Object> bookingMap);
 	
+	public void updateBookingById(int bookingId);
+	
 }

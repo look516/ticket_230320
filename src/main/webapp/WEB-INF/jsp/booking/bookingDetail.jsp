@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <div class="border">
 	<div class="text-center w-100 my-3"><b>${booking.user.name}님의 예매내역서</b></div>
 	<div class="d-flex justify-content-center">
@@ -32,7 +35,9 @@
 						<strong>이용일</strong>
 					</div>
 					<div class="col-10 book-content">
-						<span>${booking.booking.showDate} ${booking.booking.showTime}</span>
+						<span>
+						<fmt:formatDate value="${booking.booking.showDate}" pattern="yyyy년 MM월 dd일" />
+						${booking.booking.showTime}</span>
 					</div>
 				</li>
 				<li class="book-box border">
@@ -49,9 +54,10 @@
 					</div>
 					<div class="col-10 book-content">
 						<span>${booking.showView.theater.name}</span>
-						<button class="btn btn-info h-75 d-flex align-items-center ml-3">
+						<%-- 추후 제작<button class="btn btn-info h-75 d-flex align-items-center ml-3">
 							<a href="#">지도</a>
 						</button>
+						 --%>
 					</div>
 				</li>
 				<li class="book-box border">
@@ -62,9 +68,10 @@
 						<span>
 							${booking.booking.seat}
 						</span>
+						<%-- 추후 제작
 						<button class="btn btn-info h-75 d-flex align-items-center ml-3">
 							<a href="#">위치</a>
-						</button>
+						</button> --%>
 					</div>
 				</li>
 				
@@ -79,17 +86,19 @@
 
 
 <div class="border mt-5">
-	<div class="text-center w-100 my-3"><b>000님의 결제내역서</b></div>
+	<div class="text-center w-100 my-3"><b>${booking.user.name}님의 결제내역서</b></div>
 	
 		<div class="pay-box">
 			<ul class="w-100 d-flex justify-content-center">
 				<div>
 					<li class="book-box border">
 						<div class="col-2 book-content">
-							<strong>예매일</strong>
+							<strong>결제일</strong>
 						</div>
 						<div class="col-10 book-content">
-							<span>2023-07-20 10시 00분</span>
+							<span>
+								<fmt:formatDate value="${pay.payDate}" pattern="yyyy년 MM월 dd일 HH:mm:ss" />
+							</span>
 						</div>
 					</li>
 					<li class="book-box border">
@@ -97,7 +106,14 @@
 							<strong>예매상태</strong>
 						</div>
 						<div class="col-10 book-content">
-							<span>예매완료</span>
+							<span>
+								<c:if test="${pay.isValid > 0}">
+									예약완료
+								</c:if>
+								<c:if test="${pay.isValid <= 0}">
+									예약취소
+								</c:if>
+							</span>
 						</div>
 					</li>
 					<li class="book-box border">
@@ -105,7 +121,7 @@
 							<strong>결제수단</strong>
 						</div>
 						<div class="col-10 book-content">
-							<span>국민카드</span>
+							<span>${pay.payment}카드</span>
 						</div>
 					</li>
 					<li class="book-box border">
@@ -113,7 +129,7 @@
 							<strong>결제금액</strong>
 						</div>
 						<div class="col-10 book-content">
-							<span>62600원</span>
+							<span>${pay.discountPrice}원</span>
 						</div>
 					</li>
 					<li class="book-box border">
@@ -121,9 +137,17 @@
 							<strong>환불예상액</strong>
 						</div>
 						<div class="col-10 book-content">
-							<span>58750원</span>
+							<span>
+								<c:if test="${pay.isValid > 0}">
+									환불가능금액은 ~입니다.
+								</c:if>
+								<c:if test="${pay.isValid <= 0}">
+									~원이 환불됩니다.
+								</c:if>
+							</span>
 						</div>
 					</li>
+					<%-- 추후 제작
 					<li class="book-box border">
 						<div class="col-2 book-content">
 							<strong>환불수칙</strong>
@@ -134,13 +158,15 @@
 							</button>
 						</div>
 					</li>
+					 --%>
 				</div>
 			</ul>
 		</div>
 		
 		<div class="w-75 d-flex justify-content-end my-4">
-			<button class="btn btn-danger">
-				<a href="#">예매취소</a>
+			<button type="button" id="cancelBtn" class="btn btn-danger" data-booking-id="${booking.booking.id}"
+			data-pay-id="${pay.id}">
+				예매취소
 			</button>
 			<button class="btn btn-info ml-3">
 				<!-- session 들고 자신의 예매목록으로 가야 한다. 전체 처리? -->
@@ -151,3 +177,32 @@
 		
 	</div>
 </div>
+
+<script>
+	$(document).ready(function() {
+		$("#cancelBtn").on('click', function() {
+			// 정말 취소하시겠습니까?
+			let bookingId = $(this).data('booking-id');
+			let payId = $(this).data('pay-id');
+			
+			
+			$.ajax({
+				type: "put"
+				, url: "/book/update_status"
+				, data: {"bookingId":bookingId, "payId":payId}
+				, success:function(data) {
+					if (data.code == 1) {
+						alert("예약이 취소되었습니다.");
+						location.href = "/book/book_list_view";
+					} else {
+						alert(data.errorMessage);
+					}
+				}
+				, error:function(request, status, error) {
+					alert("예약 취소에 실패했습니다.");
+				}
+			});
+		});
+	});
+	
+</script>

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -88,6 +89,40 @@ public class BookingRestController {
 		}
 		return result;
 	}
+	
+	
+	@PutMapping("/update_status")
+	public Map<String, Object> updateStatus(
+			@RequestParam("bookingId") int bookingId,
+			@RequestParam("payId") int payId) {
+		bookingBO.updateBooking(bookingId);
+		payBO.updatePay(payId);
+		
+		// 응답
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 1);
+		result.put("result", "성공");
+		return result;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	// REQUEST MAP으로 묶어서 보내는 방법도 추후 적용해보자.
 	/*@PostMapping("/booking_insert")

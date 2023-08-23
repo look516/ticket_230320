@@ -29,4 +29,31 @@
 			, NOW()
 		)
 	</insert>
+	
+	<select id="selectPay" parameterType="int" resultType="com.ticket.pay.domain.Pay">
+		SELECT
+			`id`
+			,`bookingId`
+			,`payNumber`
+			,`payment`
+			,`payDate`
+			,`discountName`
+			,`discountPrice`
+			, `isValid`
+			,`createdAt`
+			,`updatedAt`
+		from
+			`pay`
+		where
+			`bookingId` = #{bookingId}
+	</select>
+	
+	
+	<update id="updatePayById" parameterType="int">
+		UPDATE `pay`
+		SET
+			`isValid` = 0
+		WHERE
+			`id` = #{payId}
+	</update>
 </mapper>

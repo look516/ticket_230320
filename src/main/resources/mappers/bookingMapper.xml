@@ -108,5 +108,13 @@
 		)
 	</insert>
 	
+	<update id="updateBookingById" parameterType="int">
+		UPDATE `booking`
+		SET
+			`isReserved` = 0
+		WHERE
+			`id` = #{bookingId}
+	</update>
+	
 	
 </mapper>

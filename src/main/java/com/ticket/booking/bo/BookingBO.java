@@ -74,13 +74,6 @@ public class BookingBO {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	public Integer addBooking(int userId, BookingInfo bookingInfo) {
 			
 			
@@ -142,5 +135,11 @@ public class BookingBO {
 		bookingMapper.insertBooking(bookingMap);
 		BigInteger bigInteger = (BigInteger) bookingMap.get("id");
 		return bigInteger.intValue();
+	}
+	
+	
+	
+	public void updateBooking(int bookingId) {
+		bookingMapper.updateBookingById(bookingId);
 	}
 }

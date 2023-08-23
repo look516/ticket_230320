@@ -4,9 +4,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
+import com.ticket.test.CalcType;
 import com.ticket.test.Status;
 
 public class EnumTest {
+	
+	@Test
+	void 계산테스트() {
+		// given
+		CalcType calcType = CalcType.CALC_C;
+		
+		// when
+		int result = calcType.calculate(500);
+		
+		// then
+		assertEquals(result, 1500);
+	}
+	
+	
+	
+	
+	
 	// 일반 클래스로 만든다
 	// 클래스 우클릭 후 run as - j unit test
 	// 두 번째부터는 초록색 플레이 버튼 눌러서 실행시키면 서버대신 j unit test가 된다.
@@ -18,7 +36,7 @@ public class EnumTest {
 		return Status.Y;
 	}
 	
-	@Test
+	//@Test
 	void Status테스트() {
 		// given - 준비
 		Status status = getStatus(); // Y
