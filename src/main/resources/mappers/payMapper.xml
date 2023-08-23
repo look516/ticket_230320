@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ticket.pay.dao.PayMapper">
+	<insert id="insertPay" parameterType="map">
+		INSERT INTO `pay`
+		(
+			`bookingId`
+			,`payNumber`
+			,`payment`
+			,`payDate`
+			,`discountName`
+			,`discountPrice`
+			,`isValid`
+			,`createdAt`
+			,`updatedAt`
+		)
+		VALUES
+		(
+			#{bookingId}
+			, #{payNumber}
+			, #{payment}
+			, NOW()
+			, #{discountName}
+			, #{discount}
+			, 1
+			, NOW()
+			, NOW()
+		)
+	</insert>
+</mapper>

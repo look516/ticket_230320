@@ -331,10 +331,13 @@
 				// 1) 예매하기 버튼이 눌릴 때 가장 첫 날짜(today or validStartDate)가 자동 선택되도록 한다. -> setDate가 작동하나?
 				// 2) 여기서 분기를 넣는다.
 				if (selectedDate != null) {
-					selectedDate = formatDatepicker(selectedDate);
+					//selectedDate = formatDatepicker(selectedDate);
+					//console.log("###", e.data.selectedDate);
 					$('#showDate option[value="' + selectedDate + '"]').prop("selected", true);
 					$('#showTime option[value="' + selectedTime + '"]').prop("selected", true);
-				} else {
+				} 
+				// 현재는 동작하지 않는 코드 => 추후 수정
+				else {
 					$('#showDate option[value="' + formatDate(new Date()) + '"]').prop("selected", true);
 					$('#showTime option[value="15:00:00"]').prop("selected", true);
 				}

@@ -1,7 +1,10 @@
 package com.ticket.booking.bo;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.ticket.booking.dao.BookingMapper;
 import com.ticket.booking.domain.Booking;
+import com.ticket.booking.domain.BookingInfo;
 import com.ticket.booking.domain.BookingView;
 import com.ticket.show.bo.ShowBO;
 import com.ticket.show.domain.ShowView;
@@ -77,10 +81,22 @@ public class BookingBO {
 	
 	
 	
-	public Integer addBooking(int userId, int showId, String showDate, String showTime, String seatGrade, String seat) {
+	public Integer addBooking(int userId, BookingInfo bookingInfo) {
+			
+			
 		// showId, showDate, showTime, seat, seatGrade
 		// userId(session), bookingNumber(random), bookingDate(new Date), seatPrice(seat관련), isReserved(1로 두고 이면 cancel됐을 때 0으로 업데이트)
 		
+		int showId = bookingInfo.getShowId();
+		String showDate = bookingInfo.getShowDate();
+		String showTime = bookingInfo.getShowTime();
+		String seatGrade = bookingInfo.getSeatGradeInput();
+		String seat = bookingInfo.getSeatInput();
+				
+				
+				
+				
+				
 		// bookingNumber는 중복되지 않는 난수
 		
 		// 중복되지 않는(ajax) 난수(bo)를 설정한다.
@@ -95,6 +111,7 @@ public class BookingBO {
         
         // 중복 걸러지는지 테스트 String bookingNumber = "12345678";
 		
+        // pay에서도 seatPrice를 정의하므로 추후 거기서 받아오는 코드로 변경
         int seatPrice = 0;
 		if (seatGrade.equals("R")) {
 			seatPrice = 60000;
@@ -102,25 +119,28 @@ public class BookingBO {
 		
 		//seat = seat.substring(6);
 		
-		return bookingMapper.insertBooking(userId, showId, showDate, showTime, seatGrade, seat, bookingNumber, seatPrice);
+		
+		Map<String, Object> bookingMap = new HashMap<>();
+		bookingMap.put("userId", userId);
+		bookingMap.put("showId", showId);
+		bookingMap.put("showDate", showDate);
+		bookingMap.put("showTime", showTime);
+		bookingMap.put("seatGrade", seatGrade);
+		bookingMap.put("seat", seat);
+		bookingMap.put("bookingNumber", bookingNumber);
+		bookingMap.put("seatPrice", seatPrice);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		bookingMapper.insertBooking(bookingMap);
+		BigInteger bigInteger = (BigInteger) bookingMap.get("id");
+		return bigInteger.intValue();
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

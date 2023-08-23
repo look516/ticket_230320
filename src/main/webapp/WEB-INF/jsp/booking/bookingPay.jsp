@@ -5,7 +5,7 @@
 
 <div>
 
-	<div class="text-center"><h3>&lt;${booking.showId}&gt;</h3></div>
+	<div class="text-center"><h3>&lt;${show.name}&gt;</h3></div>
 	
 	<%-- 제목 / 날짜 / 시간 / 좌석정보 (+좌석수 좌석등급) --%>
 	
@@ -23,23 +23,25 @@
 				</tr>
 			</thead>
 			<tbody>
+				
 				<tr>
 					<td>정가</td>
 					<td>${seatPrice}원</td>
-					<td><input type="radio" name="discount" checked /></td>
+					<td><input type="radio" name="discount" value="${seatPrice}" data-name="정가" checked /></td>
 				</tr>
 				<tr>
 					<td>청소년 30%</td>
 					<td>${seatPrice * 0.7}원</td>
-					<td><input type="radio" name="discount" /></td>
+					<td><input type="radio" name="discount" value="${seatPrice * 0.7}" data-name="청소년 30%" /></td>
 				</tr>
 				<tr>
 					<td>복지 50%</td>
 					<td>${seatPrice * 0.5}원</td>
-					<td><input type="radio" name="discount" /></td>
+					<td><input type="radio" name="discount" value="${seatPrice * 0.5}" data-name="복지 50%" /></td>
 				</tr>
 			</tbody>
 		</table>
+		<input type="hidden" id="discountName" name="discountName">
 		
 		<select id="payment" name="payment" class="form-control my-2">  
 		    <option value="">결제수단 선택</option>
@@ -56,14 +58,40 @@
 
 <script>
 	$(document).ready(function() {
+		// discountName setting
+		$("#discountName").val(discountName);
+		$("input[name=discount]").on('click', function() {
+			let discountName = $(this).data("name");
+			$("#discountName").val(discountName);
+		});
+		
+		
 		// 폼 제출
 		$('#payForm').on('submit', function(e) {
 			e.preventDefault();
-			alert("####");
+
+			let formData = $(this).serialize();
+			console.log(formData);
 			
-			//$.ajax
-			location.href="/book/booking_done_view";
+			$.ajax({
+				type: 'POST'
+				, url: '/book/pay'
+				, data: formData
+				, success: function(data) {
+					if (data.code == 1) {
+						alert("결제 완료되었습니다.");
+						location.href="/book/booking_done_view";
+					} else {
+						// 로직 실패
+						alert(data.errorMessage);
+					}
+				}
+				,error: function(request, status, error) {
+					alert("오류");
+				}
+			});
 		});
+		
 	});
 
 </script>

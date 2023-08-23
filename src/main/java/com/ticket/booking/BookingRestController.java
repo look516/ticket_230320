@@ -7,8 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ticket.booking.bo.BookingBO;
 import com.ticket.booking.domain.BookingInfo;
+import com.ticket.pay.bo.PayBO;
 
 @RequestMapping("/book")
 @RestController
@@ -25,6 +24,9 @@ public class BookingRestController {
 	
 	@Autowired
 	private BookingBO bookingBO;
+	
+	@Autowired
+	private PayBO payBO;
 	
 	@GetMapping("/booking_seat")
 	public List<String> bookingSeat(
@@ -57,13 +59,34 @@ public class BookingRestController {
 	
 	// 4 버튼 클릭 시 submit 하고 성공 시 성공값 리턴 및 페이지 이동 (Rest에서)
 	@PostMapping("/pay")
-	public String pay(HttpSession session) {
+	public Map<String, Object> pay(
+			@RequestParam("discount") String discount,
+			@RequestParam("payment") String payment,
+			@RequestParam("discountName") String discountName,
+			HttpSession session) {
 		BookingInfo bookingInfo = (BookingInfo) session.getAttribute("bookingInfo");
+		int userId = (int)session.getAttribute("userId");
 		
-		// bookingInfo submit 처리
+		// int showId, String showDate, showTime, seatInput, seatGradeInput, total
+		// bookingInfo insert 처리
 		
-		// payInfo submit 처리
-		return "1";
+		Integer bookingId = bookingBO.addBooking(userId, bookingInfo);
+		
+		// payInfo insert 처리
+		Integer payId = payBO.addPay(bookingId, discount, payment, discountName);
+		
+		// 응답
+		Map<String, Object> result = new HashMap<>();
+		if (payId != null && bookingId != null) {
+		//if (true) {
+			// response
+			result.put("code", 1);
+			result.put("result", "성공");
+		} else {
+			result.put("code", 500);
+			result.put("errorMessage", "회원가입에 실패했습니다.");
+		}
+		return result;
 	}
 	
 	// REQUEST MAP으로 묶어서 보내는 방법도 추후 적용해보자.

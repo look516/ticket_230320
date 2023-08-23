@@ -75,7 +75,7 @@
 			`isReserved` = 1
 	</select>
 	
-	<insert id="insertBooking" parameterType="map">
+	<insert id="insertBooking" parameterType="map" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO `booking`
 		(
 			`userId`

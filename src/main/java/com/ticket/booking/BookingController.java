@@ -110,8 +110,11 @@ public class BookingController {
 		//model.addAttribute("booking", params);
 		BookingInfo bookingInfo = (BookingInfo) session.getAttribute("bookingInfo");
 		
+		// 공연명 조회 및 넣기
+		ShowEntity show = showBO.getShowNameById(bookingInfo.getShowId());
+
 		model.addAttribute("booking", bookingInfo);
-		
+		model.addAttribute("show", show);
 		model.addAttribute("view", "booking/bookingPay");
 		return "template/layoutBooking";
 	}

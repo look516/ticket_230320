@@ -1,6 +1,7 @@
 package com.ticket.booking.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -20,13 +21,6 @@ public interface BookingMapper {
 	
 	// 한 번에 넣는 법?
 	public Integer insertBooking(
-			@Param("userId") int userId,
-			@Param("showId") int showId,
-			@Param("showDate") String showDate,
-			@Param("showTime") String showTime,
-			@Param("seatGrade") String seatGrade,
-			@Param("seat") String seat,
-			@Param("bookingNumber") String bookingNumber,
-			@Param("seatPrice") int seatPrice);
+			Map<String, Object> bookingMap);
 	
 }
