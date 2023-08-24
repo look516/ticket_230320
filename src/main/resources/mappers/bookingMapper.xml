@@ -112,6 +112,7 @@
 		UPDATE `booking`
 		SET
 			`isReserved` = 0
+			, `updatedAt` = NOW()
 		WHERE
 			`id` = #{bookingId}
 	</update>

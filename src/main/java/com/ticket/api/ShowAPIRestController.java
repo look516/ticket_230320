@@ -62,4 +62,35 @@ public class ShowAPIRestController {
 	}
 	
 	
+	
+	
+	
+	
+	@TimeTrace
+	@RequestMapping("/api5")
+	public String getShow(
+			/*@RequestParam("service") String service,
+			@RequestParam("stdate") String stdate,
+			@RequestParam("eddate") String eddate,
+			@RequestParam("rows") String rows,
+			@RequestParam("cpage") String cpage*/) {
+
+		// 추후 yml에 등록
+		String url = "/openApi/restful/pblprfr";
+		String service = "bd89dc80bd9f43338c9d75e7fae03669";
+		String mt20id = "PF224468";
+
+		Mono<String> exchangeToMono = webClient.get()
+			.uri(builder -> builder.path(url + "/{mt20id}")
+					.queryParam("service", service)
+					.build(mt20id)
+			)
+			.exchangeToMono(response -> {
+				return response.bodyToMono(String.class);
+			});
+
+		return exchangeToMono.block();
+	}
+	
+	
 }

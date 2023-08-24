@@ -14,24 +14,19 @@ public class ShowAPIWebClient {
 	private WebClient webClient;
 	
 	//@RequestMapping("/api")
-	public String getShowList(
-			@RequestParam("service") String service,
-			@RequestParam("stdate") String stdate,
-			@RequestParam("eddate") String eddate,
-			@RequestParam("rows") String rows,
-			@RequestParam("cpage") String cpage) {
+	public String getShowList(String rows, String cpage) {
 		
 		String baseUrl = "http://www.kopis.or.kr";
 		String url = "/openApi/restful/pblprfr";
-		String serviceStr = "bd89dc80bd9f43338c9d75e7fae03669";
-		String stdateStr = "19900101"; // 시작일
-		String eddateStr = "20241231"; // 종료일 (추후 BATCH)
-		String rowsStr = "10"; // 개수 (추후 변경)
-		String cpageStr = "1"; // 현재 페이지 (추후 반복문)
+		String service = "bd89dc80bd9f43338c9d75e7fae03669";
+		String stdate = "19900101"; // 시작일
+		String eddate = "20241231"; // 종료일 (추후 BATCH)
+		//rows = "10"; // 개수 (추후 변경)
+		//cpage = "1"; // 현재 페이지 (추후 반복문)
 		
 		
-		String parsingUrl = url + "?service=" + serviceStr + "&stdate=" + stdateStr
-				+ "&eddate=" + eddateStr + "&rows=" + rowsStr + "&cpage=" + cpageStr;
+		String parsingUrl = url + "?service=" + service + "&stdate=" + stdate
+				+ "&eddate=" + eddate + "&rows=" + rows + "&cpage=" + cpage;
 		
 		
 		
@@ -56,41 +51,22 @@ public class ShowAPIWebClient {
 	
 	
 	
-	//@RequestMapping("/api")
-	public String getShowList2(
-			@RequestParam("service") String service,
-			@RequestParam("stdate") String stdate,
-			@RequestParam("eddate") String eddate,
-			@RequestParam("rows") String rows,
-			@RequestParam("cpage") String cpage) {
-		
-		String baseUrl = "http://www.kopis.or.kr";
+	public String getShow(String mt20id) {
+
+		// 추후 yml에 등록
 		String url = "/openApi/restful/pblprfr";
-		String serviceStr = "bd89dc80bd9f43338c9d75e7fae03669";
-		String stdateStr = "19900101"; // 시작일
-		String eddateStr = "20241231"; // 종료일 (추후 BATCH)
-		String rowsStr = "10"; // 개수 (추후 변경)
-		String cpageStr = "1"; // 현재 페이지 (추후 반복문)
-		
-		
-		String parsingUrl = url + "?service=" + serviceStr + "&stdate=" + stdateStr
-				+ "&eddate=" + eddateStr + "&rows=" + rowsStr + "&cpage=" + cpageStr;
-		
-		
-		
+		String service = "bd89dc80bd9f43338c9d75e7fae03669";
+		//String mt20id = "PF224468";
+
 		Mono<String> exchangeToMono = webClient.get()
-			.uri(builder -> builder.path(url)
+			.uri(builder -> builder.path(url + "/{mt20id}")
 					.queryParam("service", service)
-					.queryParam("stdate", stdate)
-					.queryParam("eddate", eddate)
-					.queryParam("rows", rows)
-					.queryParam("cpage", cpage)
-					.build()
+					.build(mt20id)
 			)
 			.exchangeToMono(response -> {
 				return response.bodyToMono(String.class);
 			});
-		
+
 		return exchangeToMono.block();
 	}
 	

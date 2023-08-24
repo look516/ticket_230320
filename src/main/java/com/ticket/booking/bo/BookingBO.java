@@ -30,8 +30,24 @@ public class BookingBO {
 	@Autowired
 	private UserBO userBO;
 	
-	public List<Booking> getBookingListByUserId(int userId) {
-		return bookingMapper.selectBookingListByUserId(userId);
+	public List<BookingView> getBookingListByUserId(int userId) {
+		
+		List<Booking> bookingList = bookingMapper.selectBookingListByUserId(userId);
+		
+		List<BookingView> bookingViewList = new ArrayList<>();
+		
+		for (Booking booking : bookingList) {
+			BookingView bookingView = new BookingView();
+
+			Booking bookingData = bookingMapper.selectBookingBybookingId(booking.getId());
+			ShowView show = showBO.generateShowViewByShowId(booking.getShowId());
+			bookingView.setBooking(bookingData);
+			bookingView.setShowView(show);
+			
+			// bookingview를 리스트에 넣는다.
+			bookingViewList.add(bookingView);
+		}
+		return bookingViewList;
 	}
 	
 	public BookingView generateBookingViewBybookingId(int bookingId) {

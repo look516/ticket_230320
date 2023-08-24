@@ -53,6 +53,7 @@
 		UPDATE `pay`
 		SET
 			`isValid` = 0
+			, `updatedAt` = NOW()
 		WHERE
 			`id` = #{payId}
 	</update>

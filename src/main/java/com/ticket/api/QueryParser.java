@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+// 미사용
+
 @Component
 public class QueryParser {
 	public Map<String, String> parseQuery(String query) {

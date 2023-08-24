@@ -1,6 +1,8 @@
 package com.ticket.api;
 
 import java.io.ByteArrayInputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,6 +17,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.ticket.show.service.TagService;
+import com.ticket.showList.domain.ShowData;
+import com.ticket.showList.domain.ShowList;
 
 @Component
 public class XmlParser {
@@ -22,9 +26,10 @@ public class XmlParser {
 	@Autowired
 	private TagService tagService;
 	
+	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public void parseXmlString(String xmlString) throws Exception {
+	public List<ShowList> parseXmlString(String xmlString) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(new ByteArrayInputStream(xmlString.getBytes()));
@@ -37,7 +42,9 @@ public class XmlParser {
         NodeList nList = doc.getElementsByTagName("db");
         logger.info("#####tag count: " + nList.getLength());
         
-        // DB insert
+        // List<showList>
+        List<ShowList> showListList = new ArrayList<>();
+        
         for (int i = 0; i < nList.getLength(); i++) {
             Node node = nList.item(i);
             if (node.getNodeType() == Node.ELEMENT_NODE) {
@@ -61,16 +68,97 @@ public class XmlParser {
                 //String validEndDate = ; // 원래는 티켓팅 풀린 날짜까지 해야 하지만 지금은 endDate로 넣기
                 //int time // 공연상세
                 //int age // 공연상세
-                //String imagePath = tagService.getTagValue("poster", element);
+                String imagePath = tagService.getTagValue("poster", element);
                 //String bannerImagePath // 공연상세
                 //String infoImagePath // 공연상세
                 //String discountImagePath // 공연상세
                 
                 
+                ShowList showList = new ShowList();
+                showList.setFcltynm(theaterName);
+                showList.setPrfnm(name);
+                showList.setGenrenm(genre);
+                showList.setPrfpdfrom(startDate);
+                showList.setPrfpdto(endDate);
+                showList.setPoster(imagePath);
                 
-                // Call a method to save 'dataToSave' into the database
-                saveDataToDatabase(dataToSave);
+                showListList.add(showList);
             }
         }
+        
+        return showListList;
+    }
+	
+	
+	
+	
+	
+	
+	
+	
+	public ShowData parseShowDataXmlString(String xmlString) throws Exception {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.parse(new ByteArrayInputStream(xmlString.getBytes()));
+
+        // root tag
+        doc.getDocumentElement().normalize();
+        logger.info("#####root tag: " + doc.getDocumentElement().getNodeName());
+        
+        // parshing tag
+        NodeList nList = doc.getElementsByTagName("db");
+        logger.info("#####tag count: " + nList.getLength());
+        
+        // ShowData
+        ShowData showData = new ShowData();
+        
+        for (int i = 0; i < nList.getLength(); i++) {
+            Node node = nList.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                
+                //int theaterId = ;
+                //String validStartDate = ;// startDate or new Date()
+                //String validEndDate = ; // 원래는 티켓팅 풀린 날짜까지 해야 하지만 지금은 endDate로 넣기
+                
+                String theaterName = tagService.getTagValue("fcltynm", element);
+                String name = tagService.getTagValue("prfnm", element);
+                String genre = tagService.getTagValue("genrenm", element);
+                String startDate = tagService.getTagValue("prfpdfrom", element);
+                String endDate = tagService.getTagValue("prfpdto", element);
+                String imagePath = tagService.getTagValue("poster", element);
+                
+                String time = tagService.getTagValue("prfruntime", element); // int로 파싱
+                String age = tagService.getTagValue("prfage", element); // int로 파싱
+                String bannerImagePath = tagService.getTagValue("poster", element);
+                String infoImagePath = tagService.getTagValue("poster", element);
+                String discountImagePath = tagService.getTagValue("poster", element);
+                
+				/* 현재는 임의로 같은 이미지 넣어둠 추후 styurl 이미지 가져와서 enum으로 넣기
+				 * NodeList styurlList = element.getElementsByTagName("styurl");
+				 * 
+				 * for (int j = 0; j < styurlList.getLength(); j++) { Element sElement =
+				 * (Element) styurlList.item(j); tagService.getTagValue("styurl", sElement); }
+				 */
+                
+                
+                showData.setFcltynm(theaterName);
+                showData.setPrfnm(name);
+                showData.setGenrenm(genre);
+                showData.setPrfpdfrom(startDate);
+                showData.setPrfpdto(endDate);
+                showData.setPoster(imagePath);
+                
+                showData.setPrfruntime(time);
+                showData.setPrfage(age);
+                showData.setStyurl1(bannerImagePath);
+                showData.setStyurl2(infoImagePath);
+                showData.setStyurl3(discountImagePath);
+                
+                
+            }
+        }
+        
+        return showData;
     }
 }

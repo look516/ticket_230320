@@ -90,6 +90,19 @@
 
 <script>
 	$(document).ready(function(){
+		
+		var checkButtonInterval = setInterval(function () {
+	        var tabButton = $('.tab-menu.btn-secondary');
+	        
+	        // 버튼이 존재하는 경우
+	        if (tabButton.length > 0) {
+	            clearInterval(checkButtonInterval); // 대기 중단
+	            
+	            // 버튼 클릭 이벤트 발생
+	            tabButton.click();
+	        }
+	    }, 500); // 0.5초마다 체크
+		
 		// 탭 메뉴
 		$('.tab-menu').on('click', function(e) {
 			e.preventDefault(); // 이동 방지

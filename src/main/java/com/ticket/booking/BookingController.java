@@ -50,7 +50,8 @@ public class BookingController {
 		String userName = userBO.getUserEntityById(userId).getName();
 		
 		// DB 예약 목록 조회 (userId로 분류)
-		List<Booking> bookingList = bookingBO.getBookingListByUserId(userId);
+		List<BookingView> bookingViewList = bookingBO.getBookingListByUserId(userId);
+		
 		
 		// 공연명 조회
 		
@@ -59,7 +60,7 @@ public class BookingController {
 		// 페이징
 		
 		
-		model.addAttribute("bookingList", bookingList);
+		model.addAttribute("bookingViewList", bookingViewList);
 		model.addAttribute("userName", userName);
 		model.addAttribute("view", "booking/bookingList");
 		return "template/layout";
