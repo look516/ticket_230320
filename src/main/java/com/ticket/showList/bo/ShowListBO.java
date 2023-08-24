@@ -46,6 +46,7 @@ public class ShowListBO {
 			logger.info("######## 공연목록 xml 파싱 안 됨");
 		}
 		
+		logger.info(showListList.get(0).getMt20id());
 		List<ShowData> showDataList = new ArrayList<>();
 		List<Show> showList = new ArrayList<>();
 		
@@ -54,11 +55,18 @@ public class ShowListBO {
 			String xmlData = showAPIWebClient.getShow(show.getMt20id());
 			ShowData showData = null;
 			try {
+				// parse~ method 이상 없음(test로 검증) 근데 왜 파싱 불가?
 				showData = xmlParser.parseShowDataXmlString(xmlData);
 			} catch (Exception e) {
 				logger.info("######## 공연상세 xml 파싱 안 됨");
 			}
+			
+			
+			//??
 			showDataList.add(showData);
+			
+			
+			
 			
 			Show showToInsert = new Show();
 			
@@ -94,10 +102,11 @@ public class ShowListBO {
 			showToInsert.setAge(age);
 			
 			showToInsert.setImagePath(showData.getPoster());
-			showToInsert.setBannerImagePath(showData.getPoster());
-			showToInsert.setInfoImagePath(showData.getPoster());
-			showToInsert.setDiscountImagePath(showData.getPoster());
+			showToInsert.setBannerImagePath(showData.getStyurl1());
+			showToInsert.setInfoImagePath(showData.getStyurl2());
+			showToInsert.setDiscountImagePath(showData.getStyurl3());
 			
+			showList.add(showToInsert);
 		}
 		
 		// DB에 insert

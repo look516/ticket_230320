@@ -36,8 +36,8 @@ class ShowListBOTest {
 	private ShowListMapper showListMapper;
 	
 	@Test
-	void DB에show넣기(int page) {
-		page = 1;
+	void DB에show넣기() {
+		int page = 1;
 		// 공연목록 api 1p 10개 가져오기
 		String pageStr = Integer.toString(page);
 		String xmlString = showAPIWebClient.getShowList("10", pageStr);

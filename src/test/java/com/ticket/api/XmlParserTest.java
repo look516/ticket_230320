@@ -7,10 +7,11 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -20,80 +21,42 @@ import com.ticket.show.service.TagService;
 import com.ticket.showList.domain.ShowData;
 import com.ticket.showList.domain.ShowList;
 
-@Component
-public class XmlParser {
+@SpringBootTest
+class XmlParserTest {
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	
 	@Autowired
 	private TagService tagService;
 	
-	
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	public List<ShowList> parseXmlString(String xmlString) throws Exception {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.parse(new ByteArrayInputStream(xmlString.getBytes()));
-
-        // root tag
-        doc.getDocumentElement().normalize();
-        logger.info("#####root tag: " + doc.getDocumentElement().getNodeName());
-        
-        // parshing tag
-        NodeList nList = doc.getElementsByTagName("db");
-        logger.info("#####tag count: " + nList.getLength());
-        
-        // List<showList>
-        List<ShowList> showListList = new ArrayList<>();
-        
-        for (int i = 0; i < nList.getLength(); i++) {
-            Node node = nList.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                
-                // 공연 목록을 100개 조회하고 DB에 넣는다.
-                // 공연 상세를 100번 조회하고 DB에 넣는다. (nullable한 요소들)
-                // 조회 때마다 공연 시설 ID도 따로 저장하고, ID로 공연 시설 상세 조회하고(100번),
-                // 극장 DB에 넣고 생성된 id를 리턴해 공연에 넣는다.
-                
-                
-                
-                //int theaterId = ;
-                String showDBId = tagService.getTagValue("mt20id", element);
-                String theaterName = tagService.getTagValue("fcltynm", element);
-                
-                String name = tagService.getTagValue("prfnm", element);
-                String genre = tagService.getTagValue("genrenm", element);
-                String startDate = tagService.getTagValue("prfpdfrom", element);
-                String endDate = tagService.getTagValue("prfpdto", element);
-                //String validStartDate = ;// startDate or new Date()
-                //String validEndDate = ; // 원래는 티켓팅 풀린 날짜까지 해야 하지만 지금은 endDate로 넣기
-                //int time // 공연상세
-                //int age // 공연상세
-                String imagePath = tagService.getTagValue("poster", element);
-                //String bannerImagePath // 공연상세
-                //String infoImagePath // 공연상세
-                //String discountImagePath // 공연상세
-                
-                
-                ShowList showList = new ShowList();
-                showList.setMt20id(showDBId);
-                showList.setFcltynm(theaterName);
-                showList.setPrfnm(name);
-                showList.setGenrenm(genre);
-                showList.setPrfpdfrom(startDate);
-                showList.setPrfpdto(endDate);
-                showList.setPoster(imagePath);
-                
-                showListList.add(showList);
-            }
-        }
-        
-        return showListList;
-    }
-	
-	
-	
 	String showXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
+			+ "<dbs>\r\n"
+			+ "    <db>\r\n"
+			+ "        <mt20id>PF224468</mt20id>\r\n"
+			+ "        <prfnm>첼리스트 이호찬 리사이틀</prfnm>\r\n"
+			+ "        <prfpdfrom>2023.10.14</prfpdfrom>\r\n"
+			+ "        <prfpdto>2023.10.14</prfpdto>\r\n"
+			+ "        <fcltynm>예술의전당 (리사이틀홀)</fcltynm>\r\n"
+			+ "        <prfcast>이호찬, 송영민</prfcast>\r\n"
+			+ "        <prfcrew> </prfcrew>\r\n"
+			+ "        <prfruntime>1시간 25분</prfruntime>\r\n"
+			+ "        <prfage>만 6세 이상</prfage>\r\n"
+			+ "        <entrpsnm> </entrpsnm>\r\n"
+			+ "        <pcseguidance>R석 50,000원, S석 30,000원</pcseguidance>\r\n"
+			+ "        <poster>http://www.kopis.or.kr/upload/pfmPoster/PF_PF224468_230823_142841.gif</poster>\r\n"
+			+ "        <sty> </sty>\r\n"
+			+ "        <genrenm>서양음악(클래식)</genrenm>\r\n"
+			+ "        <prfstate>공연예정</prfstate>\r\n"
+			+ "        <openrun>N</openrun>\r\n"
+			+ "        <styurls>\r\n"
+			+ "            <styurl>http://www.kopis.or.kr/upload/pfmIntroImage/PF_PF224468_230823_0228410.jpg</styurl>\r\n"
+			+ "        </styurls>\r\n"
+			+ "        <mt10id>FC000001</mt10id>\r\n"
+			+ "        <dtguidance>토요일(20:00)</dtguidance>\r\n"
+			+ "    </db>\r\n"
+			+ "</dbs>";
+	
+	String showListXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
 			+ "<dbs>\r\n"
 			+ "    <db>\r\n"
 			+ "        <mt20id>PF224564</mt20id>\r\n"
@@ -211,8 +174,94 @@ public class XmlParser {
 	
 	
 	
-	public ShowData parseShowDataXmlString(String xmlString) throws Exception {
-		//xmlString = showXml;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	//@Test
+	void parseXmlString() throws Exception {
+		String xmlString = showListXml;
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document doc = builder.parse(new ByteArrayInputStream(xmlString.getBytes()));
+
+        // root tag
+        doc.getDocumentElement().normalize();
+        logger.info("#####root tag: " + doc.getDocumentElement().getNodeName());
+        
+        // parshing tag
+        NodeList nList = doc.getElementsByTagName("db");
+        logger.info("#####tag count: " + nList.getLength());
+        
+        // List<showList>
+        List<ShowList> showListList = new ArrayList<>();
+        
+        for (int i = 0; i < nList.getLength(); i++) {
+            Node node = nList.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
+                
+                
+                
+                String showDBId = tagService.getTagValue("mt20id", element);
+                String theaterName = tagService.getTagValue("fcltynm", element);
+                
+                String name = tagService.getTagValue("prfnm", element);
+                String genre = tagService.getTagValue("genrenm", element);
+                String startDate = tagService.getTagValue("prfpdfrom", element);
+                String endDate = tagService.getTagValue("prfpdto", element);
+                String imagePath = tagService.getTagValue("poster", element);
+                
+                
+                ShowList showList = new ShowList();
+                showList.setMt20id(showDBId);
+                showList.setFcltynm(theaterName);
+                showList.setPrfnm(name);
+                showList.setGenrenm(genre);
+                showList.setPrfpdfrom(startDate);
+                showList.setPrfpdto(endDate);
+                showList.setPoster(imagePath);
+                
+                showListList.add(showList);
+            }
+        }
+        logger.info(showListList.toString());
+        
+    }
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@Test
+	void parseShowDataXmlString() throws Exception {
+		String xmlString = showXml;
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(new ByteArrayInputStream(xmlString.getBytes()));
@@ -228,69 +277,66 @@ public class XmlParser {
         // ShowData
         ShowData showData = new ShowData();
         
-        //for (int i = 0; i < nList.getLength(); i++) {
-            Node node = nList.item(0);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                
-                //int theaterId = ;
-                //String validStartDate = ;// startDate or new Date()
-                //String validEndDate = ; // 원래는 티켓팅 풀린 날짜까지 해야 하지만 지금은 endDate로 넣기
-                
-                String theaterName = tagService.getTagValue("fcltynm", element);
-                String name = tagService.getTagValue("prfnm", element);
-                String genre = tagService.getTagValue("genrenm", element);
-                String startDate = tagService.getTagValue("prfpdfrom", element);
-                String endDate = tagService.getTagValue("prfpdto", element);
-                String imagePath = tagService.getTagValue("poster", element);
-                
-                String time = tagService.getTagValue("prfruntime", element); // int로 파싱
-                String age = tagService.getTagValue("prfage", element); // int로 파싱
-                
-                String bannerImagePath = tagService.getTagValue("styurl1", element);
-                String infoImagePath = tagService.getTagValue("styurl2", element);
-                String discountImagePath = tagService.getTagValue("styurl3", element);
-                
-				/* 현재는 임의로 같은 이미지 넣어둠 추후 styurl 이미지 가져와서 enum으로 넣기
-				 * NodeList styurlList = element.getElementsByTagName("styurl");
-				 * 
-				 * for (int j = 0; j < styurlList.getLength(); j++) { Element sElement =
-				 * (Element) styurlList.item(j); tagService.getTagValue("styurl", sElement); }
-				 */
-                
-                
-                showData.setFcltynm(theaterName);
-                showData.setPrfnm(name);
-                showData.setGenrenm(genre);
-                showData.setPrfpdfrom(startDate);
-                showData.setPrfpdto(endDate);
-                showData.setPoster(imagePath);
-                
-                showData.setPrfruntime(time);
-                showData.setPrfage(age);
-                // 추후 enum으로 변경
-                if (bannerImagePath == null) {
-                	showData.setStyurl1(imagePath);
-                } else {
-                	showData.setStyurl1(bannerImagePath);
-                }
-                
-                if (infoImagePath == null) {
-                	showData.setStyurl2(imagePath);
-                } else {
-                	showData.setStyurl2(infoImagePath);
-                }
-           
-                if (discountImagePath == null) {
-                	showData.setStyurl3(imagePath);
-                } else {
-                	showData.setStyurl3(discountImagePath);
-                }
-                
-                
+        Node node = nList.item(0);
+        if (node.getNodeType() == Node.ELEMENT_NODE) {
+            Element element = (Element) node;
+            
+            //int theaterId = ;
+            //String validStartDate = ;// startDate or new Date()
+            //String validEndDate = ; // 원래는 티켓팅 풀린 날짜까지 해야 하지만 지금은 endDate로 넣기
+            
+            String theaterName = tagService.getTagValue("fcltynm", element);
+            String name = tagService.getTagValue("prfnm", element);
+            String genre = tagService.getTagValue("genrenm", element);
+            String startDate = tagService.getTagValue("prfpdfrom", element);
+            String endDate = tagService.getTagValue("prfpdto", element);
+            String imagePath = tagService.getTagValue("poster", element);
+            
+            String time = tagService.getTagValue("prfruntime", element); // int로 파싱
+            String age = tagService.getTagValue("prfage", element); // int로 파싱
+            String bannerImagePath = tagService.getTagValue("poster", element);
+            String infoImagePath = tagService.getTagValue("poster", element);
+            String discountImagePath = tagService.getTagValue("poster", element);
+            
+			/* 현재는 임의로 같은 이미지 넣어둠 추후 styurl 이미지 가져와서 enum으로 넣기
+			 * NodeList styurlList = element.getElementsByTagName("styurl");
+			 * 
+			 * for (int j = 0; j < styurlList.getLength(); j++) { Element sElement =
+			 * (Element) styurlList.item(j); tagService.getTagValue("styurl", sElement); }
+			 */
+            
+            
+            showData.setFcltynm(theaterName);
+            showData.setPrfnm(name);
+            showData.setGenrenm(genre);
+            showData.setPrfpdfrom(startDate);
+            showData.setPrfpdto(endDate);
+            showData.setPoster(imagePath);
+            
+            showData.setPrfruntime(time);
+            showData.setPrfage(age);
+            if (bannerImagePath == null) {
+            	showData.setStyurl1(imagePath);
+            } else {
+            	showData.setStyurl1(bannerImagePath);
             }
-        //}
+            
+            if (infoImagePath == null) {
+            	showData.setStyurl2(imagePath);
+            } else {
+            	showData.setStyurl2(infoImagePath);
+            }
+       
+            if (discountImagePath == null) {
+            	showData.setStyurl3(imagePath);
+            } else {
+            	showData.setStyurl3(discountImagePath);
+            }
+            
+            
+        }
         
-        return showData;
+        logger.info(showData.toString());
     }
+
 }

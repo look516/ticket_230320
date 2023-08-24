@@ -24,10 +24,7 @@
 			)
 			VALUES
 		<foreach collection="list" item="item" index="index" separator="">
-			<choose>
-            	<when test="index != 0">,</when>
-            	<otherwise></otherwise>
-        	</choose>
+			<if test="index != 0">,</if>
 			(
 				#{item.theaterId}
 				, #{item.name}
@@ -44,7 +41,7 @@
 				, #{item.discountImagePath}
 				, NOW()
 				, NOW()
-			),
+			)
 		</foreach>;
 	</insert>
 </mapper>

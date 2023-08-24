@@ -1,32 +1,32 @@
-package com.ticket.api;
+package com.ticket;
 
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import reactor.core.publisher.Mono;
 
-@Component
-public class ShowAPIWebClient {
+@SpringBootTest
+class ShowAPIWebClientTest {
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private WebClient webClient;
-	
-	//@RequestMapping("/api")
-	public String getShowList(String rows, String cpage) {
+
+	//@Test
+	void getShowList() {
 		
 		String baseUrl = "http://www.kopis.or.kr";
 		String url = "/openApi/restful/pblprfr";
 		String service = "bd89dc80bd9f43338c9d75e7fae03669";
 		String stdate = "19900101"; // 시작일
 		String eddate = "20241231"; // 종료일 (추후 BATCH)
-		//rows = "10"; // 개수 (추후 변경)
-		//cpage = "1"; // 현재 페이지 (추후 반복문)
-		
-		
-		String parsingUrl = url + "?service=" + service + "&stdate=" + stdate
-				+ "&eddate=" + eddate + "&rows=" + rows + "&cpage=" + cpage;
+		String rows = "10"; // 개수 (추후 변경)
+		String cpage = "1"; // 현재 페이지 (추후 반복문)
 		
 		
 		
@@ -43,7 +43,7 @@ public class ShowAPIWebClient {
 				return response.bodyToMono(String.class);
 			});
 		
-		return exchangeToMono.block();
+		logger.info(exchangeToMono.block());
 	}
 	
 	
@@ -51,16 +51,23 @@ public class ShowAPIWebClient {
 	
 	
 	
-	public String getShow(String mt20id) {
-
+	
+	
+	
+	
+	
+	
+	
+	@Test
+	void getShow() {
 		// 추후 yml에 등록
 		String url = "/openApi/restful/pblprfr";
-		String lastUrl = url + "/" + mt20id;
 		String service = "bd89dc80bd9f43338c9d75e7fae03669";
-		//String mt20id = "PF224468";
-
+		String mt20id = "PF224468";
+		String lastUrl = url + "/" + mt20id;
+		
 		Mono<String> exchangeToMono = webClient.get()
-			.uri(builder -> builder.path(lastUrl)
+				.uri(builder -> builder.path(lastUrl)
 					.queryParam("service", service)
 					.build()
 			)
@@ -68,7 +75,7 @@ public class ShowAPIWebClient {
 				return response.bodyToMono(String.class);
 			});
 
-		return exchangeToMono.block();
+		logger.info(exchangeToMono.block());
+		
 	}
-	
 }

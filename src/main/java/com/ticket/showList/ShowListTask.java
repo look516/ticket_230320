@@ -4,18 +4,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import com.ticket.showList.bo.ShowListBO;
 
-@SpringBootTest
-class ShowListTask {
+@Component
+public class ShowListTask {
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private ShowListBO showListBO;
 	
-	@Scheduled(cron = "30 33 2 * * *") // 매일 12시마다
+	@Scheduled(cron = "00 27 20 * * *") // 매일 12시마다
 	public void insertShow() {
 		// 함수 수행
 		// 10개씩 1p~10p

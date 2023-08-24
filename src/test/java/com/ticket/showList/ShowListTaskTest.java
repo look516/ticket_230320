@@ -1,15 +1,17 @@
 package com.ticket.showList;
 
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import com.ticket.showList.bo.ShowListBO;
 
-
-public class ShowListTaskTest {
+@SpringBootTest
+class ShowListTaskTest {
 	@Autowired
 	private ShowListBO showListBO;
 	
-	//@Test
+	@Test
 	//@Scheduled(cron = "0 0 12 * * *") // 매일 12시마다
 	public void DB에넣기() {
 		// 함수 수행
