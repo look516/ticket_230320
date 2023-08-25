@@ -53,7 +53,7 @@ public class ShowListBO {
 		// 10개 하나씩 공연 상세 api 가져오기
 		for (ShowList show : showListList) {
 			String xmlData = showAPIWebClient.getShow(show.getMt20id());
-			logger.info(xmlData);
+			//logger.info(xmlData);
 			ShowData showData = null;
 			try {
 				// parse~ method 이상 없음(test로 검증) 근데 왜 파싱 불가?
@@ -63,7 +63,7 @@ public class ShowListBO {
 			}
 			
 			
-			//??
+			//?? 굳이
 			showDataList.add(showData);
 			
 			

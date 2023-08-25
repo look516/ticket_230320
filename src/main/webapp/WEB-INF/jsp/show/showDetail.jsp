@@ -12,39 +12,41 @@
 
 		<div class="d-flex">
 			<%-- 이미지 --%>
-			<div class="ml-3">
-				<img src="${show.show.imagePath}" alt="공연 이미지" width="200px">
+			<div class="ml-3 col-3">
+				<img src="${show.show.imagePath}" alt="공연 이미지" width="180px">
 			</div>
 			
 			<%-- 간략정보 --%>
-			<div>
+			<div class="col-9 mt-3">
 				<ul>
 					<li class="show-info d-flex">
-						<strong>장소</strong>
-						<div>
+						<strong class="col-2 p-0">장소</strong>
+						<div class="col-10">
 							<!-- <a class="infoBtn" data-popup="info-place" role="button" href="#"> -->
-							<p><a class="infoBtn" href="#">
-								${show.theater.name}
-								<i>(자세히)</i>
-							</a></p>
+							<p class="w-100">
+								<a class="infoBtn" href="#">
+									${show.theater.name}
+									<%--<i>(자세히)</i> --%>
+								</a>
+							</p>
 						</div>
 					</li>
 					<li class="show-info d-flex">
-						<strong>공연기간</strong>
-						<div>
-							<p>${show.show.startDate} ~ ${show.show.endDate}</p>
+						<strong class="col-2 p-0">공연기간</strong>
+						<div class="col-10">
+							<p class="w-100">${show.show.startDate} ~ ${show.show.endDate}</p>
 						</div>
 					</li>
 					<li class="show-info d-flex">
-						<strong>공연시간</strong>
-						<div>
-							<p>${show.show.time}분</p>
+						<strong class="col-2 p-0">공연시간</strong>
+						<div class="col-10">
+							<p class="w-100">${show.show.time}분</p>
 						</div>
 					</li>
 					<li class="show-info d-flex">
-						<strong>관람연령</strong>
-						<div>
-							<p>${show.show.age}세 이상</p>
+						<strong class="col-2 p-0">관람연령</strong>
+						<div class="col-10">
+							<p class="w-100">${show.show.age}세 이상</p>
 						</div>
 					</li>
 					

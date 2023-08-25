@@ -139,10 +139,10 @@
 						<div class="col-10 book-content">
 							<span>
 								<c:if test="${pay.isValid > 0}">
-									환불가능금액은 ~입니다.
+									환불가능금액은 ${pay.discountPrice}원 입니다.
 								</c:if>
 								<c:if test="${pay.isValid <= 0}">
-									~원이 환불됩니다.
+									${pay.discountPrice}원이 환불됩니다.
 								</c:if>
 							</span>
 						</div>

@@ -70,7 +70,7 @@ public class ReviewBO {
 	
 	
 	
-	public double getReviewAveragePoint(int showId) {
+	public Double getReviewAveragePoint(int showId) {
 		return reviewMapper.selectReviewAveragePoint(showId);
 	}
 }

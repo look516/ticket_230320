@@ -67,13 +67,13 @@ public class ShowController {
 			@RequestParam("showId") int showId,
 			@RequestParam("index") String index,
 			Model model) {
-		String url = "show/tab/" + index;
+		String url = "show/tab/" + index; // 추후 pathValue로 붙여오자
 		
 		
 		ShowView show = showBO.generateShowViewByShowId(showId);
 		model.addAttribute("show", show);
 		
-		double average = reviewBO.getReviewAveragePoint(showId);
+		Double average = reviewBO.getReviewAveragePoint(showId);
 		model.addAttribute("average", average);
 		
 		return url;
@@ -109,11 +109,12 @@ public class ShowController {
 	
 	
 	
-	// 보류
+	// 미사용
+	/*
 	@Autowired
 	private TagService tagService;
 	
-	/*
+	
 	@GetMapping("/show_list_view")
 	public String showListView(Model model) throws ParserConfigurationException, SAXException, IOException {
 		

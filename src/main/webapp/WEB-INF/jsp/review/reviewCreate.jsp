@@ -106,7 +106,7 @@
 		// showDate, showTime - form 비필수
 		$('#reviewCreateForm').on('submit', function(e) {
 			
-			alert("sss");
+			//alert("sss");
 			
 			e.preventDefault(); // submit 중단
 			

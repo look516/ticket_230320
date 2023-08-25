@@ -28,7 +28,7 @@
 				<c:if test="${status.current % 8 == 1}">
 					<div class="d-flex justify-content-center">
 				</c:if>
-				<%-- 왜 submit 되는 거지? --%>
+				<%-- form 안 button은 submit 된다. --%>
 				<fmt:parseNumber var="seatCol" type="number" value="${seat/8}" integerOnly="true" />
 				
 				<button type="button" name="seat" class="seat-box mb-2 mx-2"
@@ -316,7 +316,7 @@
 				}
 				*/
 				
-				for (let i = new Date(e.data.validStartDate); i <= e.data.validEndDate; i = new Date(i.getTime() + 24 * 60 * 60 * 1000)) {
+				for (let i = new Date(e.data.validStartDate); i < e.data.validEndDate; i = new Date(i.getTime() + 24 * 60 * 60 * 1000)) {
 				    let finalDate = formatDate(i);
 				    let validStartDate = '<option value="' + finalDate + '">' + finalDate + '</option>';
 				    $("#showDate").append(validStartDate);

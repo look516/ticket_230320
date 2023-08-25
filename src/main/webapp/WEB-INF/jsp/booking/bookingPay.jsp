@@ -27,16 +27,16 @@
 				<tr>
 					<td>정가</td>
 					<td>${seatPrice}원</td>
-					<td><input type="radio" name="discount" value="${seatPrice}" data-name="정가" checked /></td>
+					<td><input type="radio" name="discount" value="${seatPrice}" data-name="정가" /></td>
 				</tr>
 				<tr>
 					<td>청소년 30%</td>
-					<td>${seatPrice * 0.7}원</td>
+					<td><fmt:formatNumber value="${seatPrice * 0.7}" type="number" pattern="0" />원</td>
 					<td><input type="radio" name="discount" value="${seatPrice * 0.7}" data-name="청소년 30%" /></td>
 				</tr>
 				<tr>
 					<td>복지 50%</td>
-					<td>${seatPrice * 0.5}원</td>
+					<td><fmt:formatNumber value="${seatPrice * 0.5}" type="number" pattern="0" />원</td>
 					<td><input type="radio" name="discount" value="${seatPrice * 0.5}" data-name="복지 50%" /></td>
 				</tr>
 			</tbody>

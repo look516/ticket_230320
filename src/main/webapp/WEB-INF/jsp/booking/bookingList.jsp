@@ -29,27 +29,29 @@
 		<c:forEach var="booking" items="${bookingViewList}">
 			<tr>
 				<td class="text-align:center">
-					<fmt:formatDate value="${booking.booking.bookingDate}" pattern="yyyy년 MM월 dd일" />
+					<fmt:formatDate value="${booking.booking.bookingDate}" pattern="yyyy/MM/dd" />
 				</td>
 				<td>${booking.booking.bookingNumber}</td>
 				<td>${booking.showView.show.name}</td>
 				<td>
-					<fmt:formatDate value="${booking.booking.showDate}" pattern="yyyy년 MM월 dd일" />
+					<fmt:formatDate value="${booking.booking.showDate}" pattern="yyyy/MM/dd" />
 				</td>
 				<td>1</td>
 				<td>
 					<%-- 예약 날짜 이전일 --%>
-					<fmt:formatDate value="${booking.booking.bookingDate}" pattern="yyyy년 MM월 dd일" />
+					<fmt:formatDate value="${booking.booking.bookingDate}" pattern="yyyy/MM/dd" />
 				</td>
 				<%-- 쿼리스트링으로 예약id가 붙는다. --%>
 				<td>
 					<c:if test="${booking.booking.isReserved > 0}">
 						예약완료
+						<a href="/book/book_detail_view?bookingId=${booking.booking.id}" class="btn btn-info">상세</a>
 					</c:if>
 					<c:if test="${booking.booking.isReserved <= 0}">
 						예약취소
+						<a href="/book/book_detail_view?bookingId=${booking.booking.id}" class="btn btn-secondary">상세</a>
 					</c:if>
-					<a href="/book/book_detail_view?bookingId=${booking.booking.id}" class="btn btn-info">상세</a>
+					
 				</td>
 			</tr>
 		</c:forEach>

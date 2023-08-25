@@ -1,6 +1,5 @@
 package com.ticket.review.dao;
 
-import java.sql.Time;
 import java.util.Date;
 
 import org.apache.ibatis.annotations.Param;
@@ -17,6 +16,6 @@ public interface ReviewMapper {
 			@Param("showDate") Date showDate,
 			@Param("showTime") String showTime);
 	
-	public double selectReviewAveragePoint(int showId);
+	public Double selectReviewAveragePoint(int showId);
 	
 }

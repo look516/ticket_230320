@@ -36,7 +36,7 @@
 	</insert>
 	
 	
-	<select id="selectReviewAveragePoint" parameterType="int" resultType="double">
+	<select id="selectReviewAveragePoint" parameterType="int" resultType="Double">
 		SELECT
 			avg(`point`)
 		from

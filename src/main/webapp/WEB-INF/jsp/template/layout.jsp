@@ -10,11 +10,10 @@
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
 
-<!-- datepicker 라이브러리 -->
-<!-- 
+<!-- datepicker 라이브러리 (jquery UI CSS, jquery UI JS) --> 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
--->
+
  
 <!-- full calender 라이브러리 -->
 <!-- <link href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.0/fullcalendar.min.css' rel='stylesheet' />

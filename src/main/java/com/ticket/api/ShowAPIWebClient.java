@@ -13,7 +13,6 @@ public class ShowAPIWebClient {
 	@Autowired
 	private WebClient webClient;
 	
-	//@RequestMapping("/api")
 	public String getShowList(String rows, String cpage) {
 		
 		String baseUrl = "http://www.kopis.or.kr";

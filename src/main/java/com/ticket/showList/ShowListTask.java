@@ -16,7 +16,7 @@ public class ShowListTask {
 	@Autowired
 	private ShowListBO showListBO;
 	
-	@Scheduled(cron = "50 19 12 * * *") // 매일 12시마다
+	//@Scheduled(cron = "50 19 12 * * *") // 매일 12시마다
 	public void insertShow() {
 		// 함수 수행
 		// 10개씩 1p~10p
