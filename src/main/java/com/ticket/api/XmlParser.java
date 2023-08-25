@@ -1,11 +1,13 @@
 package com.ticket.api;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.ticket.show.service.TagService;
 import com.ticket.showList.domain.ShowData;
@@ -210,12 +213,24 @@ public class XmlParser {
 	
 	
 	
-	
-	public ShowData parseShowDataXmlString(String xmlString) throws Exception {
+	// 공연 상세
+	public ShowData parseShowDataXmlString(String xmlString) {
 		//xmlString = showXml;
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.parse(new ByteArrayInputStream(xmlString.getBytes()));
+        DocumentBuilder builder = null;
+		try {
+			builder = factory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+        Document doc = null;
+		try {
+			doc = builder.parse(new ByteArrayInputStream(xmlString.getBytes()));
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
         // root tag
         doc.getDocumentElement().normalize();
@@ -247,9 +262,9 @@ public class XmlParser {
                 String time = tagService.getTagValue("prfruntime", element); // int로 파싱
                 String age = tagService.getTagValue("prfage", element); // int로 파싱
                 
-                String bannerImagePath = tagService.getTagValue("styurl1", element);
-                String infoImagePath = tagService.getTagValue("styurl2", element);
-                String discountImagePath = tagService.getTagValue("styurl3", element);
+                String bannerImagePath = tagService.getTagValue("poster", element);
+                String infoImagePath = tagService.getTagValue("poster", element);
+                String discountImagePath = tagService.getTagValue("poster", element);
                 
 				/* 현재는 임의로 같은 이미지 넣어둠 추후 styurl 이미지 가져와서 enum으로 넣기
 				 * NodeList styurlList = element.getElementsByTagName("styurl");
@@ -269,24 +284,9 @@ public class XmlParser {
                 showData.setPrfruntime(time);
                 showData.setPrfage(age);
                 // 추후 enum으로 변경
-                if (bannerImagePath == null) {
-                	showData.setStyurl1(imagePath);
-                } else {
-                	showData.setStyurl1(bannerImagePath);
-                }
-                
-                if (infoImagePath == null) {
-                	showData.setStyurl2(imagePath);
-                } else {
-                	showData.setStyurl2(infoImagePath);
-                }
-           
-                if (discountImagePath == null) {
-                	showData.setStyurl3(imagePath);
-                } else {
-                	showData.setStyurl3(discountImagePath);
-                }
-                
+                showData.setStyurl1(bannerImagePath);
+                showData.setStyurl2(infoImagePath);
+                showData.setStyurl3(discountImagePath);
                 
             }
         //}

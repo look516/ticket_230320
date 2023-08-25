@@ -16,7 +16,7 @@ public class ShowListTask {
 	@Autowired
 	private ShowListBO showListBO;
 	
-	@Scheduled(cron = "00 27 20 * * *") // 매일 12시마다
+	@Scheduled(cron = "50 19 12 * * *") // 매일 12시마다
 	public void insertShow() {
 		// 함수 수행
 		// 10개씩 1p~10p
@@ -25,8 +25,9 @@ public class ShowListTask {
 			showListBO.insertShow(i);
 			// 3초 쉬기
 			try {
-				showListBO.wait(3000);
+				Thread.sleep(3000);
 			} catch (InterruptedException e) {
+				logger.warn("###3초 쉬기 불가");
 				e.printStackTrace();
 			}
 		}
