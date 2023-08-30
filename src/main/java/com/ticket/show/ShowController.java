@@ -48,21 +48,6 @@ public class ShowController {
 		//session.setAttribute("showId", show.getShow().getId());
 		//session.setAttribute("showName", show.getShow().getName());
 		
-		List<String> showIdList = (List<String>) session.getAttribute("showIdList");
-		
-		
-		if (showIdList == null) {
-            showIdList = new ArrayList<>();
-        }
-
-        // 새로운 showId를 리스트에 추가
-        showIdList.add(show.getShow().getImagePath());
-
-        // 리스트를 세션에 저장
-        session.setAttribute("showIdList", showIdList);
-
-        // showId를 header에 넣어줌
-        model.addAttribute("showIdList", showIdList);
         
 		model.addAttribute("view", "show/showDetail");
 		return "template/layout";

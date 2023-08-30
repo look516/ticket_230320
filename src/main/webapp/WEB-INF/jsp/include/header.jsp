@@ -36,8 +36,13 @@
 			<div>
 				<div class="text-center">최근 본 공연</div>
 				<%--<div>${showIdList}</div> --%>
+				<c:forEach var="showImage" items="${recentShowImageList}">
+					<a href="#"><div class="mt-3 d-flex justify-content-center"><img src="${showImage}" width="80px" alt="윙 배너 공연 썸네일"></div></a>
+				</c:forEach>
+				<%--${recentShowImageList}
 				<a href="#"><div class="mt-3 d-flex justify-content-center"><img src="/static/images/show1.gif" width="90px" alt="윙 배너 공연 썸네일"></div></a>
 				<a href="#"><div class="mt-3 d-flex justify-content-center"><img src="/static/images/show2.gif" width="90px" alt="윙 배너 공연 썸네일"></div></a>
+				 --%>
 			</div>
 		</div>
 		

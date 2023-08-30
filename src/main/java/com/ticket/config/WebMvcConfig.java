@@ -6,11 +6,15 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.ticket.interceptor.PermissionInterceptor;
+import com.ticket.interceptor.RecentShowInterceptor;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 	@Autowired
 	private PermissionInterceptor interceptor;
+	
+	@Autowired
+	private RecentShowInterceptor showInterceptor;
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
@@ -21,5 +25,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		.excludePathPatterns("/static/**", "/error", "/favicon.ico", "/user/sign_out",
 				"/review/sort", "/review/list" /*, "/main/**"*/)
 		;
+		
+		registry.addInterceptor(showInterceptor)
+		.addPathPatterns("/show/show_detail_view");
 	}
+	
+
 }
