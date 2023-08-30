@@ -18,4 +18,6 @@ public interface ReviewMapper {
 	
 	public Double selectReviewAveragePoint(int showId);
 	
+	public void deleteReviewById(int reviewId);
+	
 }

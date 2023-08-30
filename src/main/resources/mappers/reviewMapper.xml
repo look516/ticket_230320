@@ -44,5 +44,15 @@
 		where
 			`showId` = #{showId}
 	</select>
+	
+	
+	
+	<delete id="deleteReviewById" parameterType="int">
+		DELETE
+		FROM
+			`review`
+		WHERE
+			`id` = #{reviewId}
+	</delete>
 
 </mapper>

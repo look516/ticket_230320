@@ -1,6 +1,9 @@
 package com.ticket.show;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.ticket.review.bo.ReviewBO;
 import com.ticket.show.bo.ShowBO;
 import com.ticket.show.domain.ShowView;
-import com.ticket.show.service.TagService;
 
 @RequestMapping("/show")
 @Controller
@@ -28,6 +30,7 @@ public class ShowController {
 	public String showDetailView(
 			@RequestParam("showId") int showId,
 			//HttpServletRequest request,
+			HttpSession session,
 			Model model) {
 		
 		// showView select by showId
@@ -41,6 +44,22 @@ public class ShowController {
 		//session.setAttribute("showId", show.getShow().getId());
 		//session.setAttribute("showName", show.getShow().getName());
 		
+		List<String> showIdList = (List<String>) session.getAttribute("showIdList");
+		
+		
+		if (showIdList == null) {
+            showIdList = new ArrayList<>();
+        }
+
+        // 새로운 showId를 리스트에 추가
+        showIdList.add(show.getShow().getImagePath());
+
+        // 리스트를 세션에 저장
+        session.setAttribute("showIdList", showIdList);
+
+        // showId를 header에 넣어줌
+        model.addAttribute("showIdList", showIdList);
+        
 		model.addAttribute("view", "show/showDetail");
 		return "template/layout";
 	}
@@ -49,6 +68,7 @@ public class ShowController {
 	// genre를 param으로 안 넘기고 select 해오는 방법?
 	@GetMapping("/show_list_view")
 	public String showListView(
+			
 			@RequestParam("genre") String genre,
 			Model model) {
 		model.addAttribute("genre", genre);

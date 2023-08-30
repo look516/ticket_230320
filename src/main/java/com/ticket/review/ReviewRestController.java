@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,5 +65,24 @@ public class ReviewRestController {
 	
 	//@GetMapping("/sort")
 	
+	@DeleteMapping("/delete")
+	public Map<String, Object> delete(
+			@RequestParam("reviewId") int reviewId,
+			HttpSession session) {
+		Map<String, Object> result = new HashMap<>();
+		Integer userId = (Integer)session.getAttribute("userId");
+		if (userId == null) {
+			result.put("code", 500);
+			result.put("errorMessage", "로그인해주세요");
+			return result;
+		}
+		
+		// BO 삭제
+		reviewBO.deleteReviewById(reviewId);
+		
+		result.put("code", 1);
+		result.put("result", "성공");
+		return result;
+	}
 	
 }

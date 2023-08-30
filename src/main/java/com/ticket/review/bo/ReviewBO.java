@@ -73,4 +73,10 @@ public class ReviewBO {
 	public Double getReviewAveragePoint(int showId) {
 		return reviewMapper.selectReviewAveragePoint(showId);
 	}
+	
+	
+	
+	public void deleteReviewById(int reviewId) {
+		reviewMapper.deleteReviewById(reviewId);
+	}
 }

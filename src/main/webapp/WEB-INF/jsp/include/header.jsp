@@ -6,7 +6,7 @@
 	<div id="wingBox" class="wing-menu d-flex justify-content-center">
 		<!-- 윙 배너 여닫기 -->
 		<!-- 추후 구현 -->
-		<a href="#" id="closeWing" class="close-wing wing-main-font pt-1">&gt;</a>
+		<a href="#" id="closeWing" class="<%--close-wing--%> wing-main-font pt-1">&gt;</a>
 
 		<div id="wingBanner">
 			<!-- 윙 배너 - 로그인 영역 (비로그인) -->
@@ -35,6 +35,7 @@
 			<!-- 윙 배너 - 공연목록 / 리스트와 페이징 추후 추가 -->
 			<div>
 				<div class="text-center">최근 본 공연</div>
+				<%--<div>${showIdList}</div> --%>
 				<a href="#"><div class="mt-3 d-flex justify-content-center"><img src="/static/images/show1.gif" width="90px" alt="윙 배너 공연 썸네일"></div></a>
 				<a href="#"><div class="mt-3 d-flex justify-content-center"><img src="/static/images/show2.gif" width="90px" alt="윙 배너 공연 썸네일"></div></a>
 			</div>
@@ -98,15 +99,27 @@
 		$('#closeWing').on('click', function(e) {
 			e.preventDefault(); // 위치 고정
 			if ($('#wingBanner').hasClass('d-none')) {
+				// 누르면 나타남
 				$('#wingBanner').removeClass('d-none');
 				$('#wingBox').css("position", "fixed");
-				$('#closeWing').css("position", "absolute");
 				$('#wingBox').removeClass('d-none');
+				$('#wingBox').css("right", "0");
+				$('#wingBox').css("top", "50%"); // 중앙으로 올리기
+                $('#wingBox').css("transform", "translateY(-50%)");
+				$('.wing').css('width', "150px");
+				//$('#closeWing').css('height', "80px");
 			} else {
+				// 누르면 사라짐
 				$('#wingBanner').addClass('d-none')
-				$('#wingBox').css("position", "static");
-				$('#closeWing').css("position", "static");
 				$('#wingBox').addClass('d-none');
+				$('#wingBox').css("right", "-150px");
+				$('#wingBox').css("top", "-100px");
+				$('#wingBox').css("right", "0"); // 오른쪽으로 숨기기
+                $('#wingBox').css("top", "50%"); // 중앙으로 올리기
+                $('#wingBox').css("transform", "translateY(-50%)");
+				$('#wingBox').css("position", "static");
+				$('.wing').css('width', "30px");
+				$('.wing').css('top', "6%");
 			}
 		});
 	});

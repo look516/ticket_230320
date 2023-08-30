@@ -10,8 +10,29 @@ footer {height: 100px; color: #999;}
 .top-menu:hover, .middle-menu:hover {color: #999;}
 
 /* header - wing */
-.close-wing {position: absolute; right: 100%; top: 50%; height: 80px; width: 30px; background-color: rgb(235, 235, 235);}
-.wing {height: 0px;}
+/* 적용 안 되는중 */
+.close-wing {
+	position: static;
+	top: 50%;
+	transform: translateY(0);
+	/*right: 100%;*/
+	height: 80px;
+	width: 30px;
+	background-color: rgb(235, 235, 235);
+	}
+	
+#closeWing {height: 80px;}
+/*.wing {height: 0px;}*/
+.wing {
+            position: fixed;
+            /*top: 50px;
+            right: -150px;  초기에 숨겨진 상태 */
+            right: 0;
+            
+            width: 150px;
+            background-color: rgb(215, 215, 215);
+            /*transition: right 0.3s ease-in-out; 트랜지션 효과 추가 */
+        }
 .wing-menu {position: fixed; width: 150px; height: 100%; background-color: rgb(215, 215, 215);}
 .wing-main-font, .wing-main-font:hover {font-size: 40px; text-decoration: none; color: #666;}
 
