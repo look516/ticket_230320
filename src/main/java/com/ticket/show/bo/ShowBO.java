@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.ticket.review.bo.ReviewBO;
 import com.ticket.review.domain.ReviewView;
@@ -49,17 +52,17 @@ public class ShowBO {
 		return showView;
 	}
 	
-	public List<ShowView> generateShowViewList(String genre) {
+	public List<ShowView> generateShowViewList(String genre, Pageable pageable, Model model) {
 		
 		List<ShowView> showViewList = new ArrayList<>();
 		
-		List<ShowEntity> showList = new ArrayList<>();
+		Page<ShowEntity> showList;
 		
 		// mybatis로 처리하고 싶다
 		if (genre.equals("전체")) {
-			showList = showRepository.findAllByOrderByIdDesc();
+			showList = showRepository.findAllByOrderByIdDesc(pageable);
 		} else {
-			showList = showRepository.findByGenreOrderByIdDesc(genre);
+			showList = showRepository.findByGenreOrderByIdDesc(genre, pageable);
 		}
 		
 		for (ShowEntity show : showList) {
@@ -79,6 +82,10 @@ public class ShowBO {
 			// n번째 showView가 된다
 			showViewList.add(showView);
 		}
+		
+		model.addAttribute("totalPages", showList.getTotalPages());
+	    model.addAttribute("currentPage", showList.getNumber());
+	    
 		return showViewList;
 	}
 	

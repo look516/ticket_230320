@@ -58,11 +58,25 @@
 </table>
 
 <%-- 페이징 --%>
+<div class="d-flex justify-content-center mb-3">
+	${currentPage + 1}페이지 / ${totalPages} 페이지
+</div>
 <div class="d-flex justify-content-center">
-	<c:if test="${prevId ne 0}">
-	<a href="/show/show_list_view?prevId=${prevId}" class="mr-5 btn btn-warning">&lt;&lt; 이전</a>
-	</c:if>
-	<c:if test="${nextId ne 0}">
-	<a href="/show/show_list_view?nextId=${nextId}" class="btn btn-warning">다음 &gt;&gt;</a>
-	</c:if>
+    <c:choose>
+        <c:when test="${currentPage > 0}">
+            <a href="/show/show_list_view?genre=${genre}&page=${currentPage - 1}" class="mr-5 btn btn-warning">&lt;&lt; 이전</a>
+        </c:when>
+        <c:otherwise>
+            <a href="#" class="mr-5 btn btn-warning disabled">&lt;&lt; 이전</a>
+        </c:otherwise>
+    </c:choose>
+    
+    <c:choose>
+        <c:when test="${currentPage < totalPages - 1}">
+            <a href="/show/show_list_view?genre=${genre}&page=${currentPage + 1}" class="btn btn-warning">다음 &gt;&gt;</a>
+        </c:when>
+        <c:otherwise>
+            <a href="#" class="btn btn-warning disabled">다음 &gt;&gt;</a>
+        </c:otherwise>
+    </c:choose>
 </div>

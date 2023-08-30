@@ -40,8 +40,8 @@ public class BookingController {
 	
 	@GetMapping("/book_list_view")
 	public String bookListView(
-			@RequestParam(value = "prevId", required = false) Integer prevIdParam,
-			@RequestParam(value = "nextId", required = false) Integer nextIdParam,
+			//@RequestParam(value = "prevId", required = false) Integer prevIdParam,
+			//@RequestParam(value = "nextId", required = false) Integer nextIdParam,
 			HttpSession session, Model model) {
 		
 		// 로그인 여부 조회

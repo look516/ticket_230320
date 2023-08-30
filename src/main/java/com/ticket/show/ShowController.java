@@ -6,6 +6,10 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,14 +72,14 @@ public class ShowController {
 	// genre를 param으로 안 넘기고 select 해오는 방법?
 	@GetMapping("/show_list_view")
 	public String showListView(
-			
+			@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
 			@RequestParam("genre") String genre,
 			Model model) {
 		model.addAttribute("genre", genre);
 		
 		// select show list by genre
-		List<ShowView> showList = showBO.generateShowViewList(genre);
-		
+		List<ShowView> showList = showBO.generateShowViewList(genre, pageable, model);
+
 		model.addAttribute("showList", showList);
 		model.addAttribute("view", "show/showList");
 		return "template/layout";
