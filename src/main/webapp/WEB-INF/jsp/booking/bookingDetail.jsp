@@ -9,7 +9,7 @@
 		<div>
 			<img src="${booking.showView.show.imagePath}" alt="공연이미지" width="200px">
 			<button class="d-block btn btn-info my-3 w-100">
-				<a href="">달력에 등록</a>
+				<a href="#">달력에 등록</a>
 			</button>
 		</div>
 		<div class="table-box">

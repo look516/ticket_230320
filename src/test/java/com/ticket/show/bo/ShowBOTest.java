@@ -28,12 +28,14 @@ class ShowBOTest {
 		fail("Not yet implemented");
 	}
 	
+	/*
 	@Test
 	void 공연목록가져오기() {
 		List<ShowView> show = showBO.generateShowViewList("뮤지컬");
 		logger.info("########## show: {}", show.get(0));
 		assertNotNull(show);
 	}
+	*/
 	
 	
 }

@@ -27,6 +27,9 @@
 			</div>
 			 --%>
 			<%-- 반복문 시작 --%>
+			<c:if test="${empty show.reviewList}">
+				<div class="text-center">리뷰가 없습니다.</div>
+			</c:if>
 			<c:forEach var="review" items="${show.reviewList}">
 				<div class="border p-3 bg-warning">
 					<div class="d-flex justify-content-between">

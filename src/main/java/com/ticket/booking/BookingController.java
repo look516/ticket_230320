@@ -12,13 +12,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ticket.booking.bo.BookingBO;
-import com.ticket.booking.domain.Booking;
 import com.ticket.booking.domain.BookingInfo;
 import com.ticket.booking.domain.BookingView;
 import com.ticket.pay.bo.PayBO;
 import com.ticket.pay.domain.Pay;
 import com.ticket.show.bo.ShowBO;
-import com.ticket.show.domain.Show;
 import com.ticket.show.entity.ShowEntity;
 import com.ticket.user.bo.UserBO;
 
@@ -42,6 +40,7 @@ public class BookingController {
 	public String bookListView(
 			//@RequestParam(value = "prevId", required = false) Integer prevIdParam,
 			//@RequestParam(value = "nextId", required = false) Integer nextIdParam,
+			@RequestParam(value = "isBooked", required = false) Integer isBooked,
 			HttpSession session, Model model) {
 		
 		// 로그인 여부 조회
@@ -50,7 +49,7 @@ public class BookingController {
 		String userName = userBO.getUserEntityById(userId).getName();
 		
 		// DB 예약 목록 조회 (userId로 분류)
-		List<BookingView> bookingViewList = bookingBO.getBookingListByUserId(userId);
+		List<BookingView> bookingViewList = bookingBO.getBookingListByUserId(userId, isBooked);
 		
 		
 		// 공연명 조회

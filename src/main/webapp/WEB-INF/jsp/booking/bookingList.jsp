@@ -13,6 +13,10 @@
 	<h3 class="my-3">최근 예매 내역</h3>
 </div>
 
+<a href="/book/book_list_view">전체</a>
+<a href="/book/book_list_view?isBooked=1">예매완료</a>
+<a href="/book/book_list_view?isBooked=0">예매취소</a>
+
 <table class="table text-center">
 	<thead>
 		<tr>
@@ -59,7 +63,7 @@
 </table>
 
 <!-- paging -->
-<div class="d-flex justify-content-center">
+<%-- <div class="d-flex justify-content-center">
 	<a href="" class="btn btn-dark mr-5">&lt;&lt; 이전</a>
 	<a href="" class="btn btn-dark">다음 &gt;&gt;</a>
-</div>
+</div>--%>

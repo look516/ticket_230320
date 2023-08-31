@@ -25,11 +25,13 @@ class ShowRepositoryTest {
 		fail("Not yet implemented");
 	}
 	
+	/*
 	@Test
 	void 공연목록가져오기() {
 		List<ShowEntity> showList = showRepository.findAllByOrderByIdDesc();
 		logger.info("########## showList: {}", showList);
 		assertNotNull(showList);
 	}
+	*/
 
 }

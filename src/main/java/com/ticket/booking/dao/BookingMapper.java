@@ -10,7 +10,9 @@ import com.ticket.booking.domain.Booking;
 
 @Repository
 public interface BookingMapper {
-	public List<Booking> selectBookingListByUserId(int userId);
+	public List<Booking> selectBookingListByUserId(
+			@Param("userId") int userId,
+			@Param("isBooked") Integer isBooked);
 	
 	public Booking selectBookingBybookingId(int bookingId);
 	

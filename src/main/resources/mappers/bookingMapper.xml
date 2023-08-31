@@ -3,7 +3,7 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ticket.booking.dao.BookingMapper">
-	<select id="selectBookingListByUserId" parameterType="int" resultType="com.ticket.booking.domain.Booking">
+	<select id="selectBookingListByUserId" parameterType="map" resultType="com.ticket.booking.domain.Booking">
 		SELECT
 			`id`
 			,`showId`
@@ -22,6 +22,10 @@
 			`booking`
 		WHERE
 			`userId` = #{userId}
+			<if test='isBooked neq null'>
+				AND
+				`isReserved` = #{isBooked}
+			</if>
 	</select>
 	
 	

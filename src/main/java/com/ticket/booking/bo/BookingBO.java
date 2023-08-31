@@ -30,9 +30,9 @@ public class BookingBO {
 	@Autowired
 	private UserBO userBO;
 	
-	public List<BookingView> getBookingListByUserId(int userId) {
+	public List<BookingView> getBookingListByUserId(int userId, Integer isBooked) {
 		
-		List<Booking> bookingList = bookingMapper.selectBookingListByUserId(userId);
+		List<Booking> bookingList = bookingMapper.selectBookingListByUserId(userId, isBooked);
 		
 		List<BookingView> bookingViewList = new ArrayList<>();
 		
