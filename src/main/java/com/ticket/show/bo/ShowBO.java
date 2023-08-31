@@ -52,17 +52,21 @@ public class ShowBO {
 		return showView;
 	}
 	
-	public List<ShowView> generateShowViewList(String genre, Pageable pageable, Model model) {
+	public List<ShowView> generateShowViewList(String genre, Pageable pageable, Model model, String search) {
 		
 		List<ShowView> showViewList = new ArrayList<>();
 		
 		Page<ShowEntity> showList;
 		
+		
 		// mybatis로 처리하고 싶다
-		if (genre.equals("전체")) {
+		// 한 번에 처리할 수는 없을까
+		if (search == null && genre.equals("전체")) {
 			showList = showRepository.findAllByOrderByIdDesc(pageable);
-		} else {
+		} else if (search == null){
 			showList = showRepository.findByGenreOrderByIdDesc(genre, pageable);
+		} else {
+			showList = showRepository.findByNameContaining(search, pageable);
 		}
 		
 		for (ShowEntity show : showList) {

@@ -75,9 +75,9 @@
 	
 	<!-- 검색 영역 -->
 	<div class="col-8 input-group my-3">
-  		<input type="text" class="form-control" placeholder="검색어를 입력하세요">
+  		<input id="searchText" type="text" class="form-control" placeholder="검색할 공연명을 입력하세요">
   		<div class="input-group-append">
-    		<button class="btn btn-outline-secondary" type="button">검색</button>
+    		<button id="searchBtn" class="btn btn-outline-secondary" type="button">검색</button>
   		</div>
 	</div>
 </div>
@@ -127,5 +127,19 @@
 				$('.wing').css('top', "6%");
 			}
 		});
+		
+		// 검색 이벤트
+		$("#searchBtn").on('click', function() {
+			let searchText = $('#searchText').val().trim();
+			
+			$.ajax({
+				url: "/show/show_list_view"
+				, data: {"search":searchText}
+				, success:function() {
+					location.href = "/show/show_list_view?search=" + searchText;
+				}
+			});
+		});
+
 	});
 </script>

@@ -64,7 +64,7 @@
 <div class="d-flex justify-content-center">
     <c:choose>
         <c:when test="${currentPage > 0}">
-            <a href="/show/show_list_view?genre=${genre}&page=${currentPage - 1}" class="mr-5 btn btn-warning">&lt;&lt; 이전</a>
+            <a href="/show/show_list_view?genre=${genre}&page=${currentPage - 1}&search=${search}" class="mr-5 btn btn-warning">&lt;&lt; 이전</a>
         </c:when>
         <c:otherwise>
             <a href="#" class="mr-5 btn btn-warning disabled">&lt;&lt; 이전</a>
@@ -73,7 +73,7 @@
     
     <c:choose>
         <c:when test="${currentPage < totalPages - 1}">
-            <a href="/show/show_list_view?genre=${genre}&page=${currentPage + 1}" class="btn btn-warning">다음 &gt;&gt;</a>
+            <a href="/show/show_list_view?genre=${genre}&page=${currentPage + 1}&search=${search}" class="btn btn-warning">다음 &gt;&gt;</a>
         </c:when>
         <c:otherwise>
             <a href="#" class="btn btn-warning disabled">다음 &gt;&gt;</a>

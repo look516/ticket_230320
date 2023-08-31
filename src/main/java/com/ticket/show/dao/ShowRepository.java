@@ -11,6 +11,7 @@ import com.ticket.show.entity.ShowEntity;
 public interface ShowRepository extends JpaRepository<ShowEntity, Integer> {
 	public Page<ShowEntity> findByGenreOrderByIdDesc(String genre, Pageable pageable);
 	public Page<ShowEntity> findAllByOrderByIdDesc(Pageable pageable);
+	public Page<ShowEntity> findByNameContaining(String search, Pageable pageable);
 	
 	
 	// optional 때문에 임시적으로 만들었다.

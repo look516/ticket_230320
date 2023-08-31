@@ -1,12 +1,10 @@
 package com.ticket.show;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -58,12 +56,14 @@ public class ShowController {
 	@GetMapping("/show_list_view")
 	public String showListView(
 			@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-			@RequestParam("genre") String genre,
+			@RequestParam(value = "genre", required = false) String genre,
+			@RequestParam(value = "search", required = false) String search,
 			Model model) {
 		model.addAttribute("genre", genre);
+		model.addAttribute("search", search);
 		
 		// select show list by genre
-		List<ShowView> showList = showBO.generateShowViewList(genre, pageable, model);
+		List<ShowView> showList = showBO.generateShowViewList(genre, pageable, model, search);
 
 		model.addAttribute("showList", showList);
 		model.addAttribute("view", "show/showList");
