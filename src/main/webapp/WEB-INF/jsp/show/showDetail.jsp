@@ -182,9 +182,14 @@
 		  
 		  
 	  	function getDates() {
-			let validStartDate = new Date("${show.show.validStartDate}") > new Date() ? new Date("${show.show.validStartDate}") : new Date();
-		    let validEndDate = new Date("${show.show.validEndDate}");
-		    //1일 추가
+			
+			const sDate = new Date("${show.show.validStartDate}");
+			const eDate = new Date("${show.show.validEndDate}");
+			const tDate = new Date();
+			
+			let validStartDate = sDate > tDate ? tDate : sDate;
+			let validEndDate = eDate > tDate ? tDate : eDate;
+			//1일 추가
 		    validEndDate.setDate(validEndDate.getDate() + 1);
 			validStartDate = formatDate(validStartDate);
 			validEndDate = formatDate(validEndDate);
@@ -268,7 +273,7 @@
 	            
 	            
 	        	console.log('Selected:', info.startStr, info.endStr);
-	        	
+	        	console.log(startDate, endDate);
 	        }
 	    });
 
@@ -327,8 +332,29 @@
 		
 		//var selectedTime = $('input[name="selectShowTime"]:checked').attr('id');
 		
-		let startDate = new Date("${show.show.validStartDate}") > new Date() ? new Date("${show.show.validStartDate}") : new Date();
-		let endDate = new Date("${show.show.validEndDate}");
+		const sDate = new Date("${show.show.validStartDate}");
+		const eDate = new Date("${show.show.validEndDate}");
+		const tDate = new Date();
+		
+		/* let startDate = sDate;
+		let endDate = eDate;
+		
+		if (startDate > tDate) {
+			startDate = tDate;
+		}
+		
+		if (endDate > tDate) {
+			endDate = tDate;
+		} */
+		
+		let startDate = sDate > tDate ? tDate : sDate;
+		let endDate = eDate > tDate ? tDate : eDate;
+		/* let startDate = sDate >= tDate ? new Date("${show.show.validStartDate}") : new Date();
+		let endDate = new Date("${show.show.validEndDate}") <= new Date() ? new Date("${show.show.validEndDate}") : new Date();
+		if (endDate < new Date()) {
+			startDate = new Date();
+			endDate = new Date();
+		} */
 		//endDate.setDate(endDate.getDate() - 1);
 			
 		var bookingData = {
