@@ -85,6 +85,7 @@
 			</div>
 			<%-- 로그인 처리 / 공연별 분기 --%>
 			<button class="btn btn-info my-2 col-12" id="reserveShowBtn">예매하기</button>
+			<button class="btn btn-secondary my-2 col-12 d-none" id="reserveHiddenBtn" disabled>예매가 끝난 상품입니다.</button>
 		</div>
 	</div>
 </div>
@@ -187,8 +188,14 @@
 			const eDate = new Date("${show.show.validEndDate}");
 			const tDate = new Date();
 			
-			let validStartDate = sDate > tDate ? tDate : sDate;
-			let validEndDate = eDate > tDate ? tDate : eDate;
+			if (eDate < tDate) {
+				$("#reserveShowBtn").addClass('d-none');
+				$("#reserveHiddenBtn").removeClass('d-none');
+				return [sDate, eDate];
+			}
+			
+			let validStartDate = sDate > tDate ? sDate : tDate;
+			let validEndDate = eDate > tDate ? eDate : tDate;
 			//1일 추가
 		    validEndDate.setDate(validEndDate.getDate() + 1);
 			validStartDate = formatDate(validStartDate);
@@ -209,6 +216,8 @@
 		var selectedDateEl = document.getElementById('showDate');
 		var timeBtnEl = document.getElementById('timeBtn');
 	    var showDayEl = document.getElementById('showDay');
+	    
+	    
 	    
 		let calendar = new FullCalendar.Calendar(calendarEl, {
 	    	validRange: {
@@ -347,8 +356,8 @@
 			endDate = tDate;
 		} */
 		
-		let startDate = sDate > tDate ? tDate : sDate;
-		let endDate = eDate > tDate ? tDate : eDate;
+		let startDate = sDate > tDate ? sDate : tDate;
+		let endDate = eDate > tDate ? eDate : tDate;
 		/* let startDate = sDate >= tDate ? new Date("${show.show.validStartDate}") : new Date();
 		let endDate = new Date("${show.show.validEndDate}") <= new Date() ? new Date("${show.show.validEndDate}") : new Date();
 		if (endDate < new Date()) {
