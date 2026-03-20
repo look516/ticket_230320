@@ -9,8 +9,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ticket.review.dao.ReviewMapper;
-import com.ticket.review.dao.ReviewRepository;
+import com.ticket.review.mapper.ReviewMapper;
+//import com.ticket.review.dao.ReviewRepository;
 import com.ticket.review.domain.ReviewView;
 import com.ticket.review.entity.ReviewEntity;
 import com.ticket.user.Entity.UserEntity;
@@ -21,8 +21,8 @@ public class ReviewBO {
 	
 	// logger
 	
-	@Autowired
-	private ReviewRepository reviewRepository;
+	//@Autowired
+	//private ReviewRepository reviewRepository;
 	
 	@Autowired
 	private UserBO userBO;
@@ -33,7 +33,7 @@ public class ReviewBO {
 	public List<ReviewView> generateReviewViewList(int showId) {
 		List<ReviewView> reviewViewList = new ArrayList<>();
 		
-		List<ReviewEntity> reviewList = reviewRepository.findByShowId(showId);
+		List<ReviewEntity> reviewList = reviewMapper.findByShowId(showId);
 		
 		for (ReviewEntity review : reviewList) {
 			ReviewView reviewView = new ReviewView();

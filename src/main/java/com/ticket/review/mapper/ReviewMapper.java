@@ -1,11 +1,14 @@
-package com.ticket.review.dao;
+package com.ticket.review.mapper;
 
 import java.util.Date;
+import java.util.List;
 
+import com.ticket.review.entity.ReviewEntity;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Repository
+@Mapper
+//@Repository
 public interface ReviewMapper {
 	public int insertReview(
 			@Param("showId") int showId,
@@ -19,5 +22,7 @@ public interface ReviewMapper {
 	public Double selectReviewAveragePoint(int showId);
 	
 	public void deleteReviewById(int reviewId);
+
+	public List<ReviewEntity> findByShowId(int showId);
 	
 }

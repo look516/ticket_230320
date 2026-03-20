@@ -10,9 +10,9 @@ import com.ticket.theater.entity.TheaterEntity;
 public class TheaterBO {
 	
 	@Autowired
-	private TheaterRepository theaterRepository; 
+	private TheaterRepository theaterRepository;
 	
 	public TheaterEntity getTheaterEntityById(int theaterId) {
-		return theaterRepository.findById(theaterId);
+		return theaterRepository.findById(theaterId).orElse(null);
 	}
 }

@@ -3,9 +3,9 @@ package com.ticket.test.dao;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
-@Repository
+@Mapper
 public interface TestMapper {
 	public List<Map<String, Object>> selectTestList();
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ticket.review.dao.ReviewMapper">
+<mapper namespace="com.ticket.review.mapper.ReviewMapper">
 	<insert id="insertReview" parameterType="map">
 		INSERT INTO `review`
 		(
@@ -54,5 +54,25 @@
 		WHERE
 			`id` = #{reviewId}
 	</delete>
+
+	<select id="findByShowId" parameterType="int" resultType="com.ticket.review.entity.ReviewEntity">
+		SELECT
+			`id`
+			,`showId`
+			,`userId`
+			,`subject`
+			,`content`
+			,`point`
+			,`showDate`
+			,`showTime`
+			,`createdAt`
+			,`updatedAt`
+		FROM
+			`review`
+		WHERE
+			`showId` = #{showId}
+		ORDER BY
+			`id` DESC
+	</select>
 
 </mapper>

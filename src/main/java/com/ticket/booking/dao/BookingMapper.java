@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
 import com.ticket.booking.domain.Booking;
 
-@Repository
+@Mapper
 public interface BookingMapper {
 	public List<Booking> selectBookingListByUserId(
 			@Param("userId") int userId,

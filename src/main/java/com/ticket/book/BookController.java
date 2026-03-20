@@ -2,7 +2,7 @@ package com.ticket.book;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/book")
 @Controller
 public class BookController {
-	
+	/*
 	// 단 로그인 정보를 이용해 자신의 예약만 가져온다.
 	@GetMapping("/book_list_view")
 	public String bookListView(
@@ -29,6 +29,7 @@ public class BookController {
 		}
 		// DB 예약 목록 조회
 		List<book> bookList = bookBO.
+		//List<Booking> bookingList = bookingBO.getBookingListByUserId(userId);
 		
 		// 페이징
 		int nextId = 0;
@@ -59,4 +60,5 @@ public class BookController {
 		model.addAttribute("view", "book/bookList");
 		return "template/layout";
 	}
+	 */
 }

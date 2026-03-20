@@ -1,11 +1,11 @@
 package com.ticket.pay.dao;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import com.ticket.pay.domain.Pay;
 
-@Repository
+@Mapper
 public interface PayMapper {
 	public Integer insertPay(
 			@Param("bookingId") int bookingId,
