@@ -7,7 +7,6 @@ import java.util.Map;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ticket.booking.bo.BookingBO;
 import com.ticket.booking.domain.BookingInfo;
 import com.ticket.pay.bo.PayBO;
+import com.ticket.show.bo.ShowBO;
+import com.ticket.show.entity.ShowEntity;
 
 @RequestMapping("/book")
 @RestController
@@ -28,6 +29,9 @@ public class BookingRestController {
 	
 	@Autowired
 	private PayBO payBO;
+
+	@Autowired
+	private ShowBO showBO;
 	
 	@GetMapping("/booking_seat")
 	public List<String> bookingSeat(
@@ -41,16 +45,17 @@ public class BookingRestController {
 	
 	// 2 버튼 클릭 시 pay view로 데이터 갖고 이동
 	@PostMapping("/booking")
-	public Map<String, Object> booking(HttpSession session, BookingInfo bookingInfo,
-			Model model) {
-		
+	public Map<String, Object> booking(HttpSession session, BookingInfo bookingInfo) {
 		session.setAttribute("bookingInfo", bookingInfo);
-		
+
 		Map<String, Object> map = new HashMap<>();
 		if (session.getAttribute("bookingInfo") != null) {
+			ShowEntity show = showBO.getShowNameById(bookingInfo.getShowId());
 			map.put("code", 1);
 			map.put("forwardUrl", "/book/pay_view");
 			map.put("result", "성공");
+			map.put("showName", show != null ? show.getName() : "");
+			map.put("seatGrade", bookingInfo.getSeatGradeInput());
 		} else {
 			map.put("code", 500);
 			map.put("errorMessage", "예약 정보가 없습니다.");

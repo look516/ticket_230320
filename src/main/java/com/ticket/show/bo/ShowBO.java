@@ -1,7 +1,9 @@
 package com.ticket.show.bo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -70,5 +72,30 @@ public class ShowBO {
 	
 	public ShowEntity getShowNameById(int showId) {
 		return showRepository.findById(showId).orElse(null);
+	}
+
+	public Map<String, Object> getShowListResult(String genre, Pageable pageable, String search) {
+		Page<ShowEntity> showPage;
+		if (search == null && "전체".equals(genre)) {
+			showPage = showRepository.findAllByOrderByIdDesc(pageable);
+		} else if (search == null) {
+			showPage = showRepository.findByGenreOrderByIdDesc(genre, pageable);
+		} else {
+			showPage = showRepository.findByNameContaining(search, pageable);
+		}
+
+		List<ShowView> showViewList = new ArrayList<>();
+		for (ShowEntity show : showPage) {
+			ShowView showView = new ShowView();
+			showView.setShow(show);
+			showView.setTheater(theaterBO.getTheaterEntityById(show.getTheaterId()));
+			showViewList.add(showView);
+		}
+
+		Map<String, Object> result = new HashMap<>();
+		result.put("showList", showViewList);
+		result.put("currentPage", showPage.getNumber());
+		result.put("totalPages", showPage.getTotalPages());
+		return result;
 	}
 }
