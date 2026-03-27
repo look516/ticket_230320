@@ -22,9 +22,9 @@ class ShowAPIWebClientTest {
 		
 		String baseUrl = "http://www.kopis.or.kr";
 		String url = "/openApi/restful/pblprfr";
-		String service = "bd89dc80bd9f43338c9d75e7fae03669";
+		String service = "bd89dc80bd9f43338c9d75e7fae03669"; // 추후 환경변수
 		String stdate = "19900101"; // 시작일
-		String eddate = "20241231"; // 종료일 (추후 BATCH)
+		String eddate = "20271231"; // 종료일 (추후 BATCH)
 		String rows = "10"; // 개수 (추후 변경)
 		String cpage = "1"; // 현재 페이지 (추후 반복문)
 		

@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +19,8 @@ import com.ticket.show.domain.Show;
 import com.ticket.showList.dao.ShowListMapper;
 import com.ticket.showList.domain.ShowData;
 import com.ticket.showList.domain.ShowList;
+import com.ticket.theater.bo.TheaterBO;
+import com.ticket.theater.entity.TheaterEntity;
 
 @Service
 public class ShowListBO {
@@ -33,8 +34,11 @@ public class ShowListBO {
 	
 	@Autowired
 	private ShowListMapper showListMapper;
-	
-	
+
+	@Autowired
+	private TheaterBO theaterBO;
+
+
 	public void insertShow(int page) {
 		// 공연목록 api 1p 10개 가져오기
 		String pageStr = Integer.toString(page);
@@ -61,20 +65,18 @@ public class ShowListBO {
 			} catch (Exception e) {
 				logger.info("######## 공연상세 xml 파싱 안 됨");
 			}
-			
-			
-			//?? 굳이
+
+
 			showDataList.add(showData);
-			
-			
-			
-			
+
+
+
+
 			Show showToInsert = new Show();
-			
-			// TheaterId 처리
-			Random random = new Random();
-			int randomTheaterId = random.nextInt(10) + 1;
-			showToInsert.setTheaterId(randomTheaterId);
+
+			// TheaterId 처리 - 공연장 이름으로 upsert 후 실제 ID 사용
+			TheaterEntity theaterEntity = theaterBO.getOrCreateTheaterByName(show.getFcltynm());
+			showToInsert.setTheaterId(theaterEntity.getId());
 			
 			showToInsert.setName(showData.getPrfnm());
 			showToInsert.setGenre(showData.getGenrenm());

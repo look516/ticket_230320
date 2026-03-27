@@ -37,6 +37,9 @@ public class XmlParser {
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(new ByteArrayInputStream(xmlString.getBytes()));
 
+		// API 작동 test
+		System.out.println(xmlString);
+
         // root tag
         doc.getDocumentElement().normalize();
         logger.info("#####root tag: " + doc.getDocumentElement().getNodeName());
